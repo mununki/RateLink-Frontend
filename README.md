@@ -9,7 +9,7 @@ Refactory the frontend of RateLink with new tech stack
 
 ## To-Dos
 
-- [ ] Auth (Login, Signup)
-- [ ] Layout (header, footer, etc.)
+- [x] Auth (Login, Signup)
 - [ ] Profile Update
+- [ ] Layout (header, footer, etc.)
 - [ ] Rate List & Search
