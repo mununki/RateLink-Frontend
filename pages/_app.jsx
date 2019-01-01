@@ -2,6 +2,8 @@ import App, { Container } from "next/app";
 import React from "react";
 import { ApolloProvider } from "react-apollo";
 import withApollo from "../lib/withApollo";
+import NProgress from "next-nprogress/component";
+import withNProgress from "next-nprogress";
 
 class MyApp extends App {
   render() {
@@ -9,6 +11,7 @@ class MyApp extends App {
     return (
       <Container>
         <ApolloProvider client={apolloClient}>
+          <NProgress />
           <Component {...pageProps} />
         </ApolloProvider>
       </Container>
@@ -16,4 +19,4 @@ class MyApp extends App {
   }
 }
 
-export default withApollo(MyApp);
+export default withNProgress(300)(withApollo(MyApp));

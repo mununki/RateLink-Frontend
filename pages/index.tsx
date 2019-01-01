@@ -1,34 +1,37 @@
-import { Query, Mutation } from "react-apollo";
-import gql from "graphql-tag";
+import React from "react";
+import Link from "next/link";
+import checkLogin from "../lib/checkLogin";
+import { ApolloConsumer } from "react-apollo";
+import { __APOLLO_CLIENT__ } from "../lib/initApollo";
+import logout from "../lib/logout";
 
-const LOGIN = gql`
-  mutation {
-    login(email: "wkmoon@ssshipping.co.kr", password: "1234") {
-      token
+class Index extends React.Component {
+  static async getInitialProps(context) {
+    const { loggedInUser } = await checkLogin(context.apolloClient);
+
+    if (!loggedInUser.ok) {
+      // If not signed in, send them somewhere more useful
+      console.log("not logged in");
     }
-  }
-`;
 
-const ME = gql`
-  query {
-    me {
-      id
-      profile {
-        profile_name
-      }
-    }
+    return { loggedInUser };
   }
-`;
 
-export default () => (
-  <div>
-    <Mutation mutation={LOGIN} onCompleted={data => console.log(data)}>
-      {login => <button onClick={() => login()}>로그인</button>}
-    </Mutation>
-    <Query query={ME}>
-      {({ data }) => {
-        return <div>{data.me.profile.profile_name}</div>;
-      }}
-    </Query>
-  </div>
-);
+  render() {
+    return (
+      <>
+        <p>
+          <Link href="/login">
+            <a>로그인</a>
+          </Link>
+        </p>
+        {this.props.loggedInUser.ok && this.props.loggedInUser.data.nickname}
+        <ApolloConsumer>
+          {client => <button onClick={logout(client)}>로그아웃</button>}
+        </ApolloConsumer>
+      </>
+    );
+  }
+}
+
+export default Index;

@@ -1,5 +1,5 @@
 Arguments: 
-  /usr/local/bin/node /usr/local/Cellar/yarn/1.12.3/libexec/bin/yarn.js add @types/react-apollo -D
+  /usr/local/bin/node /usr/local/Cellar/yarn/1.12.3/libexec/bin/yarn.js add @types/next-nprogress -D
 
 PATH: 
   /Users/arnold/.pyenv/shims:/Users/arnold/Library/Python/2.7/bin:/Users/arnold/.pyenv/bin:/Users/arnold/.yarn/bin:/Users/arnold/.config/yarn/global/node_modules/.bin:/Users/arnold/bin:/usr/local/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Applications/Postgres.app/Contents/Versions/latest/bin:/Users/arnold/.pyenv/shims:/Users/arnold/Library/Python/2.7/bin:/Users/arnold/.pyenv/bin:/Users/arnold/.yarn/bin:/Users/arnold/.config/yarn/global/node_modules/.bin:/Users/arnold/bin
@@ -14,7 +14,7 @@ Platform:
   darwin x64
 
 Trace: 
-  Error: https://registry.yarnpkg.com/@types%2freact-apollo: Not found
+  Error: https://registry.yarnpkg.com/@types%2fnext-nprogress: Not found
       at Request.params.callback [as _callback] (/usr/local/Cellar/yarn/1.12.3/libexec/lib/cli.js:65894:18)
       at Request.self.callback (/usr/local/Cellar/yarn/1.12.3/libexec/lib/cli.js:129018:22)
       at Request.emit (events.js:182:13)
@@ -28,7 +28,7 @@ Trace:
 
 npm manifest: 
   {
-    "name": "RateLink-frontend",
+    "name": "RateLinkfrontend",
     "version": "1.0.0",
     "description": "RateLink frontend with Next.js + GraphQL(Apollo)",
     "main": "index.js",
@@ -36,15 +36,23 @@ npm manifest:
     "author": "moondaddi",
     "license": "MIT",
     "dependencies": {
+      "@types/js-cookie": "^2.2.0",
       "@zeit/next-typescript": "^1.1.1",
-      "apollo-boost": "^0.1.23",
+      "apollo-cache-inmemory": "^1.3.12",
+      "apollo-client": "^2.4.8",
+      "apollo-link": "^1.2.6",
       "apollo-link-context": "^1.0.12",
+      "apollo-link-http": "^1.5.9",
+      "apollo-link-state": "^0.4.2",
       "cookie": "^0.3.1",
       "express": "^4.16.4",
       "graphql": "^14.0.2",
+      "graphql-tag": "^2.10.0",
       "isomorphic-unfetch": "^3.0.0",
       "moment": "^2.22.2",
       "next": "^7.0.2",
+      "next-nprogress": "^1.4.0",
+      "prop-types": "^15.6.2",
       "react": "^16.6.0",
       "react-apollo": "^2.3.3",
       "react-dom": "^16.6.0"
@@ -54,8 +62,10 @@ npm manifest:
       "@types/express": "^4.16.0",
       "@types/graphql": "^14.0.3",
       "@types/next": "^6.1.7",
+      "@types/prop-types": "^15.5.8",
       "@types/react": "^16.4.14",
       "@types/react-dom": "16.0.7",
+      "babel-plugin-transform-define": "^1.3.0",
       "typescript": "3.0.3"
     },
     "scripts": {
@@ -857,6 +867,11 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/@types/graphql/-/graphql-14.0.3.tgz#389e2e5b83ecdb376d9f98fae2094297bc112c1c"
     integrity sha512-TcFkpEjcQK7w8OcrQcd7iIBPjU0rdyi3ldj6d0iJ4PPSzbWqPBvXj9KSwO14hTOX2dm9RoiH7VuxksJLNYdXUQ==
   
+  "@types/js-cookie@^2.2.0":
+    version "2.2.0"
+    resolved "https://registry.yarnpkg.com/@types/js-cookie/-/js-cookie-2.2.0.tgz#ae2eabaa4bc892ba553c664cca21e6ee5224e5b5"
+    integrity sha512-k0umv2jvUvl1/OdOgFwEIPF6qKllf2jEsrd5ka9aVQo2ilxaBb2vsh1AmAAZ3eqt54vNrdbGW5QPOKJBmCNS7g==
+  
   "@types/mime@*":
     version "2.0.0"
     resolved "https://registry.yarnpkg.com/@types/mime/-/mime-2.0.0.tgz#5a7306e367c539b9f6543499de8dd519fac37a8b"
@@ -883,7 +898,7 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/@types/node/-/node-10.12.18.tgz#1d3ca764718915584fcd9f6344621b7672665c67"
     integrity sha512-fh+pAqt4xRzPfqA6eh3Z2y6fyZavRIumvjhaCL753+TVkGKGhpPeyrJG2JftD0T9q4GF00KjefsQ+PQNDdWQaQ==
   
-  "@types/prop-types@*":
+  "@types/prop-types@*", "@types/prop-types@^15.5.8":
     version "15.5.8"
     resolved "https://registry.yarnpkg.com/@types/prop-types/-/prop-types-15.5.8.tgz#8ae4e0ea205fe95c3901a5a1df7f66495e3a56ce"
     integrity sha512-3AQoUxQcQtLHsK25wtTWIoIpgYjH3vSDroZOUr7PpCHw/jLY1RB9z9E8dBT/OSmwStVgkRNvdh+ZHNiomRieaw==
@@ -1177,20 +1192,6 @@ Lockfile:
       micromatch "^3.1.4"
       normalize-path "^2.1.1"
   
-  apollo-boost@^0.1.23:
-    version "0.1.23"
-    resolved "https://registry.yarnpkg.com/apollo-boost/-/apollo-boost-0.1.23.tgz#9a9b806cfdc1d29b0b09b1ef0a15fde2e71c92bd"
-    integrity sha512-yQr1Ph3DEVvU7XeQhAh+6p2wZ++azxgGAtwXc+D5EP1CHU0HMVfVgtj1M0CDO1z14SZgQbrurQ60bgiyquoiVg==
-    dependencies:
-      apollo-cache "^1.1.22"
-      apollo-cache-inmemory "^1.3.12"
-      apollo-client "^2.4.8"
-      apollo-link "^1.0.6"
-      apollo-link-error "^1.0.3"
-      apollo-link-http "^1.3.1"
-      apollo-link-state "^0.4.0"
-      graphql-tag "^2.4.2"
-  
   apollo-cache-inmemory@^1.3.12:
     version "1.3.12"
     resolved "https://registry.yarnpkg.com/apollo-cache-inmemory/-/apollo-cache-inmemory-1.3.12.tgz#cf7ef7c15730d0b6787d79047d5c06087ac31991"
@@ -1236,14 +1237,6 @@ Lockfile:
     dependencies:
       apollo-link "^1.2.6"
   
-  apollo-link-error@^1.0.3:
-    version "1.1.5"
-    resolved "https://registry.yarnpkg.com/apollo-link-error/-/apollo-link-error-1.1.5.tgz#1d600dfa75c4e4bf017f50d60da7b375b53047ab"
-    integrity sha512-gE0P711K+rI3QcTzfYhzRI9axXaiuq/emu8x8Y5NHK9jl9wxh7qmEc3ZTyGpnGFDDTXfhalmX17X5lp3RCVHDQ==
-    dependencies:
-      apollo-link "^1.2.6"
-      apollo-link-http-common "^0.2.8"
-  
   apollo-link-http-common@^0.2.8:
     version "0.2.8"
     resolved "https://registry.yarnpkg.com/apollo-link-http-common/-/apollo-link-http-common-0.2.8.tgz#c6deedfc2739db8b11013c3c2d2ccd657152941f"
@@ -1251,7 +1244,7 @@ Lockfile:
     dependencies:
       apollo-link "^1.2.6"
   
-  apollo-link-http@^1.3.1:
+  apollo-link-http@^1.5.9:
     version "1.5.9"
     resolved "https://registry.yarnpkg.com/apollo-link-http/-/apollo-link-http-1.5.9.tgz#9046f5640a94c8a8b508a39e0f2c628b781baecc"
     integrity sha512-9tJy2zGm4Cm/1ycScDNZJe51dgnTSfKx7pKIgPZmcxkdDpgUY2DZitDH6ZBv4yp9z8MC9Xr9wgwc29s6hcadUQ==
@@ -1259,7 +1252,7 @@ Lockfile:
       apollo-link "^1.2.6"
       apollo-link-http-common "^0.2.8"
   
-  apollo-link-state@^0.4.0:
+  apollo-link-state@^0.4.2:
     version "0.4.2"
     resolved "https://registry.yarnpkg.com/apollo-link-state/-/apollo-link-state-0.4.2.tgz#ac00e9be9b0ca89eae0be6ba31fe904b80bbe2e8"
     integrity sha512-xMPcAfuiPVYXaLwC6oJFIZrKgV3GmdO31Ag2eufRoXpvT0AfJZjdaPB4450Nu9TslHRePN9A3quxNueILlQxlw==
@@ -1267,7 +1260,7 @@ Lockfile:
       apollo-utilities "^1.0.8"
       graphql-anywhere "^4.1.0-alpha.0"
   
-  apollo-link@^1.0.0, apollo-link@^1.0.6, apollo-link@^1.2.6:
+  apollo-link@^1.0.0, apollo-link@^1.2.6:
     version "1.2.6"
     resolved "https://registry.yarnpkg.com/apollo-link/-/apollo-link-1.2.6.tgz#d9b5676d79c01eb4e424b95c7171697f6ad2b8da"
     integrity sha512-sUNlA20nqIF3gG3F8eyMD+mO80fmf3dPZX+GUOs3MI9oZR8ug09H3F0UsWJMcpEg6h55Yy5wZ+BMmAjrbenF/Q==
@@ -1433,6 +1426,14 @@ Lockfile:
     version "6.18.0"
     resolved "https://registry.yarnpkg.com/babel-plugin-syntax-jsx/-/babel-plugin-syntax-jsx-6.18.0.tgz#0af32a9a6e13ca7a3fd5069e62d7b0f58d0d8946"
     integrity sha1-CvMqmm4Tyno/1QaeYtew9Y0NiUY=
+  
+  babel-plugin-transform-define@^1.3.0:
+    version "1.3.0"
+    resolved "https://registry.yarnpkg.com/babel-plugin-transform-define/-/babel-plugin-transform-define-1.3.0.tgz#94c5f9459c810c738cc7c50cbd44a31829d6f319"
+    integrity sha1-lMX5RZyBDHOMx8UMvUSjGCnW8xk=
+    dependencies:
+      lodash "4.17.4"
+      traverse "0.6.6"
   
   babel-plugin-transform-react-remove-prop-types@0.4.15:
     version "0.4.15"
@@ -2670,7 +2671,7 @@ Lockfile:
     dependencies:
       apollo-utilities "^1.0.27"
   
-  graphql-tag@^2.4.2:
+  graphql-tag@^2.10.0:
     version "2.10.0"
     resolved "https://registry.yarnpkg.com/graphql-tag/-/graphql-tag-2.10.0.tgz#87da024be863e357551b2b8700e496ee2d4353ae"
     integrity sha512-9FD6cw976TLLf9WYIUPCaaTpniawIjHWZSwIRZSjrfufJamcXbVVYfN2TWvJYbw0Xf2JjYbl1/f2+wDnBVw3/w==
@@ -3283,6 +3284,11 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/lodash.isequal/-/lodash.isequal-4.5.0.tgz#415c4478f2bcc30120c22ce10ed3226f7d3e18e0"
     integrity sha1-QVxEePK8wwEgwizhDtMib30+GOA=
   
+  lodash@4.17.4:
+    version "4.17.4"
+    resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.4.tgz#78203a4d1c328ae1d86dca6460e369b57f4055ae"
+    integrity sha1-eCA6TRwyiuHYbcpkYONptX9AVa4=
+  
   lodash@^4.17.10, lodash@^4.17.4, lodash@^4.17.5:
     version "4.17.11"
     resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.11.tgz#b39ea6229ef607ecd89e2c8df12536891cac9b8d"
@@ -3604,6 +3610,13 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/neo-async/-/neo-async-2.6.0.tgz#b9d15e4d71c6762908654b5183ed38b753340835"
     integrity sha512-MFh0d/Wa7vkKO3Y3LlacqAEeHK0mckVqzDieUKTT+KGxi+zIpeVsFxymkIiRpbpDziHc290Xr9A1O4Om7otoRA==
   
+  next-nprogress@^1.4.0:
+    version "1.4.0"
+    resolved "https://registry.yarnpkg.com/next-nprogress/-/next-nprogress-1.4.0.tgz#508058dc15fd2aee406da3cc6ffc8cdf3ebabb75"
+    integrity sha512-b0QCax2iQeIN4pJaTHA6ofDXYoQLfc2m2b/QIJV9/QIUd3RqaFMAcT0f0CnS8J3TF8a5eO4a8oEgMrd/IqKFfA==
+    dependencies:
+      nprogress "^0.2.0"
+  
   next@^7.0.2:
     version "7.0.2"
     resolved "https://registry.yarnpkg.com/next/-/next-7.0.2.tgz#5ff6b3f0e6cf03ce539d5779a55dc1f8fb1759d7"
@@ -3775,6 +3788,11 @@ Lockfile:
       console-control-strings "~1.1.0"
       gauge "~2.7.3"
       set-blocking "~2.0.0"
+  
+  nprogress@^0.2.0:
+    version "0.2.0"
+    resolved "https://registry.yarnpkg.com/nprogress/-/nprogress-0.2.0.tgz#cb8f34c53213d895723fcbab907e9422adbcafb1"
+    integrity sha1-y480xTIT2JVyP8urkH6UIq28r7E=
   
   number-is-nan@^1.0.0:
     version "1.0.1"
@@ -5053,6 +5071,11 @@ Lockfile:
       extend-shallow "^3.0.2"
       regex-not "^1.0.2"
       safe-regex "^1.1.0"
+  
+  traverse@0.6.6:
+    version "0.6.6"
+    resolved "https://registry.yarnpkg.com/traverse/-/traverse-0.6.6.tgz#cbdf560fd7b9af632502fed40f918c157ea97137"
+    integrity sha1-y99WD9e5r2MlAv7UD5GMFX6pcTc=
   
   trim-right@^1.0.1:
     version "1.0.1"

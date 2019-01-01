@@ -1,9 +1,9 @@
 import React from "react";
-import LoginPresenter from "./loginPresenter";
+import SignupPresenter from "./signupPresenter";
 import checkLogin from "../../lib/checkLogin";
 import redirect from "../../lib/redirect";
 
-class LoginContainer extends React.Component {
+class SignupContainer extends React.Component {
   static async getInitialProps(context) {
     const { loggedInUser } = await checkLogin(context.apolloClient);
 
@@ -17,8 +17,8 @@ class LoginContainer extends React.Component {
     return { loggedInUser };
   }
   render() {
-    return <LoginPresenter />;
+    return <SignupPresenter />;
   }
 }
 
-export default LoginContainer;
+export default SignupContainer;
