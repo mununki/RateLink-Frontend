@@ -1,10 +1,10 @@
 import React from "react";
-import ProfilePresenter from "./profilePresenter";
+import RatesPresenter from "./ratesPresenter";
 import checkLogin from "../../lib/checkLogin";
 import redirect from "../../lib/redirect";
 import Layout from "../../components/Layout";
 
-class ProfileContainer extends React.Component {
+class RatesContainer extends React.Component {
   static async getInitialProps(context) {
     const { loggedInUser } = await checkLogin(context.apolloClient);
 
@@ -19,10 +19,10 @@ class ProfileContainer extends React.Component {
   render() {
     return (
       <Layout loggedInUser={this.props.loggedInUser}>
-        <ProfilePresenter loggedInUser={this.props.loggedInUser} />
+        <RatesPresenter loggedInUser={this.props.loggedInUser} />
       </Layout>
     );
   }
 }
 
-export default ProfileContainer;
+export default RatesContainer;

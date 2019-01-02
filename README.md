@@ -12,6 +12,6 @@ Refactory the frontend of RateLink with new tech stack
 
 - [x] Auth (Login, Signup)
 - [x] Profile Update (except image)
-- [ ] Layout (header, footer, etc.)
+- [x] Layout (header, footer, etc.)
 - [ ] Rate List & Search
 - [ ] Profile image update with AWS Lambda

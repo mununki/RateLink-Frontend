@@ -31,7 +31,7 @@ class Profile extends React.Component {
   render() {
     const { profile_name, company, job_boolean, image } = this.state;
     return (
-      <div>
+      <div className="padding-global-top">
         <input
           type="text"
           name="profile_name"
