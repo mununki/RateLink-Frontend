@@ -9,6 +9,7 @@ import { GET_MODE, SET_MODE, GET_QUERYPARAMS } from "../../lib/client";
 import { GET_RATES } from "../../pages/rates/ratesQueries";
 import moment from "moment";
 import handleMomentToString from "../../utils/handleMomentToString";
+import RateAddCard from "./RateAddCard";
 
 const RateAddButton = styled.div`
   position: fixed;
@@ -104,7 +105,12 @@ class RatesMain extends React.Component {
             <React.Fragment>
               <ToastContainer />
 
-              {/* {isAdd ? <RateAddCard isModify={false} /> : null} */}
+              {isAdd ? (
+                <RateAddCard
+                  loggedInUser={this.props.loggedInUser}
+                  isModify={false}
+                />
+              ) : null}
 
               <Query query={GET_QUERYPARAMS}>
                 {({ data: { queryParams } }) => {
@@ -112,7 +118,7 @@ class RatesMain extends React.Component {
                     <Query
                       query={GET_RATES}
                       variables={{
-                        first: 10,
+                        first: 15,
                         queryParams: JSON.stringify(
                           handleMomentToString(queryParams)
                         ),
@@ -133,6 +139,7 @@ class RatesMain extends React.Component {
                             {rates.map(edge => (
                               <RateCard
                                 key={edge.node.id}
+                                loggedInUser={this.props.loggedInUser}
                                 rate={edge.node}
                                 isModify={isModify}
                               />
@@ -145,7 +152,7 @@ class RatesMain extends React.Component {
                                 fetchMore({
                                   query: GET_RATES,
                                   variables: {
-                                    first: 10,
+                                    first: 15,
                                     queryParams: JSON.stringify(
                                       handleMomentToString(queryParams)
                                     ),
@@ -197,13 +204,13 @@ class RatesMain extends React.Component {
                   );
                 }}
               </Query>
-              {/* <Mutation
+              <Mutation
                 mutation={SET_MODE}
                 variables={{
-                  mode: {
+                  mode: JSON.stringify({
                     isAdd: isModify ? false : !isAdd,
                     isModify: false
-                  }
+                  })
                 }}
               >
                 {setMode => (
@@ -215,7 +222,7 @@ class RatesMain extends React.Component {
                     {!isAdd ? (!isModify ? "추가" : "취소") : "취소"}
                   </RateAddButton>
                 )}
-              </Mutation> */}
+              </Mutation>
             </React.Fragment>
           );
         }}

@@ -8,10 +8,10 @@ class RatesPresenter extends React.Component {
     return (
       <div className="padding-global-top">
         <RatesHeader />
-        <RatesMain />
+        <RatesMain loggedInUser={this.props.loggedInUser} />
       </div>
     );
   }
 }
 
-export default withApollo(RatesPresenter);
+export default RatesPresenter;

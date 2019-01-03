@@ -1,5 +1,50 @@
 import gql from "graphql-tag";
 
+export const FRAGMENT_RATE = gql`
+  fragment FragmentRate on Rate {
+    id
+    inputperson {
+      id
+      profile {
+        profile_name
+      }
+    }
+    client {
+      id
+      name
+    }
+    liner {
+      id
+      name
+      label
+    }
+    pol {
+      id
+      name
+    }
+    pod {
+      id
+      name
+    }
+    cntrtype {
+      id
+      name
+    }
+    buying20
+    buying40
+    buying4H
+    selling20
+    selling40
+    selling4H
+    loadingFT
+    dischargingFT
+    offeredDate
+    effectiveDate
+    recordedDate
+    remark
+  }
+`;
+
 export const GET_RATES = gql`
   query GetRates(
     $before: String
@@ -25,46 +70,7 @@ export const GET_RATES = gql`
         }
         edges {
           node {
-            id
-            inputperson {
-              id
-              profile {
-                profile_name
-              }
-            }
-            client {
-              id
-              name
-            }
-            liner {
-              id
-              name
-              label
-            }
-            pol {
-              id
-              name
-            }
-            pod {
-              id
-              name
-            }
-            cntrtype {
-              id
-              name
-            }
-            buying20
-            buying40
-            buying4H
-            selling20
-            selling40
-            selling4H
-            loadingFT
-            dischargingFT
-            offeredDate
-            effectiveDate
-            recordedDate
-            remark
+            ...FragmentRate
           }
           cursor
         }
@@ -72,6 +78,16 @@ export const GET_RATES = gql`
       error
     }
   }
+  ${FRAGMENT_RATE}
+`;
+
+export const SET_RATE = gql`
+  mutation SetRate($handler: String!, $rateId: Int, $newRate: String) {
+    setRate(handler: $handler, rateId: $rateId, newRate: $newRate) {
+      ...FragmentRate
+    }
+  }
+  ${FRAGMENT_RATE}
 `;
 
 export const GET_INPUTPERSONS = gql`

@@ -5,21 +5,23 @@ import "moment/locale/ko";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import AsyncSelect from "react-select/lib/Async";
-import { Query, Mutation } from "react-apollo";
+import { Query, Mutation, withApollo } from "react-apollo";
 import Popover from "react-simple-popover";
 import Modal from "react-responsive-modal";
 import { toast } from "react-toastify";
+import { SET_MODE, SET_QUERYPARAMS, GET_QUERYPARAMS } from "../../lib/client";
 import {
-  GET_ME,
-  SET_MODE,
-  GET_RATES,
-  SET_RATE,
+  GET_INPUTPERSONS,
   GET_CLIENTS,
   GET_LINERS,
   GET_LOCATIONS,
   GET_CNTRTYPES,
-  SET_QUERYPARAMS
-} from "../resolver";
+  SET_RATE,
+  GET_RATES
+} from "../../pages/rates/ratesQueries";
+import handleMomentToString from "../../utils/handleMomentToString";
+import handleMomentToStringForSetRate from "../../utils/handleMomentToStringForSetRate";
+import convertToModifyRate from "../../utils/convertToModifyRate";
 
 const DivContainer = styled.div`
   display: flex;
@@ -232,48 +234,35 @@ class CustomInputDatePicker extends Component {
 }
 
 class RateAddCard extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      isCommentOpen: false,
-      inputModal: false,
-      modifyModal: false,
-      newRate: {
-        selectedIp: [{ value: this.props.USER_ID }],
-        selectedCt: [],
-        selectedLn: [],
-        selectedPl: [],
-        selectedPd: [],
-        selectedTy: [],
-        buying20: this.props.rate ? this.props.rate.buying20 : 0,
-        buying40: this.props.rate ? this.props.rate.buying40 : 0,
-        buying4H: this.props.rate ? this.props.rate.buying4H : 0,
-        selling20: this.props.rate ? this.props.rate.selling20 : 0,
-        selling40: this.props.rate ? this.props.rate.selling40 : 0,
-        selling4H: this.props.rate ? this.props.rate.selling4H : 0,
-        loadingFT: this.props.rate ? this.props.rate.loadingFT : 0,
-        dischargingFT: this.props.rate ? this.props.rate.dischargingFT : 0,
-        initialod: this.props.rate
-          ? moment(this.props.rate.offeredDate)
-          : moment(),
-        initialed: this.props.rate
-          ? moment(this.props.rate.effectiveDate)
-          : moment().endOf("month"),
-        remark: this.props.rate ? this.props.rate.remark : ""
-      }
-    };
-    this._loadClients = this._loadClients.bind(this);
-    this._loadLiners = this._loadLiners.bind(this);
-    this._loadPols = this._loadPols.bind(this);
-    this._loadPods = this._loadPods.bind(this);
-    this._loadTypes = this._loadTypes.bind(this);
-    this._handleChange = this._handleChange.bind(this);
-    this._handleInput = this._handleInput.bind(this);
-    this._handleTZ = this._handleTZ.bind(this);
-    this._toggleComment = this._toggleComment.bind(this);
-    this._closeComment = this._closeComment.bind(this);
-    this._notify = this._notify.bind(this);
-  }
+  state = {
+    isCommentOpen: false,
+    inputModal: false,
+    modifyModal: false,
+    newRate: {
+      selectedIp: [{ value: this.props.loggedInUser.data.id }],
+      selectedCt: [],
+      selectedLn: [],
+      selectedPl: [],
+      selectedPd: [],
+      selectedTy: [],
+      buying20: this.props.rate ? this.props.rate.buying20 : 0,
+      buying40: this.props.rate ? this.props.rate.buying40 : 0,
+      buying4H: this.props.rate ? this.props.rate.buying4H : 0,
+      selling20: this.props.rate ? this.props.rate.selling20 : 0,
+      selling40: this.props.rate ? this.props.rate.selling40 : 0,
+      selling4H: this.props.rate ? this.props.rate.selling4H : 0,
+      loadingFT: this.props.rate ? this.props.rate.loadingFT : 0,
+      dischargingFT: this.props.rate ? this.props.rate.dischargingFT : 0,
+      offeredDate: this.props.rate
+        ? moment(this.props.rate.offeredDate)
+        : moment(),
+      effectiveDate: this.props.rate
+        ? moment(this.props.rate.effectiveDate)
+        : moment().endOf("month"),
+      remark: this.props.rate ? this.props.rate.remark : ""
+    }
+  };
+
   componentDidMount() {
     if (this.props.rate) {
       const { rate } = this.props;
@@ -281,11 +270,11 @@ class RateAddCard extends Component {
       this.setState({
         newRate: {
           ...this.state.newRate,
-          selectedCt: { label: rate.account.name, value: rate.account.id },
+          selectedCt: { label: rate.client.name, value: rate.client.id },
           selectedLn: { label: rate.liner.label, value: rate.liner.id },
           selectedPl: { label: rate.pol.name, value: rate.pol.id },
           selectedPd: { label: rate.pod.name, value: rate.pod.id },
-          selectedTy: { label: rate.type.name, value: rate.type.id }
+          selectedTy: { label: rate.cntrtype.name, value: rate.cntrtype.id }
         }
       });
     }
@@ -300,34 +289,24 @@ class RateAddCard extends Component {
       isCommentOpen: false
     });
   };
-  _handleTZ = prevRate => {
-    let newRate = {
-      ...prevRate,
-      initialod: prevRate.initialod.toString(),
-      initialed: prevRate.initialed.toString()
-    };
-    return newRate;
-  };
   _loadClients = inputValue => {
-    return this._query
+    return this.props.client
       .query({
         query: GET_CLIENTS,
         variables: {
-          uid: this.props.USER_ID,
-          search: inputValue,
-          handler: "add"
+          search: inputValue
         }
       })
       .then(response => {
         let results = [];
-        response.data.clients.map(ct =>
+        response.data.getClients.map(ct =>
           results.push({ label: ct.name, value: ct.id })
         );
         return results;
       });
   };
   _loadLiners = inputValue => {
-    return this._query
+    return this.props.client
       .query({
         query: GET_LINERS,
         variables: {
@@ -336,46 +315,48 @@ class RateAddCard extends Component {
       })
       .then(response => {
         let results = [];
-        response.data.liners.map(ln =>
+        response.data.getLiners.map(ln =>
           results.push({ label: ln.label, value: ln.id })
         );
         return results;
       });
   };
   _loadPols = inputValue => {
-    return this._query
+    return this.props.client
       .query({
         query: GET_LOCATIONS,
         variables: {
-          search: inputValue
+          search: inputValue,
+          polOrPod: "pol"
         }
       })
       .then(response => {
         let results = [];
-        response.data.locations.map(lo =>
+        response.data.getLocations.map(lo =>
           results.push({ label: lo.name, value: lo.id })
         );
         return results;
       });
   };
   _loadPods = inputValue => {
-    return this._query
+    return this.props.client
       .query({
         query: GET_LOCATIONS,
         variables: {
-          search: inputValue
+          search: inputValue,
+          polOrPod: "pod"
         }
       })
       .then(response => {
         let results = [];
-        response.data.locations.map(lo =>
+        response.data.getLocations.map(lo =>
           results.push({ label: lo.name, value: lo.id })
         );
         return results;
       });
   };
   _loadTypes = inputValue => {
-    return this._query
+    return this.props.client
       .query({
         query: GET_CNTRTYPES,
         variables: {
@@ -384,7 +365,7 @@ class RateAddCard extends Component {
       })
       .then(response => {
         let results = [];
-        response.data.cntrtypes.map(ty =>
+        response.data.getCNTRtypes.map(ty =>
           results.push({ label: ty.name, value: ty.id })
         );
         return results;
@@ -467,15 +448,7 @@ class RateAddCard extends Component {
       <DivContainer>
         <DivHeader>
           <DivHeaderInputperson>
-            <Query query={GET_ME} variables={{ uid: this.props.USER_ID }}>
-              {({ loading, error, data, client }) => {
-                this._query = client;
-                if (loading) return null;
-                if (error) return <span>Error :(</span>;
-
-                return <span>{data.me.profile.profileName}</span>;
-              }}
-            </Query>
+            {this.props.loggedInUser.data.profile.profile_name}
           </DivHeaderInputperson>
           <DivHeaderAccount>
             <div
@@ -679,8 +652,8 @@ class RateAddCard extends Component {
           <DivHeaderOD>
             <DatePicker
               customInput={<CustomInputDatePicker />}
-              selected={newRate.initialod}
-              onChange={value => this._handleChange(value, "initialod")}
+              selected={newRate.offeredDate}
+              onChange={value => this._handleChange(value, "offeredDate")}
               locale="ko"
               dateFormat="MM-DD"
               popperModifiers={{
@@ -700,8 +673,8 @@ class RateAddCard extends Component {
           <DivHeaderED>
             <DatePicker
               customInput={<CustomInputDatePicker />}
-              selected={newRate.initialed}
-              onChange={value => this._handleChange(value, "initialed")}
+              selected={newRate.effectiveDate}
+              onChange={value => this._handleChange(value, "effectiveDate")}
               locale="ko"
               dateFormat="MM-DD"
               popperModifiers={{
@@ -760,13 +733,15 @@ class RateAddCard extends Component {
             <Mutation
               mutation={SET_RATE}
               variables={{
-                newRate: JSON.stringify(this._handleTZ(this.state.newRate)),
+                newRate: JSON.stringify(
+                  convertToModifyRate(this.state.newRate)
+                ),
                 handler: "modify",
-                rid: this.props.rate.id
+                rateId: this.props.rate.id
               }}
               update={() => this._notify("수정 성공!", "success")}
             >
-              {CUDRate => (
+              {setRate => (
                 <Mutation
                   mutation={SET_MODE}
                   variables={{
@@ -812,7 +787,7 @@ class RateAddCard extends Component {
                             <DivModalConfirmButton
                               onClick={() => {
                                 setMode();
-                                CUDRate();
+                                setRate();
                               }}
                             >
                               수정
@@ -826,69 +801,70 @@ class RateAddCard extends Component {
               )}
             </Mutation>
           ) : (
-            <Mutation
-              mutation={SET_RATE}
-              variables={{
-                newRate: JSON.stringify(this._handleTZ(this.state.newRate)),
-                handler: "add"
-              }}
-              refetchQueries={[
-                {
-                  query: GET_RATES,
-                  variables: {
-                    uid: this.props.USER_ID,
-                    queryParams: JSON.stringify({
-                      selectedIp: [],
-                      selectedCt: [],
-                      selectedLn: [],
-                      selectedPl: [],
-                      selectedPd: [],
-                      selectedTy: [],
-                      initialSF: moment()
-                        .subtract(1, "months")
-                        .startOf("month")
-                        .toString(),
-                      initialST: moment()
-                        .add(1, "months")
-                        .endOf("month")
-                        .toString()
-                    })
-                  }
-                }
-              ]}
-              update={() => this._notify("입력 성공!", "success")}
-            >
-              {cudRate => (
+            <Query query={GET_QUERYPARAMS}>
+              {({ data: { queryParams } }) => (
                 <Mutation
-                  mutation={SET_MODE}
+                  mutation={SET_RATE}
                   variables={{
-                    mode: {
-                      isAdd: false,
-                      isModify: false
-                    }
+                    newRate: JSON.stringify(
+                      handleMomentToStringForSetRate(this.state.newRate)
+                    ),
+                    handler: "add"
+                  }}
+                  update={(cache, { data: { setRate } }) => {
+                    const { getRates } = cache.readQuery({
+                      query: GET_RATES,
+                      variables: {
+                        first: 15,
+                        queryParams: JSON.stringify(
+                          handleMomentToString(queryParams)
+                        ),
+                        after: null
+                      }
+                    });
+                    cache.writeQuery({
+                      query: GET_RATES,
+                      variables: {
+                        first: 15,
+                        queryParams: JSON.stringify(
+                          handleMomentToString(queryParams)
+                        ),
+                        after: null
+                      },
+                      data: {
+                        getRates: {
+                          ...getRates,
+                          data: {
+                            ...getRates.data,
+                            edges: [
+                              ...setRate.map(edge => {
+                                const newEdge = {
+                                  cursor: edge.id,
+                                  node: edge,
+                                  __typename: "Rate_rateEdge"
+                                };
+                                return newEdge;
+                              }),
+                              ...getRates.data.edges
+                            ]
+                          }
+                        }
+                      }
+                    });
+                    this._notify("입력 성공!", "success");
                   }}
                 >
-                  {setMode => (
+                  {setRate => (
                     <Mutation
-                      mutation={SET_QUERYPARAMS}
+                      mutation={SET_MODE}
                       variables={{
-                        queryParams: {
-                          selectedIp: [],
-                          selectedCt: [],
-                          selectedLn: [],
-                          selectedPl: [],
-                          selectedPd: [],
-                          selectedTy: [],
-                          initialSF: moment()
-                            .subtract(1, "months")
-                            .startOf("month"),
-                          initialST: moment()
-                            .add(1, "months")
-                            .endOf("month")
-                        }
+                        mode: JSON.stringify({
+                          isAdd: false,
+                          isModify: false
+                        })
                       }}
                     >
-                      {setQueryParams => (
+                      {setMode => (
                         <Fragment>
                           <DivHeaderButtons
                             tabIndex="16"
@@ -923,9 +899,8 @@ class RateAddCard extends Component {
                                 </DivModalCancelButton>
                                 <DivModalConfirmButton
                                   onClick={() => {
-                                    setQueryParams();
                                     setMode();
-                                    cudRate();
+                                    setRate();
                                   }}
                                 >
                                   입력
@@ -939,7 +914,7 @@ class RateAddCard extends Component {
                   )}
                 </Mutation>
               )}
-            </Mutation>
+            </Query>
           )}
         </DivHeader>
       </DivContainer>
@@ -947,4 +922,4 @@ class RateAddCard extends Component {
   }
 }
 
-export default RateAddCard;
+export default withApollo(RateAddCard);

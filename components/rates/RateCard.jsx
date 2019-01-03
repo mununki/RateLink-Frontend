@@ -1,15 +1,16 @@
 import React, { Component, Fragment } from "react";
 import styled from "styled-components";
 import moment from "moment";
+import "moment/locale/ko";
 import { Query, Mutation } from "react-apollo";
 import Popover from "react-simple-popover";
 import ClickOutside from "../../lib/clickOutside";
 import Modal from "react-responsive-modal";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { SET_RATE, SET_MODE, GET_QUERYPARAMS } from "../../lib/client";
-import { GET_RATES } from "../../pages/rates/ratesQueries";
-// import RateAddCard from "./RateAddCard";
+import { SET_MODE, GET_QUERYPARAMS } from "../../lib/client";
+import { GET_RATES, SET_RATE } from "../../pages/rates/ratesQueries";
+import RateAddCard from "./RateAddCard";
 
 const DivContainer = styled.div`
   display: flex;
@@ -337,8 +338,13 @@ class RateCard extends Component {
     const { rate } = this.props;
     const { isSwipe, isModify } = this.state;
     if (isModify) {
-      return null;
-      // <RateAddCard USER_ID={this.props.USER_ID} isModify={true} rate={rate} />
+      return (
+        <RateAddCard
+          loggedInUser={this.props.loggedInUser}
+          isModify={true}
+          rate={rate}
+        />
+      );
     } else {
       return (
         <DivContainer>
@@ -453,25 +459,22 @@ class RateCard extends Component {
               </DivHeaderButtons>
             )}
           </DivHeader>
-          {/* {isSwipe ? (
+          {isSwipe ? (
             <DivBehind>
-              <ClickOutside customFunc={this._hideSwipe}>
+              <ClickOutside close={this._hideSwipe}>
                 <DivBehindInside>
                   <Query query={GET_QUERYPARAMS}>
-                    {({data }) => {
-                      
-                      const queryParams = data.queryParams;
-                      
+                    {({ data: { queryParams } }) => {
                       return (
                         <Mutation
                           mutation={SET_RATE}
                           variables={{
-                            rid: this.props.rate.id,
-                            handler: "duplicate"
+                            handler: "duplicate",
+                            rateId: this.props.rate.id
                           }}
                           update={() => this._notify("복제 성공!", "success")}
                         >
-                          {cudRate => (
+                          {setRate => (
                             <Fragment>
                               <DivBehindButtons
                                 onClick={() =>
@@ -509,7 +512,7 @@ class RateCard extends Component {
                                     </DivModalCancelButton>
                                     <DivModalConfirmButton
                                       onClick={() => {
-                                        cudRate();
+                                        setRate();
                                         this.setState({
                                           duplicateModal: false,
                                           isSwipe: false
@@ -588,30 +591,17 @@ class RateCard extends Component {
                     )}
                   </Mutation>
                   <Query query={GET_QUERYPARAMS}>
-                    {({ loading, error, data }) => {
-                      if (loading) return null;
-                      if (error) return <span>Error :(</span>;
-                      const queryParams = data.queryParams;
+                    {({ data: { queryParams } }) => {
                       return (
                         <Mutation
                           mutation={SET_RATE}
                           variables={{
-                            uid: this.props.USER_ID,
-                            rid: this.props.rate.id,
+                            rateId: this.props.rate.id,
                             handler: "delete"
                           }}
-                          refetchQueries={[
-                            {
-                              query: GET_RATES,
-                              variables: {
-                                uid: this.props.USER_ID,
-                                queryParams: queryParams
-                              }
-                            }
-                          ]}
                           update={() => this._notify("삭제 완료!", "success")}
                         >
-                          {cudRate => (
+                          {setRate => (
                             <Fragment>
                               <DivBehindButtons
                                 onClick={() =>
@@ -649,7 +639,7 @@ class RateCard extends Component {
                                     </DivModalCancelButton>
                                     <DivModalConfirmButton
                                       onClick={() => {
-                                        cudRate();
+                                        setRate();
                                       }}
                                     >
                                       삭제
@@ -666,7 +656,7 @@ class RateCard extends Component {
                 </DivBehindInside>
               </ClickOutside>
             </DivBehind>
-          ) : null} */}
+          ) : null}
         </DivContainer>
       );
     }
