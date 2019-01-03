@@ -1,12 +1,14 @@
 import React from "react";
 import { withApollo } from "react-apollo";
+import RatesHeader from "../../components/rates/RatesHeader";
+import RatesMain from "../../components/rates/RatesMain";
 
 class RatesPresenter extends React.Component {
   render() {
     return (
       <div className="padding-global-top">
-        <i className="fas fa-user-circle" />
-        {this.props.loggedInUser.data.nickname}
+        <RatesHeader />
+        <RatesMain />
       </div>
     );
   }

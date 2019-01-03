@@ -2,8 +2,9 @@ import App, { Container } from "next/app";
 import React from "react";
 import { ApolloProvider } from "react-apollo";
 import withApollo from "../lib/withApollo";
-// import NProgress from "next-nprogress/component";
 import withNProgress from "next-nprogress";
+import moment from "moment";
+import "moment/locale/ko";
 
 class MyApp extends App {
   render() {
@@ -11,7 +12,6 @@ class MyApp extends App {
     return (
       <Container>
         <ApolloProvider client={apolloClient}>
-          {/* <NProgress /> */}
           <Component {...pageProps} />
         </ApolloProvider>
       </Container>

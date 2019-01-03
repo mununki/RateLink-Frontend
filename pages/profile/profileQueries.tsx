@@ -16,6 +16,7 @@ const UpdateProfile = gql`
       ok
       data {
         id
+        email
         nickname
         profile {
           profile_name

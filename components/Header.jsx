@@ -27,6 +27,13 @@ class Header extends React.Component {
     panelRight.classList.remove("show");
   };
   render() {
+    const dropdownKCItems = [
+      {
+        icon: <i className="fas fa-chart" />,
+        name: "운임 차트",
+        link: "/charts"
+      }
+    ];
     const dropdownUserItems = [
       {
         icon: <i className="fas fa-id-badge" />,
@@ -57,7 +64,8 @@ class Header extends React.Component {
           <Dropdown
             icon={<i className="fas fa-globe-asia" />}
             buttonName="Knowledge Center"
-            rightAlign={true}
+            items={dropdownKCItems}
+            closeRightPanel={this._closeRightPanel}
           />
           <Dropdown
             icon={<i className="fas fa-user-circle" />}
@@ -83,6 +91,7 @@ class Header extends React.Component {
               width: 100%;
               display: flex;
               justify-content: space-between;
+              z-index: 300;
             }
             .menu {
               display: none;
@@ -102,7 +111,7 @@ class Header extends React.Component {
                 padding: 15px;
                 color: #fff;
                 cursor: pointer;
-                z-index: 10;
+                z-index: 1000;
               }
               .menu:hover {
                 background-color: #eee;
