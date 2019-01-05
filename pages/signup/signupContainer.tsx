@@ -8,8 +8,6 @@ class SignupContainer extends React.Component {
     const { loggedInUser } = await checkLogin(context.apolloClient);
 
     if (!loggedInUser.ok) {
-      // If not signed in, send them somewhere more useful
-      console.log("not logged in");
     } else {
       redirect(context, "/");
     }

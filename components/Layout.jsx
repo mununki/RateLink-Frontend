@@ -11,10 +11,21 @@ export default ({ children, loggedInUser }) => (
       {`
         body {
           margin: 0px;
+          padding: 0px;
           background-color: #eee;
+          font-size: 0.9em;
         }
         .padding-global-top {
           padding-top: 5rem;
+        }
+        input[type="number"] {
+          -moz-appearance: textfield;
+        }
+
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+          -webkit-appearance: none;
+          margin: 0;
         }
       `}
     </style>

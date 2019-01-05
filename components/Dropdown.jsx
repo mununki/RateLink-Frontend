@@ -2,6 +2,7 @@ import React from "react";
 import ClickOutside from "../lib/clickOutside";
 import Router from "next/router";
 import { theme } from "../lib/theme";
+import redirect from "../lib/redirect";
 
 export default class Dropdown extends React.Component {
   state = {
@@ -30,51 +31,72 @@ export default class Dropdown extends React.Component {
     // - buttonLink : dropdown button link in case items props not provided
     // - items : dropdown contents item {name: string(item name), link: string(path) or function: function}
     const rightAlign = this.props.rightAlign ? "0" : null;
+
     return (
       <React.Fragment>
-        <div
-          className="dropdown-container"
-          onMouseEnter={this._open}
-          onMouseLeave={this._close}
-        >
-          <ClickOutside close={this._close}>
+        {this.props.buttonLink ? (
+          <a href={`${this.props.buttonLink}`}>
             <div
-              className="dropdown-button"
-              onClick={
-                this.props.items
-                  ? this._toggle // items props is provided, button will work only toggle the contents
-                  : this.props.buttonLink // check if buttonLink is provided or not
-                  ? () => Router.push(this.props.buttonLink) // Route to buttonLink
-                  : null // if buttonLink is not provided
-              }
+              className="dropdown-container"
+              onMouseEnter={this._open}
+              onMouseLeave={this._close}
             >
-              {this.props.icon} {this.props.buttonName}
-            </div>
-            {this.state.isOpen ? (
-              <div className="dropdown-contents">
-                {this.props.items &&
-                  this.props.items.map((item, key) => (
-                    <div
-                      key={key}
-                      className="dropdown-item"
-                      onClick={() => {
-                        if (item.link) {
-                          this.props.closeRightPanel();
-                          Router.push(item.link);
-                        } else if (item.function) {
-                          this.props.closeRightPanel();
-                          item.function();
-                        }
-                      }}
-                    >
-                      {item.icon && item.icon} {item.name}
-                    </div>
-                  ))}
+              <div className="dropdown-button">
+                {this.props.icon} {this.props.buttonName}
               </div>
-            ) : null}
-          </ClickOutside>
-        </div>
+            </div>
+          </a>
+        ) : (
+          <div
+            className="dropdown-container"
+            onMouseEnter={this._open}
+            onMouseLeave={this._close}
+          >
+            <ClickOutside close={this._close}>
+              <div
+                className="dropdown-button"
+                onClick={
+                  this.props.items
+                    ? this._toggle // items props is provided, button will work only toggle the contents
+                    : null // if buttonLink is not provided
+                }
+              >
+                {this.props.icon} {this.props.buttonName}
+              </div>
+              {this.state.isOpen ? (
+                <div className="dropdown-contents">
+                  {this.props.items &&
+                    this.props.items.map((item, key) =>
+                      item.link ? (
+                        <a key={key} href={`${item.link}`}>
+                          <div key={key} className="dropdown-item">
+                            {item.icon && item.icon} {item.name}
+                          </div>
+                        </a>
+                      ) : (
+                        <div
+                          key={key}
+                          className="dropdown-item"
+                          onClick={() => {
+                            if (item.function) {
+                              this.props.closeRightPanel();
+                              item.function();
+                            }
+                          }}
+                        >
+                          {item.icon && item.icon} {item.name}
+                        </div>
+                      )
+                    )}
+                </div>
+              ) : null}
+            </ClickOutside>
+          </div>
+        )}
         <style jsx>{`
+          a {
+            text-decoration: none;
+          }
           .dropdown-container {
             display: inline-block;
             position: relative;
@@ -102,6 +124,7 @@ export default class Dropdown extends React.Component {
             box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
           }
           .dropdown-item {
+            color: #000;
             padding: 15px;
           }
           .dropdown-item:hover {

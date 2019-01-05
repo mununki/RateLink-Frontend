@@ -15,5 +15,7 @@ Refactory the frontend of RateLink with new tech stack
 - [x] Layout (header, footer, etc.)
 - [x] Rate List & Search
 - [x] Rate add & modify & delete
-- [ ] Directly update & delete cache w/ fragment without using `refetchQueries`
+- [x] Directly update & delete Rate cache w/ fragment without using `refetchQueries`
+- [x] Rate friend page
+- [x] Add reader
 - [ ] Profile image update with AWS Lambda

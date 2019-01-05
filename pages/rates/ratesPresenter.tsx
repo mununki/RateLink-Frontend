@@ -1,5 +1,4 @@
 import React from "react";
-import { withApollo } from "react-apollo";
 import RatesHeader from "../../components/rates/RatesHeader";
 import RatesMain from "../../components/rates/RatesMain";
 

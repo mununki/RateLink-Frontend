@@ -233,7 +233,6 @@ class CustomInputDatePickerSF extends React.Component {
             .btn-datepicker {
               display: block;
               color: #eee;
-              font-size: 1rem;
               background-color: #053f5c;
               border: 0px;
             }
@@ -271,7 +270,6 @@ class CustomInputDatePickerST extends React.Component {
             .btn-datepicker {
               display: block;
               color: #eee;
-              font-size: 1rem;
               background-color: #053f5c;
               border: 0px;
             }
@@ -301,18 +299,11 @@ class RatesHeader extends React.Component {
   };
   componentDidUpdate(prevProps, prevState, snapshot) {
     if (prevState.queryParams !== this.state.queryParams) {
-      console.log("state!");
       this.props.client.mutate({
         mutation: SET_QUERYPARAMS,
         variables: {
           queryParams: this.state.queryParams
         }
-      });
-    }
-    if (prevProps.queryParams !== this.props.queryParams) {
-      console.log("props!");
-      this.setState({
-        queryParams: this.props.queryParams
       });
     }
   }
@@ -432,7 +423,10 @@ class RatesHeader extends React.Component {
     return (
       <React.Fragment>
         <Query query={GET_MODE}>
-          {({ data }) => {
+          {({ loading, error, data }) => {
+            if (loading) return <div>Loading...</div>;
+            if (error) return <div>Error :(</div>;
+
             const isAdd = data.mode.isAdd;
             const isModify = data.mode.isModify;
             return (

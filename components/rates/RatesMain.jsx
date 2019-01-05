@@ -97,9 +97,12 @@ class RatesMain extends React.Component {
   render() {
     return (
       <Query query={GET_MODE}>
-        {({ data: { mode } }) => {
-          const isAdd = mode.isAdd;
-          const isModify = mode.isModify;
+        {({ loading, error, data }) => {
+          if (loading) return <div>Loading...</div>;
+          if (error) return <div>Error :(</div>;
+
+          const isAdd = data.mode.isAdd;
+          const isModify = data.mode.isModify;
 
           return (
             <React.Fragment>
@@ -113,7 +116,11 @@ class RatesMain extends React.Component {
               ) : null}
 
               <Query query={GET_QUERYPARAMS}>
-                {({ data: { queryParams } }) => {
+                {({ loading, error, data }) => {
+                  if (loading) return <div>Loading...</div>;
+                  if (error) return <div>Error :(</div>;
+
+                  const queryParams = data.queryParams;
                   return (
                     <Query
                       query={GET_RATES}
@@ -125,14 +132,12 @@ class RatesMain extends React.Component {
                         after: null
                       }}
                     >
-                      {({
-                        data: {
-                          getRates: { data }
-                        },
-                        fetchMore
-                      }) => {
-                        const rates = data.edges;
-                        const pageInfo = data.pageInfo;
+                      {({ loading, error, data, fetchMore }) => {
+                        if (loading) return <div>Loading...</div>;
+                        if (error) return <div>Error :(</div>;
+
+                        const rates = data.getRates.data.edges;
+                        const pageInfo = data.getRates.data.pageInfo;
 
                         return (
                           <React.Fragment>
@@ -156,7 +161,7 @@ class RatesMain extends React.Component {
                                     queryParams: JSON.stringify(
                                       handleMomentToString(queryParams)
                                     ),
-                                    after: data.pageInfo.endCursor
+                                    after: pageInfo.endCursor
                                   },
                                   updateQuery: (
                                     previousResult,

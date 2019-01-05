@@ -745,10 +745,10 @@ class RateAddCard extends Component {
                 <Mutation
                   mutation={SET_MODE}
                   variables={{
-                    mode: {
+                    mode: JSON.stringify({
                       isAdd: false,
                       isModify: false
-                    }
+                    })
                   }}
                 >
                   {setMode => (
@@ -802,8 +802,12 @@ class RateAddCard extends Component {
             </Mutation>
           ) : (
             <Query query={GET_QUERYPARAMS}>
-              {({ data: { queryParams } }) => (
-                <Mutation
+              {({ loading, error, data }) => {
+                if (loading) return <div>Loading...</div>;
+                if (error) return <div>Error :(</div>;
+
+                const queryParams = data.queryParams;
+                return <Mutation
                   mutation={SET_RATE}
                   variables={{
                     newRate: JSON.stringify(
@@ -912,8 +916,8 @@ class RateAddCard extends Component {
                       )}
                     </Mutation>
                   )}
-                </Mutation>
-              )}
+                </Mutation>;
+              }}
             </Query>
           )}
         </DivHeader>

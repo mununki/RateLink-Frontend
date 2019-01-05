@@ -11,6 +11,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { SET_MODE, GET_QUERYPARAMS } from "../../lib/client";
 import { GET_RATES, SET_RATE } from "../../pages/rates/ratesQueries";
 import RateAddCard from "./RateAddCard";
+import handleMomentToString from "../../utils/handleMomentToString";
 
 const DivContainer = styled.div`
   display: flex;
@@ -362,9 +363,7 @@ class RateCard extends Component {
             <DivHeaderAccount>{rate.client.name}</DivHeaderAccount>
             <DivHeaderLiner>
               <img
-                src={
-                  "/countrycity/liners_image/" + `${rate.liner.name}` + ".png"
-                }
+                src={"/static/liner_images/" + `${rate.liner.name}` + ".png"}
                 width="70px"
                 alt={rate.liner.name}
               />
@@ -413,10 +412,16 @@ class RateCard extends Component {
             <DivHeaderLF>{rate.loadingFT}</DivHeaderLF>
             <DivHeaderDF>{rate.dischargingFT}</DivHeaderDF>
             <DivHeaderOD>
-              {moment(rate.offeredDate).format("MM-DD")}
+              {moment
+                .utc(rate.offeredDate)
+                .local()
+                .format("MM-DD")}
             </DivHeaderOD>
             <DivHeaderED>
-              {moment(rate.effectiveDate).format("MM-DD")}
+              {moment
+                .utc(rate.effectiveDate)
+                .local()
+                .format("MM-DD")}
             </DivHeaderED>
             <DivHeaderRMK>
               {rate.remark ? (
@@ -464,7 +469,11 @@ class RateCard extends Component {
               <ClickOutside close={this._hideSwipe}>
                 <DivBehindInside>
                   <Query query={GET_QUERYPARAMS}>
-                    {({ data: { queryParams } }) => {
+                    {({ loading, error, data }) => {
+                      if (loading) return <div>Loading...</div>;
+                      if (error) return <div>Error :(</div>;
+
+                      const queryParams = data.queryParams;
                       return (
                         <Mutation
                           mutation={SET_RATE}
@@ -472,7 +481,48 @@ class RateCard extends Component {
                             handler: "duplicate",
                             rateId: this.props.rate.id
                           }}
-                          update={() => this._notify("복제 성공!", "success")}
+                          update={(cache, { data: { setRate } }) => {
+                            const { getRates } = cache.readQuery({
+                              query: GET_RATES,
+                              variables: {
+                                first: 15,
+                                queryParams: JSON.stringify(
+                                  handleMomentToString(queryParams)
+                                ),
+                                after: null
+                              }
+                            });
+                            cache.writeQuery({
+                              query: GET_RATES,
+                              variables: {
+                                first: 15,
+                                queryParams: JSON.stringify(
+                                  handleMomentToString(queryParams)
+                                ),
+                                after: null
+                              },
+                              data: {
+                                getRates: {
+                                  ...getRates,
+                                  data: {
+                                    ...getRates.data,
+                                    edges: [
+                                      ...setRate.map(edge => {
+                                        const newEdge = {
+                                          cursor: edge.id,
+                                          node: edge,
+                                          __typename: "Rate_rateEdge"
+                                        };
+                                        return newEdge;
+                                      }),
+                                      ...getRates.data.edges
+                                    ]
+                                  }
+                                }
+                              }
+                            });
+                            this._notify("복제 성공!", "success");
+                          }}
                         >
                           {setRate => (
                             <Fragment>
@@ -591,7 +641,11 @@ class RateCard extends Component {
                     )}
                   </Mutation>
                   <Query query={GET_QUERYPARAMS}>
-                    {({ data: { queryParams } }) => {
+                    {({ loading, error, data }) => {
+                      if (loading) return <div>Loading...</div>;
+                      if (error) return <div>Error :(</div>;
+
+                      const queryParams = data.queryParams;
                       return (
                         <Mutation
                           mutation={SET_RATE}
@@ -599,7 +653,41 @@ class RateCard extends Component {
                             rateId: this.props.rate.id,
                             handler: "delete"
                           }}
-                          update={() => this._notify("삭제 완료!", "success")}
+                          update={(cache, { data: { setRate } }) => {
+                            const { getRates } = cache.readQuery({
+                              query: GET_RATES,
+                              variables: {
+                                first: 15,
+                                queryParams: JSON.stringify(
+                                  handleMomentToString(queryParams)
+                                ),
+                                after: null
+                              }
+                            });
+                            const newRatesInCache = getRates.data.edges.filter(
+                              edge => edge.node.id !== setRate[0].id
+                            );
+                            cache.writeQuery({
+                              query: GET_RATES,
+                              variables: {
+                                first: 15,
+                                queryParams: JSON.stringify(
+                                  handleMomentToString(queryParams)
+                                ),
+                                after: null
+                              },
+                              data: {
+                                getRates: {
+                                  ...getRates,
+                                  data: {
+                                    ...getRates.data,
+                                    edges: newRatesInCache
+                                  }
+                                }
+                              }
+                            });
+                            this._notify("삭제 완료!", "success");
+                          }}
                         >
                           {setRate => (
                             <Fragment>

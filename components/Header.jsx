@@ -70,7 +70,7 @@ class Header extends React.Component {
           <Dropdown
             icon={<i className="fas fa-user-circle" />}
             buttonName={
-              this.props.loggedInUser
+              this.props.loggedInUser.data
                 ? this.props.loggedInUser.data.profile.profile_name
                 : "USER"
             }

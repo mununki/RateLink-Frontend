@@ -9,7 +9,7 @@ import redirect from "../../lib/redirect";
 const login = ({ client }) => {
   let email: HTMLInputElement | null, password: HTMLInputElement | null;
   return (
-    <div>
+    <div className="padding-global-top">
       <Mutation
         mutation={LOGIN}
         onCompleted={data => {
