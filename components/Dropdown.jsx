@@ -35,7 +35,7 @@ export default class Dropdown extends React.Component {
     return (
       <React.Fragment>
         {this.props.buttonLink ? (
-          <a href={`${this.props.buttonLink}`}>
+          <a href={`${this.props.buttonLink}`} tabIndex={-1}>
             <div
               className="dropdown-container"
               onMouseEnter={this._open}
@@ -68,7 +68,7 @@ export default class Dropdown extends React.Component {
                   {this.props.items &&
                     this.props.items.map((item, key) =>
                       item.link ? (
-                        <a key={key} href={`${item.link}`}>
+                        <a key={key} href={`${item.link}`} tabIndex={-1}>
                           <div key={key} className="dropdown-item">
                             {item.icon && item.icon} {item.name}
                           </div>

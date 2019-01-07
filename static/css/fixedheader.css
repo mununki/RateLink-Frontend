@@ -1,0 +1,14 @@
+.not-fixed {
+  position: absolute;
+  left: 0;
+  right: 0;
+}
+.fixed {
+  position: fixed;
+  top: 50px;
+  left: 0;
+  right: 0;
+}
+.padding-under-fixed-header {
+  padding-top: 70px;
+}

@@ -1,9 +1,11 @@
 import React from "react";
 import Header from "./Header";
+import { ToastContainer } from "react-toastify";
 import NProgress from "next-nprogress/component";
 
 export default ({ children, loggedInUser }) => (
   <React.Fragment>
+    <ToastContainer />
     <Header loggedInUser={loggedInUser} />
     <NProgress />
     {children}

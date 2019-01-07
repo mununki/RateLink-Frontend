@@ -1,21 +1,21 @@
 import React from "react";
 import styled from "styled-components";
 import { Query, Mutation, withApollo } from "react-apollo";
-import { ToastContainer, toast } from "react-toastify";
 import RateCard from "./RateCard";
-// import RateAddCard from "./RateAddCard";
 import RatesReadmore from "./RatesReadmore";
 import { GET_MODE, SET_MODE, GET_QUERYPARAMS } from "../../lib/client";
 import { GET_RATES } from "../../pages/rates/ratesQueries";
 import moment from "moment";
 import handleMomentToString from "../../utils/handleMomentToString";
 import RateAddCard from "./RateAddCard";
+import { notify } from "../../utils/notify";
+import "../../static/css/fixedheader.css";
 
 const RateAddButton = styled.div`
   position: fixed;
   bottom: 20px;
   right: 20px;
-  z-index: 20;
+  z-index: 150;
   color: white;
   padding: 10px;
   background-color: ${props =>
@@ -37,63 +37,13 @@ const RateAddButton = styled.div`
   }
 `;
 
-class RatesMain extends React.Component {
-  state = {};
+const DivContainer = styled.div``;
 
-  _notify = (text, handler) => {
-    switch (handler) {
-      case "success":
-        toast.success(text, {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true
-        });
-        break;
-      case "warning":
-        toast.warn(text, {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true
-        });
-        break;
-      case "error":
-        toast.error(text, {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true
-        });
-        break;
-      case "info":
-        toast.info(text, {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true
-        });
-        break;
-      default:
-        toast(text, {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true
-        });
-        break;
-    }
+class RatesMain extends React.Component {
+  state = {
+    isLoading: false
   };
+
   render() {
     return (
       <Query query={GET_MODE}>
@@ -105,9 +55,7 @@ class RatesMain extends React.Component {
           const isModify = data.mode.isModify;
 
           return (
-            <React.Fragment>
-              <ToastContainer />
-
+            <div id="rates-main">
               {isAdd ? (
                 <RateAddCard
                   loggedInUser={this.props.loggedInUser}
@@ -125,7 +73,7 @@ class RatesMain extends React.Component {
                     <Query
                       query={GET_RATES}
                       variables={{
-                        first: 15,
+                        first: 20,
                         queryParams: JSON.stringify(
                           handleMomentToString(queryParams)
                         ),
@@ -153,11 +101,13 @@ class RatesMain extends React.Component {
                             {/* READMORE BUTTON */}
 
                             <RatesReadmore
-                              onLoadMore={() =>
+                              isLoading={this.state.isLoading}
+                              onLoadMore={() => {
+                                this.setState({ isLoading: true });
                                 fetchMore({
                                   query: GET_RATES,
                                   variables: {
-                                    first: 15,
+                                    first: 20,
                                     queryParams: JSON.stringify(
                                       handleMomentToString(queryParams)
                                     ),
@@ -171,10 +121,10 @@ class RatesMain extends React.Component {
                                       !fetchMoreResult.getRates.data.pageInfo
                                         .hasNextPage
                                     )
-                                      this._notify(
-                                        "마지막 페이지 입니다!",
-                                        "info"
-                                      );
+                                      notify("마지막 페이지 입니다!", "info");
+                                    this.setState({
+                                      isLoading: false
+                                    });
                                     return fetchMoreResult.getRates.data.edges
                                       .length > 0
                                       ? {
@@ -198,8 +148,8 @@ class RatesMain extends React.Component {
                                         }
                                       : previousResult;
                                   }
-                                })
-                              }
+                                });
+                              }}
                               hasNextPage={pageInfo.hasNextPage}
                             />
                           </React.Fragment>
@@ -228,7 +178,7 @@ class RatesMain extends React.Component {
                   </RateAddButton>
                 )}
               </Mutation>
-            </React.Fragment>
+            </div>
           );
         }}
       </Query>

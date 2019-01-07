@@ -5,6 +5,7 @@ import withApollo from "../lib/withApollo";
 import withNProgress from "next-nprogress";
 import moment from "moment";
 import "moment/locale/ko";
+import "../static/css/bootstrap.min.css";
 
 class MyApp extends App {
   render() {

@@ -8,7 +8,6 @@ import AsyncSelect from "react-select/lib/Async";
 import { Query, Mutation, withApollo } from "react-apollo";
 import Popover from "react-simple-popover";
 import Modal from "react-responsive-modal";
-import { toast } from "react-toastify";
 import { SET_MODE, SET_QUERYPARAMS, GET_QUERYPARAMS } from "../../lib/client";
 import {
   GET_INPUTPERSONS,
@@ -22,6 +21,7 @@ import {
 import handleMomentToString from "../../utils/handleMomentToString";
 import handleMomentToStringForSetRate from "../../utils/handleMomentToStringForSetRate";
 import convertToModifyRate from "../../utils/convertToModifyRate";
+import { notify } from "../../utils/notify";
 
 const DivContainer = styled.div`
   display: flex;
@@ -387,60 +387,7 @@ class RateAddCard extends Component {
       }
     });
   };
-  _notify = (text, handler) => {
-    switch (handler) {
-      case "success":
-        toast.success(text, {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true
-        });
-        break;
-      case "warning":
-        toast.warn(text, {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true
-        });
-        break;
-      case "error":
-        toast.error(text, {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true
-        });
-        break;
-      case "info":
-        toast.info(text, {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true
-        });
-        break;
-      default:
-        toast(text, {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true
-        });
-        break;
-    }
-  };
+
   render() {
     const { isModify } = this.props;
     const { newRate } = this.state;
@@ -739,7 +686,12 @@ class RateAddCard extends Component {
                 handler: "modify",
                 rateId: this.props.rate.id
               }}
-              update={() => this._notify("수정 성공!", "success")}
+              update={(cache, { data: { setRate } }) => {
+                if (setRate) {
+                  // onCompleted is not working because it will be unmounted after click modify button
+                  notify("수정 성공!", "success");
+                }
+              }}
             >
               {setRate => (
                 <Mutation
@@ -786,8 +738,8 @@ class RateAddCard extends Component {
                             </DivModalCancelButton>
                             <DivModalConfirmButton
                               onClick={() => {
-                                setMode();
                                 setRate();
+                                setMode();
                               }}
                             >
                               수정
@@ -807,116 +759,118 @@ class RateAddCard extends Component {
                 if (error) return <div>Error :(</div>;
 
                 const queryParams = data.queryParams;
-                return <Mutation
-                  mutation={SET_RATE}
-                  variables={{
-                    newRate: JSON.stringify(
-                      handleMomentToStringForSetRate(this.state.newRate)
-                    ),
-                    handler: "add"
-                  }}
-                  update={(cache, { data: { setRate } }) => {
-                    const { getRates } = cache.readQuery({
-                      query: GET_RATES,
-                      variables: {
-                        first: 15,
-                        queryParams: JSON.stringify(
-                          handleMomentToString(queryParams)
-                        ),
-                        after: null
-                      }
-                    });
-                    cache.writeQuery({
-                      query: GET_RATES,
-                      variables: {
-                        first: 15,
-                        queryParams: JSON.stringify(
-                          handleMomentToString(queryParams)
-                        ),
-                        after: null
-                      },
-                      data: {
-                        getRates: {
-                          ...getRates,
-                          data: {
-                            ...getRates.data,
-                            edges: [
-                              ...setRate.map(edge => {
-                                const newEdge = {
-                                  cursor: edge.id,
-                                  node: edge,
-                                  __typename: "Rate_rateEdge"
-                                };
-                                return newEdge;
-                              }),
-                              ...getRates.data.edges
-                            ]
+                return (
+                  <Mutation
+                    mutation={SET_RATE}
+                    variables={{
+                      newRate: JSON.stringify(
+                        handleMomentToStringForSetRate(this.state.newRate)
+                      ),
+                      handler: "add"
+                    }}
+                    update={(cache, { data: { setRate } }) => {
+                      const { getRates } = cache.readQuery({
+                        query: GET_RATES,
+                        variables: {
+                          first: 20,
+                          queryParams: JSON.stringify(
+                            handleMomentToString(queryParams)
+                          ),
+                          after: null
+                        }
+                      });
+                      cache.writeQuery({
+                        query: GET_RATES,
+                        variables: {
+                          first: 20,
+                          queryParams: JSON.stringify(
+                            handleMomentToString(queryParams)
+                          ),
+                          after: null
+                        },
+                        data: {
+                          getRates: {
+                            ...getRates,
+                            data: {
+                              ...getRates.data,
+                              edges: [
+                                ...setRate.map(edge => {
+                                  const newEdge = {
+                                    cursor: edge.id,
+                                    node: edge,
+                                    __typename: "Rate_rateEdge"
+                                  };
+                                  return newEdge;
+                                }),
+                                ...getRates.data.edges
+                              ]
+                            }
                           }
                         }
-                      }
-                    });
-                    this._notify("입력 성공!", "success");
-                  }}
-                >
-                  {setRate => (
-                    <Mutation
-                      mutation={SET_MODE}
-                      variables={{
-                        mode: JSON.stringify({
-                          isAdd: false,
-                          isModify: false
-                        })
-                      }}
-                    >
-                      {setMode => (
-                        <Fragment>
-                          <DivHeaderButtons
-                            tabIndex="16"
-                            onClick={() =>
-                              this.setState({
-                                inputModal: true
-                              })
-                            }
-                          >
-                            입력
-                          </DivHeaderButtons>
-                          <Modal
-                            open={this.state.inputModal}
-                            onClose={() =>
-                              this.setState({
-                                inputModal: false
-                              })
-                            }
-                            center
-                          >
-                            <DivModalContainer>
-                              <div>입력하시겠습니까?</div>
-                              <DivModalButtons>
-                                <DivModalCancelButton
-                                  onClick={() =>
-                                    this.setState({
-                                      inputModal: false
-                                    })
-                                  }
-                                >
-                                  취소
-                                </DivModalCancelButton>
-                                <DivModalConfirmButton
-                                  onClick={() => {
-                                    setMode();
-                                    setRate();
-                                  }}
-                                >
-                                  입력
-                                </DivModalConfirmButton>
-                              </DivModalButtons>
-                            </DivModalContainer>
-                          </Modal>
-                        </Fragment>
-                      )}
-                    </Mutation>
-                  )}
-                </Mutation>;
+                      });
+                      notify("입력 성공!", "success");
+                    }}
+                  >
+                    {setRate => (
+                      <Mutation
+                        mutation={SET_MODE}
+                        variables={{
+                          mode: JSON.stringify({
+                            isAdd: false,
+                            isModify: false
+                          })
+                        }}
+                      >
+                        {setMode => (
+                          <Fragment>
+                            <DivHeaderButtons
+                              tabIndex="16"
+                              onClick={() =>
+                                this.setState({
+                                  inputModal: true
+                                })
+                              }
+                            >
+                              입력
+                            </DivHeaderButtons>
+                            <Modal
+                              open={this.state.inputModal}
+                              onClose={() =>
+                                this.setState({
+                                  inputModal: false
+                                })
+                              }
+                              center
+                            >
+                              <DivModalContainer>
+                                <div>입력하시겠습니까?</div>
+                                <DivModalButtons>
+                                  <DivModalCancelButton
+                                    onClick={() =>
+                                      this.setState({
+                                        inputModal: false
+                                      })
+                                    }
+                                  >
+                                    취소
+                                  </DivModalCancelButton>
+                                  <DivModalConfirmButton
+                                    onClick={() => {
+                                      setMode();
+                                      setRate();
+                                    }}
+                                  >
+                                    입력
+                                  </DivModalConfirmButton>
+                                </DivModalButtons>
+                              </DivModalContainer>
+                            </Modal>
+                          </Fragment>
+                        )}
+                      </Mutation>
+                    )}
+                  </Mutation>
+                );
               }}
             </Query>
           )}

@@ -12,7 +12,7 @@ const ReadmoreButton = styled.div`
   justify-content: center;
   margin-top: 20px;
   margin-bottom: 20px;
-  width: 100px;
+  width: 150px;
   padding: 10px;
   background-color: ${props => (props.hasNextPage ? "#fdc02f" : "#CCC")};
   border-radius: 5px;
@@ -25,7 +25,13 @@ const ReadmoreButton = styled.div`
 export default props => (
   <DivContainer>
     <ReadmoreButton hasNextPage={props.hasNextPage} onClick={props.onLoadMore}>
-      READ MORE
+      {props.isLoading ? (
+        <div class="spinner-border text-light" role="status">
+          <span class="sr-only">Loading...</span>
+        </div>
+      ) : (
+        "READ MORE"
+      )}
     </ReadmoreButton>
   </DivContainer>
 );

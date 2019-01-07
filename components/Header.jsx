@@ -29,7 +29,7 @@ class Header extends React.Component {
   render() {
     const dropdownKCItems = [
       {
-        icon: <i className="fas fa-chart" />,
+        icon: <i className="fas fa-chart-line"></i>,
         name: "운임 차트",
         link: "/charts"
       }

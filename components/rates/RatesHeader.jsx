@@ -16,6 +16,7 @@ import {
 import { theme } from "../../lib/theme";
 import moment from "moment";
 import handleMomentToString from "../../utils/handleMomentToString";
+import "../../static/css/fixedheader.css";
 
 const DivContainer = styled.div`
   display: flex;
@@ -27,11 +28,11 @@ const DivContainer = styled.div`
 const DivHeader = styled.div`
   display: flex;
   flex-direction: row;
-  width: 100%;
   margin-left: 20px;
   margin-right: 20px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   background-color: ${props => props.theme};
+  z-index: 210;
 `;
 
 const DivHeaderInputperson = styled.div`
@@ -431,7 +432,11 @@ class RatesHeader extends React.Component {
             const isModify = data.mode.isModify;
             return (
               <DivContainer>
-                <DivHeader theme={theme.DARK}>
+                <DivHeader
+                  theme={theme.DARK}
+                  id="rates-header"
+                  className="not-fixed"
+                >
                   <DivHeaderInputperson theme={theme}>
                     <div
                       style={{
