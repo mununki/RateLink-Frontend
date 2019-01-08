@@ -1,7 +1,8 @@
 import React from "react";
-import SignupPresenter from "./signupPresenter";
+import Signup from "./signupPresenter";
 import checkLogin from "../../lib/checkLogin";
 import redirect from "../../lib/redirect";
+import Layout from "../../components/Layout";
 
 class SignupContainer extends React.Component {
   static async getInitialProps(context) {
@@ -15,7 +16,11 @@ class SignupContainer extends React.Component {
     return { loggedInUser };
   }
   render() {
-    return <SignupPresenter />;
+    return (
+      <Layout loggedInUser={this.props.loggedInUser}>
+        <Signup />
+      </Layout>
+    );
   }
 }
 

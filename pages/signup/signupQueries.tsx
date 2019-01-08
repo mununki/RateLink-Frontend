@@ -11,3 +11,9 @@ export const SIGNUP = gql`
     }
   }
 `;
+
+export const CHECK_IF_EXIST = gql`
+  query CheckIfExist($email: String!) {
+    checkIfExist(email: $email)
+  }
+`;
