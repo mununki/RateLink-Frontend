@@ -3,20 +3,23 @@ import RatesHeader from "../../components/rates/RatesHeader";
 import RatesMain from "../../components/rates/RatesMain";
 
 class RatesPresenter extends React.Component {
-  state = {
-    headerFixed: false
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      headerFixed: false
+    };
+    this.ratesHeader = React.createRef();
+    this.ratesMain = React.createRef();
+  }
   _controlHeader = () => {
-    const ratesHeader = document.querySelector("#rates-header");
-    const ratesMain = document.querySelector("#rates-main");
     if (window.scrollY > 90) {
-      ratesHeader.classList.add("fixed");
-      ratesHeader.classList.remove("not-fixed");
-      ratesMain.classList.add("padding-under-fixed-header");
+      this.ratesHeader.current.classList.add("fixed");
+      this.ratesHeader.current.classList.remove("not-fixed");
+      this.ratesMain.current.classList.add("padding-under-fixed-header");
     } else {
-      ratesHeader.classList.remove("fixed");
-      ratesHeader.classList.add("not-fixed");
-      ratesMain.classList.remove("padding-under-fixed-header");
+      this.ratesHeader.current.classList.remove("fixed");
+      this.ratesHeader.current.classList.add("not-fixed");
+      this.ratesMain.current.classList.remove("padding-under-fixed-header");
     }
   };
   componentDidMount() {
@@ -28,8 +31,11 @@ class RatesPresenter extends React.Component {
   render() {
     return (
       <div className="padding-global-top">
-        <RatesHeader />
-        <RatesMain loggedInUser={this.props.loggedInUser} />
+        <RatesHeader ratesHeader={this.ratesHeader} />
+        <RatesMain
+          loggedInUser={this.props.loggedInUser}
+          ratesMain={this.ratesMain}
+        />
       </div>
     );
   }
