@@ -29,7 +29,7 @@ class Header extends React.Component {
   render() {
     const dropdownKCItems = [
       {
-        icon: <i className="fas fa-chart-line"></i>,
+        icon: <i className="fas fa-chart-line" />,
         name: "운임 차트",
         link: "/charts"
       }
@@ -72,7 +72,7 @@ class Header extends React.Component {
             buttonName={
               this.props.loggedInUser.data
                 ? this.props.loggedInUser.data.profile.profile_name
-                : "USER"
+                : "로그인"
             }
             items={dropdownUserItems}
             rightAlign={true}

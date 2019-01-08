@@ -12,7 +12,6 @@ class LoginContainer extends React.Component {
     } else {
       redirect(context, "/");
     }
-
     return { loggedInUser };
   }
   render() {

@@ -51,7 +51,7 @@ class Login extends React.Component {
   render() {
     const { email, password, rememberEmail } = this.state;
     return (
-      <div className="padding-global-top height-full-align-middle">
+      <div className="height-full-align-middle">
         <div className="container">
           <Mutation
             mutation={LOGIN}
@@ -73,7 +73,7 @@ class Login extends React.Component {
                     })
                     .then(() => {
                       window[__APOLLO_CLIENT__] = null;
-                      redirect({}, "/");
+                      window.location.href = "/rates";
                     })
                 );
               } else {
@@ -82,9 +82,9 @@ class Login extends React.Component {
             }}
             onError={error => notify("Email, 비밀번호를 확인하세요", "error")}
           >
-            {(login, { data }) => (
-              <div className="form-group d-flex justify-content-center pb-5">
-                <div className="col-sm-5 pb-5">
+            {login => (
+              <div className="form-group d-flex justify-content-center">
+                <div className="col-sm-5">
                   <div className="m-4 text-center">
                     <h3>로그인</h3>
                   </div>
@@ -117,11 +117,6 @@ class Login extends React.Component {
                       onChange={this._handleChange}
                       placeholder="Password"
                     />
-                    {data && !data.login.ok && (
-                      <div className="m-2 text-danger">
-                        Email, 비밀번호를 확인하세요.
-                      </div>
-                    )}
                     <div className="form-group form-check m-2">
                       <input
                         type="checkbox"
@@ -142,7 +137,7 @@ class Login extends React.Component {
                       로그인
                     </button>
                   </form>
-                  <div className="m-2 pb-5 text-center">
+                  <div className="m-2 text-center">
                     <Link href="/signup">
                       <a>회원가입</a>
                     </Link>
