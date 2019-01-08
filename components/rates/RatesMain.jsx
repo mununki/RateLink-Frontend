@@ -17,7 +17,7 @@ const RateAddButton = styled.div`
   right: 20px;
   z-index: 150;
   color: white;
-  padding: 10px;
+  padding: 10px 20px 10px 20px;
   background-color: ${props =>
     props.isAdd
       ? "rgba(231, 76, 60, 1.0)"
@@ -37,8 +37,6 @@ const RateAddButton = styled.div`
   }
 `;
 
-const DivContainer = styled.div``;
-
 class RatesMain extends React.Component {
   state = {
     isLoading: false
@@ -55,7 +53,7 @@ class RatesMain extends React.Component {
           const isModify = data.mode.isModify;
 
           return (
-            <div id="rates-main">
+            <div className="container-fluid" ref={this.props.ratesMain}>
               {isAdd ? (
                 <RateAddCard
                   loggedInUser={this.props.loggedInUser}

@@ -1,13 +1,13 @@
 .not-fixed {
-  position: absolute;
+  position: relative;
   left: 0;
   right: 0;
 }
 .fixed {
   position: fixed;
-  top: 50px;
-  left: 0;
-  right: 0;
+  top: 51px;
+  left: 15px;
+  right: 15px;
 }
 .padding-under-fixed-header {
   padding-top: 70px;

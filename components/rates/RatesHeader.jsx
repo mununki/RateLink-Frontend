@@ -1,7 +1,5 @@
 import React from "react";
-import styled from "styled-components";
 import AsyncSelect from "react-select/lib/Async";
-// import "react-select/dist/react-select.css";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { Query, withApollo } from "react-apollo";
@@ -18,200 +16,7 @@ import moment from "moment";
 import handleMomentToString from "../../utils/handleMomentToString";
 import "../../static/css/fixedheader.css";
 
-const DivContainer = styled.div`
-  display: flex;
-  width: 100%;
-  justify-content: center;
-  z-index: 200;
-`;
-
-const DivHeader = styled.div`
-  display: flex;
-  flex-direction: row;
-  margin-left: 20px;
-  margin-right: 20px;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-  background-color: ${props => props.theme};
-  z-index: 210;
-`;
-
-const DivHeaderInputperson = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex: 1;
-  min-width: 120px;
-  padding-left: 1rem;
-  padding-right: 0.3rem;
-`;
-
-const DivHeaderAccount = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex: 1;
-  min-width: 120px;
-  padding-left: 0.3rem;
-  padding-right: 0.3rem;
-`;
-
-const DivHeaderLiner = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-width: 120px;
-  padding-left: 0.3rem;
-  padding-right: 0.3rem;
-`;
-
-const DivHeaderPol = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex: 1;
-  min-width: 120px;
-  padding-left: 0.3rem;
-  padding-right: 0.3rem;
-`;
-
-const DivHeaderPod = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex: 1;
-  min-width: 120px;
-  padding-left: 0.3rem;
-  padding-right: 0.3rem;
-`;
-
-const DivHeaderType = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex: 1;
-  max-width: 120px;
-  min-width: 120px;
-  padding-left: 0.3rem;
-  padding-right: 1rem;
-`;
-
-const DivHeaderBS = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  max-width: 200px;
-  min-width: 200px;
-  border-left: 1px solid #eee;
-  background-color: ${props => props.theme};
-  color: white;
-`;
-
-const DivHeaderBSTitle = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex: 1;
-  border-bottom: 1px solid #eee;
-  background-color: ${props => props.theme};
-`;
-
-const DivHeaderBSType = styled.div`
-  display: flex;
-  flex: 1;
-  flex-direction: row;
-  background-color: ${props => props.theme};
-`;
-
-const DivHeaderBSType20 = styled.div`
-  flex: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: ${props => props.theme};
-`;
-
-const DivHeaderBSType40 = styled.div`
-  flex: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: ${props => props.theme};
-`;
-
-const DivHeaderBSType4H = styled.div`
-  flex: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: ${props => props.theme};
-`;
-
-const DivHeaderLF = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  max-width: 70px;
-  min-width: 70px;
-  border-left: 1px solid #eee;
-  color: white;
-  background-color: ${props => props.theme};
-`;
-
-const DivHeaderDF = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  max-width: 70px;
-  min-width: 70px;
-  color: white;
-  background-color: ${props => props.theme};
-`;
-
-const DivHeaderED = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  max-width: 70px;
-  min-width: 70px;
-  color: white;
-  background-color: ${props => props.theme};
-`;
-
-const DivHeaderOD = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  max-width: 70px;
-  min-width: 70px;
-  color: white;
-  background-color: ${props => props.theme};
-`;
-
-const DivHeaderRMK = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  max-width: 40px;
-  min-width: 40px;
-  color: white;
-  background-color: ${props => props.theme};
-`;
-
-const DivHeaderButtons = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  max-width: 40px;
-  min-width: 40px;
-  color: white;
-  background-color: ${props => props.theme};
-`;
-
 class CustomInputDatePickerSF extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
   render() {
     return (
       <div className="container-datepicker">
@@ -245,10 +50,6 @@ class CustomInputDatePickerSF extends React.Component {
 }
 
 class CustomInputDatePickerST extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
   render() {
     return (
       <div className="container-datepicker">
@@ -431,189 +232,126 @@ class RatesHeader extends React.Component {
             const isAdd = data.mode.isAdd;
             const isModify = data.mode.isModify;
             return (
-              <DivContainer>
-                <DivHeader
-                  theme={theme.DARK}
-                  id="rates-header"
-                  className="not-fixed"
+              <div className="container-fluid">
+                <div
+                  className="header shadow-lg d-flex flex-row not-fixed"
+                  ref={this.props.ratesHeader}
                 >
-                  <DivHeaderInputperson theme={theme}>
-                    <div
-                      style={{
-                        width: "100%",
-                        paddingTop: "0.5rem",
-                        paddingBottom: "0.5rem"
-                      }}
-                    >
-                      <AsyncSelect
-                        name="headerInputperson"
-                        isDisabled={isAdd || isModify}
-                        isMulti
-                        cacheOptions
-                        defaultOptions
-                        loadOptions={this._loadInputpersons}
-                        openOnFocus={true}
-                        placeholder="입력자"
-                        onChange={data =>
-                          this._handleChange(data, "selectedIp")
-                        }
-                        value={queryParams.selectedIp}
-                        isClearable={false}
-                      />
+                  <div className="header-inputperson">
+                    <AsyncSelect
+                      name="headerInputperson"
+                      isDisabled={isAdd || isModify}
+                      isMulti
+                      cacheOptions
+                      defaultOptions
+                      loadOptions={this._loadInputpersons}
+                      openOnFocus={true}
+                      placeholder="입력자"
+                      onChange={data => this._handleChange(data, "selectedIp")}
+                      value={queryParams.selectedIp}
+                      isClearable={false}
+                    />
+                  </div>
+
+                  <div className="header-account">
+                    <AsyncSelect
+                      name="headerClient"
+                      isDisabled={isAdd || isModify}
+                      isMulti
+                      cacheOptions
+                      loadOptions={this._loadClients}
+                      openOnFocus={true}
+                      placeholder="화주"
+                      onChange={data => this._handleChange(data, "selectedCt")}
+                      value={queryParams.selectedCt}
+                      isClearable={false}
+                    />
+                  </div>
+
+                  <div className="header-liner">
+                    <AsyncSelect
+                      name="headerLiner"
+                      isDisabled={isAdd || isModify}
+                      isMulti
+                      cacheOptions
+                      loadOptions={this._loadLiners}
+                      openOnFocus={true}
+                      placeholder="선사"
+                      onChange={data => this._handleChange(data, "selectedLn")}
+                      value={queryParams.selectedLn}
+                      isClearable={false}
+                    />
+                  </div>
+
+                  <div className="header-pol">
+                    <AsyncSelect
+                      name="headerPol"
+                      isDisabled={isAdd || isModify}
+                      isMulti
+                      cacheOptions
+                      loadOptions={this._loadPols}
+                      openOnFocus={true}
+                      placeholder="POL"
+                      onChange={data => this._handleChange(data, "selectedPl")}
+                      value={queryParams.selectedPl}
+                      isClearable={false}
+                    />
+                  </div>
+
+                  <div className="header-pod">
+                    <AsyncSelect
+                      name="headerPod"
+                      isDisabled={isAdd || isModify}
+                      isMulti
+                      cacheOptions
+                      loadOptions={this._loadPods}
+                      openOnFocus={true}
+                      placeholder="POD"
+                      onChange={data => this._handleChange(data, "selectedPd")}
+                      value={queryParams.selectedPd}
+                      isClearable={false}
+                    />
+                  </div>
+
+                  <div className="header-type">
+                    <AsyncSelect
+                      name="headerType"
+                      isDisabled={isAdd || isModify}
+                      isMulti
+                      cacheOptions
+                      defaultOptions
+                      loadOptions={this._loadTypes}
+                      openOnFocus={true}
+                      placeholder="TYPE"
+                      onChange={data => this._handleChange(data, "selectedTy")}
+                      value={queryParams.selectedTy}
+                      isClearable={false}
+                    />
+                  </div>
+
+                  <div className="header-buying  d-flex flex-column align-items-stretch">
+                    <div className="header-buying-title text-center">BUY</div>
+                    <div className="header-buying-type d-flex flex-row justify-content-around">
+                      <span>20'</span>
+                      <span>40'</span>
+                      <span>4H</span>
                     </div>
-                  </DivHeaderInputperson>
-                  <DivHeaderAccount theme={theme}>
-                    <div
-                      style={{
-                        width: "100%",
-                        paddingTop: "0.5rem",
-                        paddingBottom: "0.5rem"
-                      }}
-                    >
-                      <AsyncSelect
-                        name="headerClient"
-                        isDisabled={isAdd || isModify}
-                        isMulti
-                        cacheOptions
-                        loadOptions={this._loadClients}
-                        openOnFocus={true}
-                        placeholder="화주"
-                        onChange={data =>
-                          this._handleChange(data, "selectedCt")
-                        }
-                        value={queryParams.selectedCt}
-                        isClearable={false}
-                      />
+                  </div>
+                  <div className="header-selling  d-flex flex-column align-items-stretch">
+                    <div className="header-selling-title text-center">SELL</div>
+                    <div className="header-selling-type d-flex flex-row justify-content-around">
+                      <span>20'</span>
+                      <span>40'</span>
+                      <span>4H</span>
                     </div>
-                  </DivHeaderAccount>
-                  <DivHeaderLiner theme={theme}>
-                    <div
-                      style={{
-                        width: "100%",
-                        paddingTop: "0.5rem",
-                        paddingBottom: "0.5rem"
-                      }}
-                    >
-                      <AsyncSelect
-                        name="headerLiner"
-                        isDisabled={isAdd || isModify}
-                        isMulti
-                        cacheOptions
-                        loadOptions={this._loadLiners}
-                        openOnFocus={true}
-                        placeholder="선사"
-                        onChange={data =>
-                          this._handleChange(data, "selectedLn")
-                        }
-                        value={queryParams.selectedLn}
-                        isClearable={false}
-                      />
-                    </div>
-                  </DivHeaderLiner>
-                  <DivHeaderPol theme={theme}>
-                    <div
-                      style={{
-                        width: "100%",
-                        paddingTop: "0.5rem",
-                        paddingBottom: "0.5rem"
-                      }}
-                    >
-                      <AsyncSelect
-                        name="headerPol"
-                        isDisabled={isAdd || isModify}
-                        isMulti
-                        cacheOptions
-                        loadOptions={this._loadPols}
-                        openOnFocus={true}
-                        placeholder="POL"
-                        onChange={data =>
-                          this._handleChange(data, "selectedPl")
-                        }
-                        value={queryParams.selectedPl}
-                        isClearable={false}
-                      />
-                    </div>
-                  </DivHeaderPol>
-                  <DivHeaderPod theme={theme}>
-                    <div
-                      style={{
-                        width: "100%",
-                        paddingTop: "0.5rem",
-                        paddingBottom: "0.5rem"
-                      }}
-                    >
-                      <AsyncSelect
-                        name="headerPod"
-                        isDisabled={isAdd || isModify}
-                        isMulti
-                        cacheOptions
-                        loadOptions={this._loadPods}
-                        openOnFocus={true}
-                        placeholder="POD"
-                        onChange={data =>
-                          this._handleChange(data, "selectedPd")
-                        }
-                        value={queryParams.selectedPd}
-                        isClearable={false}
-                      />
-                    </div>
-                  </DivHeaderPod>
-                  <DivHeaderType theme={theme}>
-                    <div
-                      style={{
-                        width: "100%",
-                        paddingTop: "0.5rem",
-                        paddingBottom: "0.5rem"
-                      }}
-                    >
-                      <AsyncSelect
-                        name="headerType"
-                        isDisabled={isAdd || isModify}
-                        isMulti
-                        cacheOptions
-                        defaultOptions
-                        loadOptions={this._loadTypes}
-                        openOnFocus={true}
-                        placeholder="TYPE"
-                        onChange={data =>
-                          this._handleChange(data, "selectedTy")
-                        }
-                        value={queryParams.selectedTy}
-                        isClearable={false}
-                      />
-                    </div>
-                  </DivHeaderType>
-                  <DivHeaderBS>
-                    <DivHeaderBSTitle theme={theme.DARK}>BUY</DivHeaderBSTitle>
-                    <DivHeaderBSType>
-                      <DivHeaderBSType20 theme={theme.DARK}>
-                        20'
-                      </DivHeaderBSType20>
-                      <DivHeaderBSType40 theme={theme.DARK}>
-                        40'
-                      </DivHeaderBSType40>
-                      <DivHeaderBSType4H theme={theme.DARK}>
-                        40'HC
-                      </DivHeaderBSType4H>
-                    </DivHeaderBSType>
-                  </DivHeaderBS>
-                  <DivHeaderBS>
-                    <DivHeaderBSTitle theme={theme.DARK}>SELL</DivHeaderBSTitle>
-                    <DivHeaderBSType>
-                      <DivHeaderBSType20 theme={theme.DARK}>
-                        20'
-                      </DivHeaderBSType20>
-                      <DivHeaderBSType40 theme={theme.DARK}>
-                        40'
-                      </DivHeaderBSType40>
-                      <DivHeaderBSType4H theme={theme.DARK}>
-                        40'HC
-                      </DivHeaderBSType4H>
-                    </DivHeaderBSType>
-                  </DivHeaderBS>
-                  <DivHeaderLF theme={theme.DARK}>L.F/T</DivHeaderLF>
-                  <DivHeaderDF theme={theme.DARK}>D.F/T</DivHeaderDF>
-                  <DivHeaderOD theme={theme.DARK}>
+                  </div>
+                  <div className="header-loadingFT d-flex justify-content-center align-items-center">
+                    L.F/T
+                  </div>
+                  <div className="header-dischargingFT d-flex justify-content-center align-items-center">
+                    D.F/T
+                  </div>
+                  <div className="header-datepicker d-flex justify-content-center align-items-center">
                     <DatePicker
                       customInput={<CustomInputDatePickerSF />}
                       selected={queryParams.initialSF}
@@ -632,8 +370,8 @@ class RatesHeader extends React.Component {
                         }
                       }}
                     />
-                  </DivHeaderOD>
-                  <DivHeaderED theme={theme.DARK}>
+                  </div>
+                  <div className="header-datepicker d-flex justify-content-center align-items-center">
                     <DatePicker
                       customInput={<CustomInputDatePickerST />}
                       selected={queryParams.initialST}
@@ -652,18 +390,94 @@ class RatesHeader extends React.Component {
                         }
                       }}
                     />
-                  </DivHeaderED>
-                  <DivHeaderRMK theme={theme.DARK}>
+                  </div>
+                  <div className="header-remark d-flex justify-content-center align-items-center">
                     <i className="fas fa-comment" />
-                  </DivHeaderRMK>
-                  <DivHeaderButtons theme={theme.DARK}>
+                  </div>
+                  <div className="header-button d-flex justify-content-center align-items-center">
                     <i className="fas fa-plus" />
-                  </DivHeaderButtons>
-                </DivHeader>
-              </DivContainer>
+                  </div>
+                </div>
+              </div>
             );
           }}
         </Query>
+        <style jsx>
+          {`
+            .header {
+              background-color: ${theme.DARK};
+              z-index: 210;
+            }
+            .header-inputperson {
+              min-width: 120px;
+              width: 100%;
+              padding: 0.5rem 0.2rem 0.5rem 0.5rem;
+              background-color: ${theme.DARK};
+            }
+            .header-account,
+            .header-liner,
+            .header-pol,
+            .header-pod {
+              min-width: 120px;
+              width: 100%;
+              padding: 0.5rem 0.2rem 0.5rem 0.2rem;
+              background-color: ${theme.DARK};
+            }
+            .header-type {
+              min-width: 120px;
+              max-width: 120px;
+              width: 100%;
+              padding: 0.5rem 0.5rem 0.5rem 0.2rem;
+              background-color: ${theme.DARK};
+            }
+            .header-buying,
+            .header-selling {
+              color: #fff;
+              max-width: 200px;
+              min-width: 200px;
+              border-left: 1px solid #eee;
+              background-color: ${theme.DARK};
+            }
+            .header-buying-title,
+            .header-selling-title {
+              color: #fff;
+              margin: 0.2rem;
+              background-color: ${theme.DARK};
+            }
+            .header-buying-type,
+            .header-selling-type {
+              color: #fff;
+              margin: 0.2rem;
+              background-color: ${theme.DARK};
+            }
+            .header-loadingFT {
+              color: #fff;
+              max-width: 70px;
+              min-width: 70px;
+              border-left: 1px solid #eee;
+              background-color: ${theme.DARK};
+            }
+            .header-dischargingFT {
+              color: #fff;
+              max-width: 70px;
+              min-width: 70px;
+              background-color: ${theme.DARK};
+            }
+            .header-datepicker {
+              color: #fff;
+              max-width: 70px;
+              min-width: 70px;
+              background-color: ${theme.DARK};
+            }
+            .header-remark,
+            .header-button {
+              color: #fff;
+              max-width: 40px;
+              min-width: 40px;
+              background-color: ${theme.DARK};
+            }
+          `}
+        </style>
       </React.Fragment>
     );
   }

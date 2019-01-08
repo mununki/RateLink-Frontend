@@ -24,12 +24,10 @@ const DivHeader = styled.div`
   display: flex;
   flex-direction: row;
   width: 100%;
-  margin-left: 20px;
-  margin-right: 20px;
   border-bottom: 1px solid #eee;
   ${props =>
     props.isSwipe
-      ? "position:absolute;left:-175px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);"
+      ? "position:absolute;left:-150px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);"
       : null};
   background-color: white;
   z-index: 100;
@@ -50,7 +48,6 @@ const DivBehindInside = styled.div`
   flex-direction: row;
   justify-content: flex-end;
   align-items: center;
-  margin-right: 20px;
 `;
 
 const DivBehindButtons = styled.div`
@@ -217,6 +214,7 @@ const DivHeaderButtons = styled.div`
   align-items: center;
   max-width: 40px;
   min-width: 40px;
+  height: 50px;
   cursor: pointer;
   background-color: white;
 `;

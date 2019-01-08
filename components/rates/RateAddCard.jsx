@@ -27,14 +27,14 @@ const DivContainer = styled.div`
   display: flex;
   width: 100%;
   justify-content: center;
+  z-index: 110;
 `;
 
 const DivHeader = styled.div`
   display: flex;
   flex-direction: row;
   width: 100%;
-  margin-left: 20px;
-  margin-right: 20px;
+  z-index: 110;
 `;
 
 const DivHeaderInputperson = styled.div`
@@ -173,6 +173,7 @@ const DivHeaderButtons = styled.div`
   max-width: 40px;
   min-width: 40px;
   cursor: pointer;
+  color: #fff;
   background-color: #3498db;
   &:hover {
     background-color: #2980b9;
@@ -667,12 +668,16 @@ class RateAddCard extends Component {
               target={this._comment}
               show={this.state.isCommentOpen}
               onHide={this._closeComment}
+              containerStyle={{
+                zIndex: 150
+              }}
             >
               <textarea
                 className="form-control"
                 name="remark"
                 value={newRate.remark}
                 onChange={this._handleInput}
+                autoFocus
               />
             </Popover>
           </DivHeaderRMK>
