@@ -18,9 +18,14 @@ class Index extends React.Component {
   render() {
     return (
       <div className="padding-global-top">
-        <Link href="/login">
-          <a>로그인</a>
-        </Link>
+        <div>
+          <Link href="/login">
+            <a>로그인</a>
+          </Link>
+        </div>
+        <div>
+          <a href="/rates">운임 보기</a>
+        </div>
         <ApolloConsumer>
           {client => <button onClick={logout(client)}>로그아웃</button>}
         </ApolloConsumer>

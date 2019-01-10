@@ -144,7 +144,7 @@ class ChartHeader extends React.Component {
               isClearable={false}
             />
           </div>
-          <div className="col-12 col-sm-12 col-lg-3 px-0 px-sm-1">
+          <div className="col-12 col-sm-12 col-lg-3 px-0">
             <div className="row m-0 px-0">
               <div className="col px-0">
                 <select
@@ -185,7 +185,7 @@ class ChartHeader extends React.Component {
                   ))}
                 </select>
               </div>
-              <div className="col-2 col-sm-3 pr-0">
+              <div className="col-3 p-0">
                 <Mutation
                   mutation={SET_CHARTQUERYPARAMS}
                   variables={{
