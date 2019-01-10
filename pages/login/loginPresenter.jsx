@@ -147,15 +147,6 @@ class Login extends React.Component {
             )}
           </Mutation>
         </div>
-        <style jsx>
-          {`
-            .height-full-align-middle {
-              height: 100vh;
-              display: flex;
-              align-items: center;
-            }
-          `}
-        </style>
       </div>
     );
   }

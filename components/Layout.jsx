@@ -29,6 +29,19 @@ export default ({ children, loggedInUser }) => (
           -webkit-appearance: none;
           margin: 0;
         }
+        .height-full-align-middle {
+          height: 100vh;
+          display: flex;
+          align-items: center;
+        }
+        @media screen and (max-width: 576px) {
+          .height-full-align-middle {
+            height: 100vh;
+            display: flex;
+            align-items: start;
+            padding-top: 70px;
+          }
+        }
       `}
     </style>
   </React.Fragment>
