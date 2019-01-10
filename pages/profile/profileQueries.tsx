@@ -1,6 +1,6 @@
 import gql from "graphql-tag";
 
-const UpdateProfile = gql`
+const UPDATE_PROFILE = gql`
   mutation UpdateProfile(
     $profile_name: String!
     $company: String
@@ -30,4 +30,4 @@ const UpdateProfile = gql`
   }
 `;
 
-export default UpdateProfile;
+export default UPDATE_PROFILE;
