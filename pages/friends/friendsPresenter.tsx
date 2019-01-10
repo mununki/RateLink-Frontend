@@ -6,7 +6,11 @@ const FriendsPresenter = ({ loggedInUser, showers, readers }) => {
   return (
     <div className="padding-global-top">
       <FindUsers />
-      <ShowerAndReader showers={showers} readers={readers} />
+      <ShowerAndReader
+        showers={showers}
+        readers={readers}
+        loggedInUser={loggedInUser}
+      />
     </div>
   );
 };

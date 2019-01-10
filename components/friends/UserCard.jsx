@@ -12,8 +12,13 @@ export default ({ user, onlyShower, removeButton }) => {
   // onlyShower: boolean
   // removeButton: boolean
   return (
-    <div className="usercard-container">
-      {user.profile.profile_name + user.id}
+    <div className="usercard-container m-2">
+      <img
+        className="img-fluid rounded-circle friends-profile-image"
+        src={`/static/profile_images/profile_image_1.jpg`}
+      />
+      <span className="mx-2">{user.profile.profile_name}</span>
+
       {onlyShower && (
         <Mutation
           mutation={ADD_READERS}
@@ -35,9 +40,9 @@ export default ({ user, onlyShower, removeButton }) => {
           }}
         >
           {addRateReader => (
-            <div>
-              <button onClick={addRateReader}>추가</button>
-            </div>
+            <button className="btn btn-warning btn-sm" onClick={addRateReader}>
+              <i className="fas fa-plus" />
+            </button>
           )}
         </Mutation>
       )}
@@ -63,9 +68,24 @@ export default ({ user, onlyShower, removeButton }) => {
             console.log("!!"); // Notification needs
           }}
         >
-          {removeRateReader => <button onClick={removeRateReader}>제거</button>}
+          {removeRateReader => (
+            <button
+              className="btn btn-danger btn-sm"
+              onClick={removeRateReader}
+            >
+              <i className="fas fa-times" />
+            </button>
+          )}
         </Mutation>
       )}
+
+      <style jsx>
+        {`
+          .friends-profile-image {
+            width: 32px;
+          }
+        `}
+      </style>
     </div>
   );
 };
