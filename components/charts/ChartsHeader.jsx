@@ -42,40 +42,50 @@ class ChartHeader extends React.Component {
     });
   };
   _loadPols = inputValue => {
-    return this.props.client
-      .query({
-        query: GET_LOCATIONS,
-        variables: {
-          search: inputValue,
-          showOurs: true,
-          polOrPod: "pol"
-        }
-      })
-      .then(response => {
-        let results = [];
-        response.data.getLocations.map(lo =>
-          results.push({ label: lo.name, value: lo.id })
-        );
-        return results;
-      });
+    clearTimeout(this.asyncInputControl);
+    return new Promise((resolve, reject) => {
+      this.asyncInputControl = setTimeout(() => {
+        this.props.client
+          .query({
+            query: GET_LOCATIONS,
+            variables: {
+              search: inputValue,
+              showOurs: true,
+              polOrPod: "pol"
+            }
+          })
+          .then(response => {
+            let results = [];
+            response.data.getLocations.map(lo =>
+              results.push({ label: lo.name, value: lo.id })
+            );
+            resolve(results);
+          });
+      }, 500);
+    });
   };
   _loadPods = inputValue => {
-    return this.props.client
-      .query({
-        query: GET_LOCATIONS,
-        variables: {
-          search: inputValue,
-          showOurs: true,
-          polOrPod: "pod"
-        }
-      })
-      .then(response => {
-        let results = [];
-        response.data.getLocations.map(lo =>
-          results.push({ label: lo.name, value: lo.id })
-        );
-        return results;
-      });
+    clearTimeout(this.asyncInputControl);
+    return new Promise((resolve, reject) => {
+      this.asyncInputControl = setTimeout(() => {
+        return this.props.client
+          .query({
+            query: GET_LOCATIONS,
+            variables: {
+              search: inputValue,
+              showOurs: true,
+              polOrPod: "pod"
+            }
+          })
+          .then(response => {
+            let results = [];
+            response.data.getLocations.map(lo =>
+              results.push({ label: lo.name, value: lo.id })
+            );
+            resolve(results);
+          });
+      }, 500);
+    });
   };
   _loadTypes = inputValue => {
     return this.props.client

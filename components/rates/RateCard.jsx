@@ -560,9 +560,16 @@ class RateCard extends Component {
                     <Fragment>
                       <DivBehindButtons
                         onClick={() => {
-                          this.setState({
-                            modifyModal: true
-                          });
+                          if (
+                            rate.inputperson.id ===
+                            this.props.loggedInUser.data.id
+                          ) {
+                            this.setState({
+                              modifyModal: true
+                            });
+                          } else {
+                            notify("작성자만 수정할 수 있습니다", "error");
+                          }
                         }}
                         style={{ backgroundColor: "#3498db", color: "white" }}
                       >

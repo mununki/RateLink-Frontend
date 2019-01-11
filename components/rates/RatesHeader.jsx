@@ -110,107 +110,157 @@ class RatesHeader extends React.Component {
     }
   }
   _loadInputpersons = inputValue => {
-    return this.props.client
-      .query({
-        query: GET_INPUTPERSONS,
-        variables: {
-          search: inputValue
-        }
-      })
-      .then(response => {
-        let results = [];
-        response.data.getInputpersons.map(ip =>
-          results.push({ label: ip.profile.profile_name, value: ip.id })
-        );
-        results.sort((a, b) => (a.label > b.label ? 1 : -1));
-        return results;
+    if (!inputValue) {
+      return this.props.client
+        .query({
+          query: GET_INPUTPERSONS,
+          variables: {
+            search: inputValue
+          }
+        })
+        .then(response => {
+          let results = [];
+          response.data.getInputpersons.map(ip =>
+            results.push({ label: ip.profile.profile_name, value: ip.id })
+          );
+          results.sort((a, b) => (a.label > b.label ? 1 : -1));
+
+          return results;
+        });
+    } else {
+      clearTimeout(this.asyncInputControl);
+      return new Promise((resolve, reject) => {
+        this.asyncInputControl = setTimeout(() => {
+          this.props.client
+            .query({
+              query: GET_INPUTPERSONS,
+              variables: {
+                search: inputValue
+              }
+            })
+            .then(response => {
+              let results = [];
+              response.data.getInputpersons.map(ip =>
+                results.push({ label: ip.profile.profile_name, value: ip.id })
+              );
+              results.sort((a, b) => (a.label > b.label ? 1 : -1));
+
+              resolve(results);
+            });
+        }, 500);
       });
+    }
   };
   _loadClients = inputValue => {
-    return this.props.client
-      .query({
-        query: GET_CLIENTS,
-        variables: {
-          search: inputValue
-        }
-      })
-      .then(response => {
-        let results = [];
-        response.data.getClients.map(ct =>
-          results.push({ label: ct.name, value: ct.id })
-        );
-        return results;
-      });
+    clearTimeout(this.asyncInputControl);
+    return new Promise((resolve, reject) => {
+      this.asyncInputControl = setTimeout(() => {
+        this.props.client
+          .query({
+            query: GET_CLIENTS,
+            variables: {
+              search: inputValue
+            }
+          })
+          .then(response => {
+            let results = [];
+            response.data.getClients.map(ct =>
+              results.push({ label: ct.name, value: ct.id })
+            );
+            resolve(results);
+          });
+      }, 500);
+    });
   };
   _loadLiners = inputValue => {
-    return this.props.client
-      .query({
-        query: GET_LINERS,
-        variables: {
-          search: inputValue,
-          showOurs: true
-        }
-      })
-      .then(response => {
-        let results = [];
-        response.data.getLiners.map(ln =>
-          results.push({ label: ln.label, value: ln.id })
-        );
-        return results;
-      });
+    clearTimeout(this.asyncInputControl);
+    return new Promise((resolve, reject) => {
+      this.asyncInputControl = setTimeout(() => {
+        this.props.client
+          .query({
+            query: GET_LINERS,
+            variables: {
+              search: inputValue,
+              showOurs: true
+            }
+          })
+          .then(response => {
+            let results = [];
+            response.data.getLiners.map(ln =>
+              results.push({ label: ln.label, value: ln.id })
+            );
+            resolve(results);
+          });
+      }, 500);
+    });
   };
   _loadPols = inputValue => {
-    return this.props.client
-      .query({
-        query: GET_LOCATIONS,
-        variables: {
-          search: inputValue,
-          showOurs: true,
-          polOrPod: "pol"
-        }
-      })
-      .then(response => {
-        let results = [];
-        response.data.getLocations.map(lo =>
-          results.push({ label: lo.name, value: lo.id })
-        );
-        return results;
-      });
+    clearTimeout(this.asyncInputControl);
+    return new Promise((resolve, reject) => {
+      this.asyncInputControl = setTimeout(() => {
+        this.props.client
+          .query({
+            query: GET_LOCATIONS,
+            variables: {
+              search: inputValue,
+              showOurs: true,
+              polOrPod: "pol"
+            }
+          })
+          .then(response => {
+            let results = [];
+            response.data.getLocations.map(lo =>
+              results.push({ label: lo.name, value: lo.id })
+            );
+            resolve(results);
+          });
+      }, 500);
+    });
   };
   _loadPods = inputValue => {
-    return this.props.client
-      .query({
-        query: GET_LOCATIONS,
-        variables: {
-          search: inputValue,
-          showOurs: true,
-          polOrPod: "pod"
-        }
-      })
-      .then(response => {
-        let results = [];
-        response.data.getLocations.map(lo =>
-          results.push({ label: lo.name, value: lo.id })
-        );
-        return results;
-      });
+    clearTimeout(this.asyncInputControl);
+    return new Promise((resolve, reject) => {
+      this.asyncInputControl = setTimeout(() => {
+        this.props.client
+          .query({
+            query: GET_LOCATIONS,
+            variables: {
+              search: inputValue,
+              showOurs: true,
+              polOrPod: "pod"
+            }
+          })
+          .then(response => {
+            let results = [];
+            response.data.getLocations.map(lo =>
+              results.push({ label: lo.name, value: lo.id })
+            );
+            resolve(results);
+          });
+      }, 500);
+    });
   };
   _loadTypes = inputValue => {
-    return this.props.client
-      .query({
-        query: GET_CNTRTYPES,
-        variables: {
-          search: inputValue,
-          showOurs: true
-        }
-      })
-      .then(response => {
-        let results = [];
-        response.data.getCNTRtypes.map(ty =>
-          results.push({ label: ty.name, value: ty.id })
-        );
-        return results;
-      });
+    clearTimeout(this.asyncInputControl);
+    return new Promise((resolve, reject) => {
+      this.asyncInputControl = setTimeout(() => {
+        this.props.client
+          .query({
+            query: GET_CNTRTYPES,
+            variables: {
+              search: inputValue,
+              showOurs: true
+            }
+          })
+          .then(response => {
+            let results = [];
+            response.data.getCNTRtypes.map(ty =>
+              results.push({ label: ty.name, value: ty.id })
+            );
+            resolve(results);
+          });
+      }, 500);
+    });
   };
   _handleChange = (data, target) => {
     this.setState({
