@@ -1,6 +1,6 @@
 import React from "react";
 import { withApollo, Mutation } from "react-apollo";
-import UPDATE_PROFILE from "./profileQueries";
+import { UPDATE_PROFILE, UPDATE_PROFILE_IMAGE } from "./profileQueries";
 import { notify } from "../../utils/notify";
 
 class Profile extends React.Component {
@@ -29,6 +29,23 @@ class Profile extends React.Component {
       [e.target.name]: e.target.value
     });
   };
+  _handleFileChange = e => {
+    const {
+      target: {
+        validity,
+        files: [file]
+      }
+    } = e;
+    validity.valid &&
+      this.props.client
+        .mutate({
+          mutation: UPDATE_PROFILE_IMAGE,
+          variables: { file }
+        })
+        .then(res => console.log(res))
+        .catch(err => console.log(err));
+  };
+
   render() {
     const { profile_name, company, job_boolean, image } = this.state;
     return (
@@ -46,6 +63,11 @@ class Profile extends React.Component {
                     />
                   </div>
                   <div className="m-3 text-center">{profile_name}</div>
+                  <input
+                    type="file"
+                    name="profile-image"
+                    onChange={this._handleFileChange}
+                  />
                   <div className="text-center">
                     <span>Tellers | Readers</span>
                   </div>

@@ -1,6 +1,6 @@
 import gql from "graphql-tag";
 
-const UPDATE_PROFILE = gql`
+export const UPDATE_PROFILE = gql`
   mutation UpdateProfile(
     $profile_name: String!
     $company: String
@@ -30,4 +30,22 @@ const UPDATE_PROFILE = gql`
   }
 `;
 
-export default UPDATE_PROFILE;
+export const UPDATE_PROFILE_IMAGE = gql`
+  mutation UpdateProfileImage($file: Upload!) {
+    updateProfileImage(file: $file) {
+      ok
+      data {
+        id
+        email
+        nickname
+        profile {
+          profile_name
+          company
+          job_boolean
+          image
+        }
+      }
+      error
+    }
+  }
+`;
