@@ -4,31 +4,6 @@ import { UPDATE_PROFILE, UPDATE_PROFILE_IMAGE } from "./profileQueries";
 import { notify } from "../../utils/notify";
 
 class Profile extends React.Component {
-  state = {
-    profile_name: "",
-    company: "",
-    job_boolean: 0,
-    image: ""
-  };
-  componentDidMount() {
-    const {
-      profile_name,
-      company,
-      job_boolean,
-      image
-    } = this.props.loggedInUser.data.profile;
-    this.setState({
-      profile_name,
-      company,
-      job_boolean: job_boolean === "" ? "0" : job_boolean,
-      image
-    });
-  }
-  _handleChange = e => {
-    this.setState({
-      [e.target.name]: e.target.value
-    });
-  };
   _handleFileChange = e => {
     const {
       target: {
@@ -47,7 +22,7 @@ class Profile extends React.Component {
   };
 
   render() {
-    const { profile_name, company, job_boolean, image } = this.state;
+    const { profile_name, company, job_boolean, image } = this.props.profile;
     return (
       <div className="height-full-align-middle">
         <div className="container">
@@ -86,7 +61,7 @@ class Profile extends React.Component {
                       name="profile_name"
                       className="form-control"
                       value={profile_name}
-                      onChange={this._handleChange}
+                      onChange={this.props._handleChange}
                     />
                   </div>
                   <div className="form-group m-2">
@@ -97,7 +72,7 @@ class Profile extends React.Component {
                       name="company"
                       className="form-control"
                       value={company}
-                      onChange={this._handleChange}
+                      onChange={this.props._handleChange}
                     />
                   </div>
                   <div className="form-group m-2">
@@ -107,7 +82,7 @@ class Profile extends React.Component {
                       id="job_boolean"
                       className="form-control"
                       value={job_boolean}
-                      onChange={this._handleChange}
+                      onChange={this.props._handleChange}
                     >
                       <option value="0">(선택없음)</option>
                       <option value="1">선사</option>
@@ -117,7 +92,7 @@ class Profile extends React.Component {
                   </div>
                   <Mutation
                     mutation={UPDATE_PROFILE}
-                    variables={this.state}
+                    variables={this.props.profile}
                     onCompleted={({ updateProfile }) => {
                       if (updateProfile.ok) {
                         notify("저장 완료", "success");

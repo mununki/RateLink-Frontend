@@ -14,10 +14,27 @@ class ProfileContainer extends React.Component {
 
     return { loggedInUser };
   }
+  state = {
+    profile_name: this.props.loggedInUser.data.profile.profile_name,
+    company: this.props.loggedInUser.data.profile.company,
+    job_boolean:
+      this.props.loggedInUser.data.profile.job_boolean === ""
+        ? "0"
+        : this.props.loggedInUser.data.profile.job_boolean,
+    image: this.props.loggedInUser.data.profile.image
+  };
+  _handleChange = e => {
+    this.setState({
+      [e.target.name]: e.target.value
+    });
+  };
   render() {
     return (
       <Layout loggedInUser={this.props.loggedInUser}>
-        <ProfilePresenter loggedInUser={this.props.loggedInUser} />
+        <ProfilePresenter
+          profile={this.state}
+          _handleChange={this._handleChange}
+        />
       </Layout>
     );
   }
