@@ -1,48 +1,85 @@
 import React from "react";
-import { withApollo, Mutation } from "react-apollo";
+import { withApollo, Query, Mutation } from "react-apollo";
 import { UPDATE_PROFILE, UPDATE_PROFILE_IMAGE } from "./profileQueries";
 import { notify } from "../../utils/notify";
+import AwesomeCropper from "../../components/profile/AvatarCanvas";
+import { ME } from "../../lib/checkLogin";
+import Modal from "react-responsive-modal";
 
 class Profile extends React.Component {
-  _handleFileChange = e => {
-    const {
-      target: {
-        validity,
-        files: [file]
-      }
-    } = e;
-    validity.valid &&
-      this.props.client
-        .mutate({
-          mutation: UPDATE_PROFILE_IMAGE,
-          variables: { file }
-        })
-        .then(res => console.log(res))
-        .catch(err => console.log(err));
+  state = {
+    avatarEditorModal: false
   };
-
+  _openAvatarEditor = () => {
+    this.setState({
+      avatarEditorModal: true
+    });
+  };
+  _closeAvatarEditor = () => {
+    this.setState({
+      avatarEditorModal: false
+    });
+  };
+  _handleUploadToS3 = blob => {
+    this.props.client
+      .mutate({
+        mutation: UPDATE_PROFILE_IMAGE,
+        variables: { file: blob }
+      })
+      .then(data => {
+        console.log(data);
+      })
+      .catch(err => console.log(err));
+  };
   render() {
     const { profile_name, company, job_boolean, image } = this.props.profile;
     return (
       <div className="height-full-align-middle">
         <div className="container">
+          <Modal
+            open={this.state.avatarEditorModal}
+            onClose={this._closeAvatarEditor}
+            center
+          >
+            <AwesomeCropper
+              aspectRatio={4 / 4}
+              upload={this._handleUploadToS3}
+              closeModal={this._closeAvatarEditor}
+            />
+          </Modal>
           <div className="row">
             <div className="left-panel col-12 col-sm-4 col-md-3">
               <div className="card mb-3">
                 <div className="card-body">
                   <div className="col-6 col-sm-12 col-lg-8 mx-auto">
-                    <img
-                      src={`/static/profile_images/profile_image_1.jpg`}
-                      className="img-fluid img-thumbnail rounded-circle"
-                      alt="프로필 이미지"
-                    />
+                    <Query query={ME}>
+                      {({ loading, error, data }) => {
+                        if (loading) return <div>Loading...</div>;
+                        if (error) return <div>Error :(</div>;
+                        return (
+                          <div
+                            className="container-profile-image"
+                            onClick={this._openAvatarEditor}
+                          >
+                            <img
+                              src={
+                                process.env.AWS_S3_ENDPOINT +
+                                data.me.data.profile.image
+                              }
+                              className="profile-image img-fluid img-thumbnail rounded-circle"
+                              alt="프로필 이미지"
+                            />
+                            <div className="profile-image-overlay rounded-circle">
+                              <div className="profile-image-overlay-text">
+                                수정
+                              </div>
+                            </div>
+                          </div>
+                        );
+                      }}
+                    </Query>
                   </div>
                   <div className="m-3 text-center">{profile_name}</div>
-                  <input
-                    type="file"
-                    name="profile-image"
-                    onChange={this._handleFileChange}
-                  />
                   <div className="text-center">
                     <span>Tellers | Readers</span>
                   </div>
@@ -115,6 +152,37 @@ class Profile extends React.Component {
             </div>
           </div>
         </div>
+        <style jsx>
+          {`
+            .profile-image {
+              opacity: 1;
+              display: block;
+              transition: 0.5s ease;
+              backface-visibility: hidden;
+            }
+            .profile-image-overlay {
+              transition: 0.5s ease;
+              opacity: 0;
+              position: absolute;
+              top: 50%;
+              left: 50%;
+              transform: translate(-50%, -50%);
+              -ms-transform: translate(-50%, -50%);
+              text-align: center;
+            }
+            .container-profile-image:hover .profile-image {
+              opacity: 0.5;
+              cursor: pointer;
+            }
+            .container-profile-image:hover .profile-image-overlay {
+              opacity: 1;
+              cursor: pointer;
+            }
+            .profile-image-overlay-text {
+              color: white;
+            }
+          `}
+        </style>
       </div>
     );
   }

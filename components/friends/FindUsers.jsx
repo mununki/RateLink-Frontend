@@ -103,8 +103,8 @@ class FindUsers extends React.Component {
           </div>
           <div className="m-3">
             {findUsers.length > 0 && (
-              <div class="alert alert-light" role="alert">
-                <h4 class="alert-heading">검색 결과</h4>
+              <div className="alert alert-light" role="alert">
+                <h4 className="alert-heading">검색 결과</h4>
                 <p>
                   추가 버튼을 누르면 해당 유저에게 저장된 운임이 공유되어
                   보여집니다. 하지만 반대로, 해당 유저의 운임은 보이지 않습니다.
