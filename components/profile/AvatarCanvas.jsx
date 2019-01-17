@@ -4,11 +4,8 @@ import "cropperjs/dist/cropper.css";
 
 class AwesomeCropper extends React.Component {
   state = {
-    src: "/static/profile_images/profile_image_1.jpg"
+    src: "/static/profile_images/dummy.png"
   };
-  componentDidMount() {
-    // this._initCropper();
-  }
   _initCropper = () => {
     this.cropper = new Cropper(this.img, {
       aspectRatio: this.props.aspectRatio
@@ -55,15 +52,7 @@ class AwesomeCropper extends React.Component {
   render() {
     return (
       <div>
-        <div
-          style={{
-            marginTop: "1rem",
-            maxHeight: "50vh",
-            minHeight: "50vh",
-            padding: "1rem",
-            overflow: "hidden"
-          }}
-        >
+        <div style={this.props.containerStyle}>
           <img
             ref={node => (this.img = node)}
             src={this.state.src}

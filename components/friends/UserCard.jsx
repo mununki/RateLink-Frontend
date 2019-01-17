@@ -15,7 +15,11 @@ export default ({ user, onlyShower, removeButton }) => {
     <div className="usercard-container m-2">
       <img
         className="img-fluid rounded-circle friends-profile-image"
-        src={`/static/profile_images/profile_image_1.jpg`}
+        src={
+          user.profile.image === "" || !user.profile.image
+            ? "/static/profile_images/dummy.png"
+            : process.env.AWS_S3_ENDPOINT + user.profile.image
+        }
       />
       <span className="mx-2">{user.profile.profile_name}</span>
 

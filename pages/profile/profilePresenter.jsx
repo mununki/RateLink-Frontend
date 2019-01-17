@@ -45,6 +45,13 @@ class Profile extends React.Component {
               aspectRatio={4 / 4}
               upload={this._handleUploadToS3}
               closeModal={this._closeAvatarEditor}
+              containerStyle={{
+                marginTop: "1rem",
+                maxHeight: "50vh",
+                minHeight: "50vh",
+                padding: "1rem",
+                overflow: "hidden"
+              }}
             />
           </Modal>
           <div className="row">
