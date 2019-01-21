@@ -1,9 +1,8 @@
 import App, { Container } from "next/app";
 import React from "react";
 import { ApolloProvider } from "react-apollo";
-import withApollo from "../lib/withApollo";
 import withNProgress from "next-nprogress";
-import moment from "moment";
+import withApollo from "../lib/withApollo";
 import "moment/locale/ko";
 import "../static/css/bootstrap.min.css";
 
@@ -15,6 +14,23 @@ class MyApp extends App {
         <ApolloProvider client={apolloClient}>
           <Component {...pageProps} />
         </ApolloProvider>
+        <style jsx global>
+          {`
+            body {
+              margin: 0px;
+              padding: 0px;
+              background-color: #efefef;
+              font-size: 0.9em;
+            }
+            h1,
+            h2,
+            h3,
+            h4,
+            h5 {
+              font-family: "Montserrat", sans-serif;
+            }
+          `}
+        </style>
       </Container>
     );
   }

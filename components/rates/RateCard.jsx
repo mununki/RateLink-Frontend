@@ -330,7 +330,9 @@ class RateCard extends Component {
               <DivHeaderAccount>{rate.client.name}</DivHeaderAccount>
               <DivHeaderLiner>
                 <img
-                  src={"/static/liner_images/" + `${rate.liner.name}` + ".png"}
+                  src={`${process.env.AWS_S3_ENDPOINT}/liners_images/${
+                    rate.liner.name
+                  }.png`}
                   width="70px"
                   alt={rate.liner.name}
                 />

@@ -1,11 +1,17 @@
 import React from "react";
-import LoginPresenter from "./loginPresenter";
+import Layout from "../../components/Layout";
 import checkLogin from "../../lib/checkLogin";
 import redirect from "../../lib/redirect";
-import Layout from "../../components/Layout";
+import { INextContextWithApollo } from "../../types/custom";
+import { IGraphQLResponse } from "../../types/custom";
+import LoginPresenter from "./loginPresenter";
+
+interface IInitialProps {
+  loggedInUser: IGraphQLResponse;
+}
 
 class LoginContainer extends React.Component {
-  static async getInitialProps(context) {
+  static async getInitialProps(context: INextContextWithApollo): Promise<IInitialProps> {
     const { loggedInUser } = await checkLogin(context.apolloClient);
 
     if (!loggedInUser.ok) {

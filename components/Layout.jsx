@@ -1,7 +1,7 @@
-import React from "react";
-import Header from "./Header";
 import NProgress from "next-nprogress/component";
+import React from "react";
 import { ToastContainer } from "react-toastify";
+import Header from "./Header";
 
 export default ({ children, loggedInUser }) => (
   <React.Fragment>
@@ -11,12 +11,6 @@ export default ({ children, loggedInUser }) => (
     {children}
     <style jsx global>
       {`
-        body {
-          margin: 0px;
-          padding: 0px;
-          background-color: #eee;
-          font-size: 0.9em;
-        }
         .padding-global-top {
           padding-top: 5rem;
         }

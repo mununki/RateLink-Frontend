@@ -24,6 +24,7 @@ export default class MyDocument extends Document {
         <Head>
           <meta name="viewport" content="width=device-width, initial-scale=1" />
           <style>{`@import url(https://use.fontawesome.com/releases/v5.6.3/css/all.css)`}</style>
+          <style>{`@import url(https://fonts.googleapis.com/css?family=Montserrat:700|Open+Sans:700,400)`}</style>
         </Head>
         <body>
           <Main />
