@@ -1,17 +1,19 @@
 const AWS = require("aws-sdk");
 
+const AWS_LAMBDA_NAME = "ratelink-frontend";
+
 const lambdaWarmer = () =>
   new Promise(async resolve => {
     const lambda = new AWS.Lambda();
-    const funcName = process.env.AWS_LAMBDA_NAME;
+    const funcName = AWS_LAMBDA_NAME;
     const concurrency = 10;
 
     const invocations = [];
 
-    new Array(concurrency).forEach(item => {
+    Array.from(Array(concurrency).keys()).forEach(item => {
       const params = {
         FunctionName: funcName,
-        InvocationType: item === concurrency ? "RequestResponse" : "Event",
+        InvocationType: item === concurrency - 1 ? "RequestResponse" : "Event",
         LogType: "None",
         Payload: Buffer.from(
           JSON.stringify({
