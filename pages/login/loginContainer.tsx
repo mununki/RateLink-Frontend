@@ -2,8 +2,7 @@ import React from "react";
 import Layout from "../../components/Layout";
 import checkLogin from "../../lib/checkLogin";
 import redirect from "../../lib/redirect";
-import { INextContextWithApollo } from "../../types/custom";
-import { IGraphQLResponse } from "../../types/custom";
+import { IGraphQLResponse, INextContextWithApollo } from "../../types/custom";
 import LoginPresenter from "./loginPresenter";
 
 interface IInitialProps {

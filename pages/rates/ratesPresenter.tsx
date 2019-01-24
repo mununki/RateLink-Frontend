@@ -32,10 +32,7 @@ class RatesPresenter extends React.Component {
     return (
       <div className="padding-global-top">
         <RatesHeader ratesHeader={this.ratesHeader} />
-        <RatesMain
-          loggedInUser={this.props.loggedInUser}
-          ratesMain={this.ratesMain}
-        />
+        <RatesMain loggedInUser={this.props.loggedInUser} ratesMain={this.ratesMain} />
       </div>
     );
   }

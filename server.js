@@ -1,5 +1,6 @@
 const express = require("express");
 const next = require("next");
+const lambdaWarmer = require("./utils/warmLambda");
 
 const port = parseInt(process.env.PORT, 10) || 3000;
 const dev = process.env.NODE_ENV !== "production";
@@ -15,6 +16,11 @@ app
     //   req.url = req.originalUrl.replace(`staging/_next`, "_next");
     //   next(); // be sure to let the next middleware handle the modified request.
     // });
+
+    server.get("/warm", async (req, res) => {
+      await lambdaWarmer();
+      res.send("Lambda warmed");
+    });
 
     server.get("/", (req, res) => {
       return app.render(req, res, "/", req.params);

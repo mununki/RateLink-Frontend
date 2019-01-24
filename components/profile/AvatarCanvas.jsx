@@ -6,11 +6,13 @@ class AwesomeCropper extends React.Component {
   state = {
     src: "/static/profile_images/dummy.png"
   };
+
   _initCropper = () => {
     this.cropper = new Cropper(this.img, {
       aspectRatio: this.props.aspectRatio
     });
   };
+
   _uploadToServer = () => {
     this.cropper
       .getCroppedCanvas({
@@ -29,6 +31,7 @@ class AwesomeCropper extends React.Component {
       });
     this.props.closeModal();
   };
+
   _handleFileChange = e => {
     this._initCropper();
     const {
@@ -49,21 +52,18 @@ class AwesomeCropper extends React.Component {
       reader.readAsDataURL(file);
     }
   };
+
   render() {
     return (
       <div>
         <div style={this.props.containerStyle}>
-          <img
-            ref={node => (this.img = node)}
-            src={this.state.src}
-            style={{ maxWidth: "100%" }}
-          />
+          <img ref={node => (this.img = node)} src={this.state.src} style={{ maxWidth: "100%" }} />
         </div>
         <div
           style={{
             display: "flex",
             justifyContent: "space-between",
-            marginTop: "1rem"
+            paddingTop: "10px"
           }}
         >
           <input

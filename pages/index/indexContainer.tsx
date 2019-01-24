@@ -1,19 +1,21 @@
 import React from "react";
 import checkLogin from "../../lib/checkLogin";
+import { IGraphQLResponse, INextContextWithApollo } from "../../types/custom";
 import IndexPresenter from "./indexPresenter";
 
-class Index extends React.Component {
-  static async getInitialProps(context) {
-    const { loggedInUser } = await checkLogin(context.apolloClient);
+interface IInitialProps {
+  loggedInUser: IGraphQLResponse;
+}
 
-    if (!loggedInUser.ok) {
-    }
+class Index extends React.Component {
+  static async getInitialProps(context: INextContextWithApollo): Promise<IInitialProps> {
+    const { loggedInUser } = await checkLogin(context.apolloClient);
 
     return { loggedInUser };
   }
 
   render() {
-    return <IndexPresenter />;
+    return <IndexPresenter loggedInUser={this.props.loggedInUser} />;
   }
 }
 

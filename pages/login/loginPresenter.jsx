@@ -1,9 +1,10 @@
 import { Mutation, withApollo } from "react-apollo";
-import { LOGIN } from "./loginQueries";
+import React from "react";
 import cookie from "cookie";
+import Link from "next/link";
+import { LOGIN } from "./loginQueries";
 import { SET_ISLOGIN } from "../../lib/client";
 import { __APOLLO_CLIENT__ } from "../../lib/initApollo";
-import Link from "next/link";
 import redirect from "../../lib/redirect";
 import { notify } from "../../utils/notify";
 import { FIND_USERS } from "../friends/friendsQueries";
@@ -27,12 +28,14 @@ class Login extends React.Component {
     password: "",
     rememberEmail: false
   };
+
   async componentDidMount() {
     const email = await getEmailFromLocalStorage();
     if (email) {
       this.setState({ email, rememberEmail: true });
     }
   }
+
   componentWillUnmount() {
     if (this.state.rememberEmail) {
       saveEmailToLocalStorage(this.state.email);
@@ -40,14 +43,15 @@ class Login extends React.Component {
       removeEmailFromLocalStorage();
     }
   }
+
   _handleChange = e => {
     const { email, password, rememberEmail } = this.state;
-    const value =
-      e.target.type === "checkbox" ? e.target.checked : e.target.value;
+    const value = e.target.type === "checkbox" ? e.target.checked : e.target.value;
     this.setState({
       [e.target.name]: value
     });
   };
+
   render() {
     const { email, password, rememberEmail } = this.state;
     return (
@@ -57,13 +61,9 @@ class Login extends React.Component {
             mutation={LOGIN}
             onCompleted={data => {
               if (data.login.ok) {
-                document.cookie = cookie.serialize(
-                  "token",
-                  data.login.data.token,
-                  {
-                    maxAge: 30 * 24 * 60 * 60 // 30 days
-                  }
-                );
+                document.cookie = cookie.serialize("token", data.login.data.token, {
+                  maxAge: 30 * 24 * 60 * 60 // 30 days
+                });
 
                 this.props.client.cache.reset().then(() =>
                   this.props.client
@@ -126,10 +126,7 @@ class Login extends React.Component {
                         checked={this.state.rememberEmail}
                         onChange={this._handleChange}
                       />
-                      <label
-                        className="form-check-label"
-                        htmlFor="remember-email"
-                      >
+                      <label className="form-check-label" htmlFor="remember-email">
                         Email 기억
                       </label>
                     </div>

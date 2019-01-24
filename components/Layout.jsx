@@ -1,12 +1,13 @@
 import NProgress from "next-nprogress/component";
 import React from "react";
+import PropTypes from "prop-types";
 import { ToastContainer } from "react-toastify";
 import Header from "./Header";
 
-export default ({ children, loggedInUser }) => (
+const Layout = ({ children, loggedInUser }) => (
   <React.Fragment>
     <Header loggedInUser={loggedInUser} />
-    <NProgress />
+    <NProgress color="#053F5C" />
     <ToastContainer />
     {children}
     <style jsx global>
@@ -40,3 +41,32 @@ export default ({ children, loggedInUser }) => (
     </style>
   </React.Fragment>
 );
+
+Layout.propTypes = {
+  children: PropTypes.element.isRequired,
+  loggedInUser: PropTypes.shape({
+    ok: PropTypes.bool,
+    error: PropTypes.string,
+    data: PropTypes.object
+  })
+};
+
+Layout.defaultProps = {
+  loggedInUser: {
+    ok: false,
+    error: "Not Logged!",
+    data: {
+      id: null,
+      email: "",
+      nickname: "",
+      profile: {
+        profile_name: "",
+        company: "",
+        job_boolean: 0,
+        image: ""
+      }
+    }
+  }
+};
+
+export default Layout;

@@ -1,6 +1,7 @@
 import React from "react";
-import { theme } from "../lib/theme";
 import { withApollo } from "react-apollo";
+import PropTypes from "prop-types";
+import { theme } from "../lib/theme";
 import logout from "../lib/logout";
 import Dropdown from "./Dropdown";
 
@@ -10,11 +11,13 @@ class Header extends React.Component {
     const panelRight = document.querySelector(".panel-right");
     menu.addEventListener("click", this._showRightPanel(panelRight));
   }
+
   componentWillUnmount() {
     const menu = document.querySelector(".menu");
     const panelRight = document.querySelector(".panel-right");
     menu.removeEventListener("click", this._showRightPanel(panelRight));
   }
+
   _showRightPanel = htmlElement => () => {
     if (htmlElement.classList.contains("show")) {
       htmlElement.classList.remove("show");
@@ -22,13 +25,16 @@ class Header extends React.Component {
       htmlElement.classList.add("show");
     }
   };
+
   _closeRightPanel = () => {
     const panelRight = document.querySelector(".panel-right");
     panelRight.classList.remove("show");
   };
+
   render() {
     const dropdownKCItems = [
       {
+        id: 1,
         icon: <i className="fas fa-chart-line" />,
         name: "운임 차트",
         link: "/charts"
@@ -36,16 +42,19 @@ class Header extends React.Component {
     ];
     const dropdownUserItems = [
       {
+        id: 1,
         icon: <i className="fas fa-id-badge" />,
         name: "프로필",
         link: "/profile"
       },
       {
+        id: 2,
         icon: <i className="far fa-handshake" />,
         name: "친구관리",
         link: "/friends"
       },
       {
+        id: 3,
         icon: <i className="fas fa-sign-out-alt" />,
         name: "로그아웃",
         function: logout(this.props.client)
@@ -54,11 +63,7 @@ class Header extends React.Component {
     return (
       <div className="header">
         <div className="panel-left">
-          <Dropdown
-            icon={<i className="fas fa-ship" />}
-            buttonName="운임"
-            buttonLink="/rates"
-          />
+          <Dropdown icon={<i className="fas fa-ship" />} buttonName="운임" buttonLink="/rates" />
         </div>
         <div className="panel-right">
           <Dropdown
@@ -69,11 +74,7 @@ class Header extends React.Component {
           />
           <Dropdown
             icon={<i className="fas fa-user-circle" />}
-            buttonName={
-              this.props.loggedInUser.data
-                ? this.props.loggedInUser.data.profile.profile_name
-                : "로그인"
-            }
+            buttonName={this.props.loggedInUser.data ? this.props.loggedInUser.data.profile.profile_name : "로그인"}
             items={dropdownUserItems}
             rightAlign={true}
             closeRightPanel={this._closeRightPanel}
@@ -127,5 +128,7 @@ class Header extends React.Component {
     );
   }
 }
+
+Header.propTypes = {};
 
 export default withApollo(Header);

@@ -1,25 +1,28 @@
 import React from "react";
 import { withApollo, Query, Mutation } from "react-apollo";
+import Modal from "react-responsive-modal";
 import { UPDATE_PROFILE, UPDATE_PROFILE_IMAGE } from "./profileQueries";
 import { notify } from "../../utils/notify";
 import AwesomeCropper from "../../components/profile/AvatarCanvas";
 import { ME } from "../../lib/checkLogin";
-import Modal from "react-responsive-modal";
 
 class Profile extends React.Component {
   state = {
     avatarEditorModal: false
   };
+
   _openAvatarEditor = () => {
     this.setState({
       avatarEditorModal: true
     });
   };
+
   _closeAvatarEditor = () => {
     this.setState({
       avatarEditorModal: false
     });
   };
+
   _handleUploadToS3 = blob => {
     this.props.client
       .mutate({
@@ -29,18 +32,15 @@ class Profile extends React.Component {
       .then(data => {
         console.log(data);
       })
-      .catch(err => console.log(err));
+      .catch(err => notify("다시 시도해주세요", "error"));
   };
+
   render() {
     const { profile_name, company, job_boolean, image } = this.props.profile;
     return (
       <div className="height-full-align-middle">
         <div className="container">
-          <Modal
-            open={this.state.avatarEditorModal}
-            onClose={this._closeAvatarEditor}
-            center
-          >
+          <Modal open={this.state.avatarEditorModal} onClose={this._closeAvatarEditor} center>
             <AwesomeCropper
               aspectRatio={4 / 4}
               upload={this._handleUploadToS3}
@@ -64,22 +64,14 @@ class Profile extends React.Component {
                         if (loading) return <div>Loading...</div>;
                         if (error) return <div>Error :(</div>;
                         return (
-                          <div
-                            className="container-profile-image"
-                            onClick={this._openAvatarEditor}
-                          >
+                          <div className="container-profile-image" onClick={this._openAvatarEditor}>
                             <img
-                              src={
-                                process.env.AWS_S3_ENDPOINT +
-                                data.me.data.profile.image
-                              }
+                              src={process.env.AWS_S3_ENDPOINT + data.me.data.profile.image}
                               className="profile-image img-fluid img-thumbnail rounded-circle"
                               alt="프로필 이미지"
                             />
                             <div className="profile-image-overlay rounded-circle">
-                              <div className="profile-image-overlay-text">
-                                수정
-                              </div>
+                              <div className="profile-image-overlay-text">수정</div>
                             </div>
                           </div>
                         );
@@ -146,10 +138,7 @@ class Profile extends React.Component {
                     }}
                   >
                     {updateProfile => (
-                      <button
-                        className="btn btn-primary m-2"
-                        onClick={updateProfile}
-                      >
+                      <button className="btn btn-primary m-2" onClick={updateProfile}>
                         저장
                       </button>
                     )}
