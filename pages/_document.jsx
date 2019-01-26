@@ -23,6 +23,7 @@ export default class MyDocument extends Document {
       <html>
         <Head>
           <meta name="viewport" content="width=device-width, initial-scale=1" />
+          <link rel="icon" type="image/png" href="/static/favicon.png" />
           <style>{`@import url(https://use.fontawesome.com/releases/v5.6.3/css/all.css)`}</style>
           <style>{`@import url(https://fonts.googleapis.com/css?family=Montserrat:700|Open+Sans:700,400)`}</style>
         </Head>
