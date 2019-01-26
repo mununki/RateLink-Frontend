@@ -1,5 +1,7 @@
 # RateLink Frontend
 
+## https://www.rate-link.com
+
 ## Target
 
 Refactory the frontend of RateLink with new tech stack
@@ -20,5 +22,5 @@ Refactory the frontend of RateLink with new tech stack
 - [x] Add reader
 - [x] Add Style and functionality to Login page
 - [x] Add Style and functionality to Signup page
-- [x] Profile image update with AWS Lambda
-- [ ] Intro page
+- [x] Profile image update with AWS Lambda to AWS S3
+- [x] Intro page

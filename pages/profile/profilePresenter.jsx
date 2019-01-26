@@ -30,7 +30,7 @@ class Profile extends React.Component {
         variables: { file: blob }
       })
       .then(data => {
-        console.log(data);
+        notify("저장 성공", "success");
       })
       .catch(err => notify("다시 시도해주세요", "error"));
   };
