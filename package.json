@@ -60,10 +60,10 @@
     "typescript": "3.0.3"
   },
   "scripts": {
-    "dev": "LAMBDA_ENV=production nodemon server.js",
-    "dev:real": "PRISMA_ENV=real LAMBDA_ENV=production nodemon server.js",
+    "dev": "nodemon server.js",
+    "dev:real": "PRISMA_ENV=real nodemon server.js",
     "build": "PRISMA_ENV=real next build",
-    "start": "PRISMA_ENV=real NODE_ENV=production LAMBDA_ENV=production node server.js",
+    "start": "PRISMA_ENV=real NODE_ENV=production node server.js",
     "export": "PRISMA_ENV=real next export",
     "type-check": "tsc",
     "lint:js": "yarn eslint .",
