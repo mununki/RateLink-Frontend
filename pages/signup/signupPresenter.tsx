@@ -1,15 +1,12 @@
+import cookie from "cookie";
 import React from "react";
 import { Mutation, withApollo } from "react-apollo";
-import { SIGNUP, CHECK_IF_EXIST } from "./signupQueries";
-import cookie from "cookie";
 import { SET_ISLOGIN } from "../../lib/client";
 import { __APOLLO_CLIENT__ } from "../../lib/initApollo";
 import redirect from "../../lib/redirect";
+import { checkValidEmail, checkValidPassword } from "../../utils/checkValidation";
 import { notify } from "../../utils/notify";
-import {
-  checkValidEmail,
-  checkValidPassword
-} from "../../utils/checkValidation";
+import { CHECK_IF_EXIST, SIGNUP } from "./signupQueries";
 
 class Signup extends React.Component {
   state = {
@@ -23,8 +20,7 @@ class Signup extends React.Component {
   };
 
   _handleChangeEmail = async e => {
-    const value =
-      e.target.type === "checkbox" ? e.target.checked : e.target.value;
+    const value = e.target.type === "checkbox" ? e.target.checked : e.target.value;
     const isValid = checkValidEmail(value);
     const {
       data: { checkIfExist }
@@ -41,8 +37,7 @@ class Signup extends React.Component {
     });
   };
   _handleChangePassword = e => {
-    const value =
-      e.target.type === "checkbox" ? e.target.checked : e.target.value;
+    const value = e.target.type === "checkbox" ? e.target.checked : e.target.value;
     const isValid = checkValidPassword(e.target.value);
     this.setState({
       [e.target.name]: value,
@@ -50,22 +45,13 @@ class Signup extends React.Component {
     });
   };
   _handleChange = e => {
-    const value =
-      e.target.type === "checkbox" ? e.target.checked : e.target.value;
+    const value = e.target.type === "checkbox" ? e.target.checked : e.target.value;
     this.setState({
       [e.target.name]: value
     });
   };
   render() {
-    const {
-      email,
-      password,
-      passwordConfirm,
-      nickname,
-      isEmailValid,
-      isEmailExist,
-      isPasswordValid
-    } = this.state;
+    const { email, password, passwordConfirm, nickname, isEmailValid, isEmailExist, isPasswordValid } = this.state;
     return (
       <div className="height-full-align-middle">
         <div className="container">
@@ -73,13 +59,9 @@ class Signup extends React.Component {
             mutation={SIGNUP}
             onCompleted={data => {
               if (data.signup.ok) {
-                document.cookie = cookie.serialize(
-                  "token",
-                  data.signup.data.token,
-                  {
-                    maxAge: 30 * 24 * 60 * 60 // 30 days
-                  }
-                );
+                document.cookie = cookie.serialize("token", data.signup.data.token, {
+                  maxAge: 30 * 24 * 60 * 60 // 30 days
+                });
 
                 this.props.client.cache.reset().then(() =>
                   this.props.client
@@ -93,16 +75,16 @@ class Signup extends React.Component {
                     })
                 );
               } else {
-                notify("이미 가입된 Email 입니다", "error");
+                notify("Already signed up", "error");
               }
             }}
-            onError={error => notify("에러가 발생했습니다", "error")}
+            onError={error => notify("Try again", "error")}
           >
             {signup => (
               <div className="form-group d-flex justify-content-center">
                 <div className="col-sm-5">
                   <div className="m-4 text-center">
-                    <h3>회원가입</h3>
+                    <h3>Sign Up</h3>
                   </div>
                   <form
                     className="needs-validation"
@@ -126,7 +108,7 @@ class Signup extends React.Component {
                           }
                         });
                       } else {
-                        notify("필수 정보를 입력해주세요", "error");
+                        notify("Check the required field", "error");
                       }
                     }}
                   >
@@ -135,28 +117,16 @@ class Signup extends React.Component {
                         type="text"
                         name="email"
                         className={`form-control m-2 ${
-                          this.state.email === ""
-                            ? null
-                            : isEmailValid && !isEmailExist
-                            ? "is-valid"
-                            : "is-invalid"
+                          this.state.email === "" ? null : isEmailValid && !isEmailExist ? "is-valid" : "is-invalid"
                         }`}
                         value={email}
                         onChange={this._handleChangeEmail}
                         placeholder="Email"
                         required
                       />
-                      <div className="valid-feedback m-2">가입 가능합니다.</div>
-                      {!isEmailValid && (
-                        <div className="invalid-feedback m-2">
-                          Email 형식이 아닙니다.
-                        </div>
-                      )}
-                      {isEmailExist && (
-                        <div className="invalid-feedback m-2">
-                          이미 가입된 Email 입니다.
-                        </div>
-                      )}
+                      <div className="valid-feedback m-2">You can sign up.</div>
+                      {!isEmailValid && <div className="invalid-feedback m-2">Invalid email type</div>}
+                      {isEmailExist && <div className="invalid-feedback m-2">Already signed up.</div>}
                     </div>
 
                     <div>
@@ -164,21 +134,15 @@ class Signup extends React.Component {
                         type="password"
                         name="password"
                         className={`form-control m-2 ${
-                          this.state.password === ""
-                            ? null
-                            : this.state.isPasswordValid
-                            ? "is-valid"
-                            : "is-invalid"
+                          this.state.password === "" ? null : this.state.isPasswordValid ? "is-valid" : "is-invalid"
                         }`}
                         value={password}
                         onChange={this._handleChangePassword}
-                        placeholder="비밀번호"
+                        placeholder="Password"
                         required
                       />
                       <div className="valid-feedback m-2">Good!</div>
-                      <div className="invalid-feedback m-2">
-                        최소8자 (영문, 숫자, 특수문자)
-                      </div>
+                      <div className="invalid-feedback m-2">Least 8 characters (a-Z, 0-9, !@#?)</div>
                     </div>
 
                     <div>
@@ -188,20 +152,17 @@ class Signup extends React.Component {
                         className={`form-control m-2 ${
                           this.state.passwordConfirm === ""
                             ? null
-                            : this.state.isPasswordValid === true &&
-                              this.state.password === this.state.passwordConfirm
+                            : this.state.isPasswordValid === true && this.state.password === this.state.passwordConfirm
                             ? "is-valid"
                             : "is-invalid"
                         }`}
                         value={passwordConfirm}
                         onChange={this._handleChange}
-                        placeholder="비밀번호 확인"
+                        placeholder="Confirm password"
                         required
                       />
-                      <div className="valid-feedback m-2">일치합니다.</div>
-                      <div className="invalid-feedback m-2">
-                        일치하지 않습니다.
-                      </div>
+                      <div className="valid-feedback m-2">Confirmed</div>
+                      <div className="invalid-feedback m-2">Not confirmed</div>
                     </div>
 
                     <div>
@@ -217,17 +178,15 @@ class Signup extends React.Component {
                         }`}
                         value={nickname}
                         onChange={this._handleChange}
-                        placeholder="이름"
+                        placeholder="Full name"
                         required
                       />
-                      <div className="valid-feedback m-2">사용가능합니다.</div>
-                      <div className="invalid-feedback m-2">
-                        필수 입력 사항 입니다.
-                      </div>
+                      <div className="valid-feedback m-2">Valid</div>
+                      <div className="invalid-feedback m-2">This is required.</div>
                     </div>
 
                     <button type="submit" className="btn btn-primary m-2">
-                      회원가입
+                      Sign Up
                     </button>
                   </form>
                 </div>

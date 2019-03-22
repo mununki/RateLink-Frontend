@@ -1,8 +1,8 @@
 import React from "react";
-import RatesPresenter from "./ratesPresenter";
+import Layout from "../../components/Layout";
 import checkLogin from "../../lib/checkLogin";
 import redirect from "../../lib/redirect";
-import Layout from "../../components/Layout";
+import RatesPresenter from "./ratesPresenter";
 
 class RatesContainer extends React.Component {
   static async getInitialProps(context) {

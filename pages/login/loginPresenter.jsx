@@ -77,16 +77,16 @@ class Login extends React.Component {
                     })
                 );
               } else {
-                notify("Email, 비밀번호를 확인하세요", "error");
+                notify("Check email & password again", "error");
               }
             }}
-            onError={error => notify("Email, 비밀번호를 확인하세요", "error")}
+            onError={error => notify("Check email & password again", "error")}
           >
             {login => (
               <div className="form-group d-flex justify-content-center">
                 <div className="col-sm-5">
                   <div className="m-4 text-center">
-                    <h3>로그인</h3>
+                    <h3>Log In</h3>
                   </div>
                   <form
                     onSubmit={event => {
@@ -127,16 +127,16 @@ class Login extends React.Component {
                         onChange={this._handleChange}
                       />
                       <label className="form-check-label" htmlFor="remember-email">
-                        Email 기억
+                        Remember email
                       </label>
                     </div>
                     <button type="submit" className="btn btn-primary m-2">
-                      로그인
+                      Log In
                     </button>
                   </form>
                   <div className="m-2 text-center">
                     <Link href="/signup">
-                      <a>회원가입</a>
+                      <a>Sign Up</a>
                     </Link>
                   </div>
                 </div>
