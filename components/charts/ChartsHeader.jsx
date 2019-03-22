@@ -56,9 +56,7 @@ class ChartHeader extends React.Component {
           })
           .then(response => {
             let results = [];
-            response.data.getLocations.map(lo =>
-              results.push({ label: lo.name, value: lo.id })
-            );
+            response.data.getLocations.map(lo => results.push({ label: lo.name, value: lo.id }));
             resolve(results);
           });
       }, 500);
@@ -79,9 +77,7 @@ class ChartHeader extends React.Component {
           })
           .then(response => {
             let results = [];
-            response.data.getLocations.map(lo =>
-              results.push({ label: lo.name, value: lo.id })
-            );
+            response.data.getLocations.map(lo => results.push({ label: lo.name, value: lo.id }));
             resolve(results);
           });
       }, 500);
@@ -98,9 +94,7 @@ class ChartHeader extends React.Component {
       })
       .then(response => {
         let results = [];
-        response.data.getCNTRtypes.map(ty =>
-          results.push({ label: ty.name, value: ty.id })
-        );
+        response.data.getCNTRtypes.map(ty => results.push({ label: ty.name, value: ty.id }));
         return results;
       });
   };
@@ -160,12 +154,8 @@ class ChartHeader extends React.Component {
                 <select
                   name="initialSF"
                   className="form-control"
-                  value={this.state.chartQueryParams.initialSF.format(
-                    "YYYY-MM"
-                  )}
-                  onChange={event =>
-                    this._handleChange(moment(event.target.value), "initialSF")
-                  }
+                  value={this.state.chartQueryParams.initialSF.format("YYYY-MM")}
+                  onChange={event => this._handleChange(moment(event.target.value), "initialSF")}
                 >
                   {this.state.duration.map((mon, k) => (
                     <option key={k} value={mon}>
@@ -178,15 +168,8 @@ class ChartHeader extends React.Component {
                 <select
                   name="initialST"
                   className="form-control"
-                  value={this.state.chartQueryParams.initialST.format(
-                    "YYYY-MM"
-                  )}
-                  onChange={event =>
-                    this._handleChange(
-                      moment(event.target.value).endOf("month"),
-                      "initialST"
-                    )
-                  }
+                  value={this.state.chartQueryParams.initialST.format("YYYY-MM")}
+                  onChange={event => this._handleChange(moment(event.target.value).endOf("month"), "initialST")}
                 >
                   {this.state.duration.map((mon, k) => (
                     <option key={k} value={mon}>
@@ -203,11 +186,8 @@ class ChartHeader extends React.Component {
                   }}
                 >
                   {setChartQueryParams => (
-                    <button
-                      className="btn btn-primary float-right"
-                      onClick={() => setChartQueryParams()}
-                    >
-                      검색
+                    <button className="btn btn-primary float-right" onClick={() => setChartQueryParams()}>
+                      Search
                     </button>
                   )}
                 </Mutation>
@@ -215,7 +195,7 @@ class ChartHeader extends React.Component {
             </div>
           </div>
           <div className="my-1">
-            <mark>(Note: 기간 별 선사의 평균 운임 값)</mark>
+            <mark>(Note: Average Rate per liner)</mark>
           </div>
         </div>
       </div>

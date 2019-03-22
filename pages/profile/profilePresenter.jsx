@@ -30,9 +30,9 @@ class Profile extends React.Component {
         variables: { file: blob }
       })
       .then(data => {
-        notify("저장 성공", "success");
+        notify("Saved!", "success");
       })
-      .catch(err => notify("다시 시도해주세요", "error"));
+      .catch(err => notify("Try again", "error"));
   };
 
   render() {
@@ -68,10 +68,10 @@ class Profile extends React.Component {
                             <img
                               src={process.env.AWS_S3_ENDPOINT + data.me.data.profile.image}
                               className="profile-image img-fluid img-thumbnail rounded-circle"
-                              alt="프로필 이미지"
+                              alt="avatar img"
                             />
                             <div className="profile-image-overlay rounded-circle">
-                              <div className="profile-image-overlay-text">수정</div>
+                              <div className="profile-image-overlay-text">Edit</div>
                             </div>
                           </div>
                         );
@@ -88,9 +88,9 @@ class Profile extends React.Component {
             <div className="main-panel col-12 col-sm-8 col-md-9">
               <div className="card">
                 <div className="card-body">
-                  <h5 className="card-title">프로필 관리</h5>
+                  <h5 className="card-title">Profile</h5>
                   <div className="form-group m-2">
-                    <label htmlFor="profile_name">별명</label>
+                    <label htmlFor="profile_name">Nickname</label>
                     <input
                       type="text"
                       id="profile_name"
@@ -101,7 +101,7 @@ class Profile extends React.Component {
                     />
                   </div>
                   <div className="form-group m-2">
-                    <label htmlFor="company">회사 이름</label>
+                    <label htmlFor="company">Company</label>
                     <input
                       type="text"
                       id="company"
@@ -112,7 +112,7 @@ class Profile extends React.Component {
                     />
                   </div>
                   <div className="form-group m-2">
-                    <label htmlFor="job_boolean">회사 유형</label>
+                    <label htmlFor="job_boolean">Job</label>
                     <select
                       name="job_boolean"
                       id="job_boolean"
@@ -120,10 +120,10 @@ class Profile extends React.Component {
                       value={job_boolean}
                       onChange={this.props._handleChange}
                     >
-                      <option value="0">(선택없음)</option>
-                      <option value="1">선사</option>
-                      <option value="2">포워더</option>
-                      <option value="3">기타</option>
+                      <option value="0">(I don't want)</option>
+                      <option value="1">Liner</option>
+                      <option value="2">Forwarder</option>
+                      <option value="3">etc</option>
                     </select>
                   </div>
                   <Mutation
@@ -131,15 +131,15 @@ class Profile extends React.Component {
                     variables={this.props.profile}
                     onCompleted={({ updateProfile }) => {
                       if (updateProfile.ok) {
-                        notify("저장 완료", "success");
+                        notify("Successfully Saved!", "success");
                       } else {
-                        notify(`에러 발생 ${updateProfile.error}`, "error");
+                        notify(`Error ${updateProfile.error}`, "error");
                       }
                     }}
                   >
                     {updateProfile => (
                       <button className="btn btn-primary m-2" onClick={updateProfile}>
-                        저장
+                        SAVE
                       </button>
                     )}
                   </Mutation>

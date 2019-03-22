@@ -19,21 +19,13 @@ const RateAddButton = styled.div`
   color: white;
   padding: 10px 20px 10px 20px;
   background-color: ${props =>
-    props.isAdd
-      ? "rgba(231, 76, 60, 1.0)"
-      : props.isModify
-      ? "rgba(231, 76, 60, 1.0)"
-      : "rgba(52, 152, 219, 1)"};
+    props.isAdd ? "rgba(231, 76, 60, 1.0)" : props.isModify ? "rgba(231, 76, 60, 1.0)" : "rgba(52, 152, 219, 1)"};
   border-radius: 5px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   cursor: pointer;
   &:hover {
     background-color: ${props =>
-      props.isAdd
-        ? "rgba(192, 57, 43, 1.0)"
-        : props.isModify
-        ? "rgba(192, 57, 43, 1.0)"
-        : "rgba(41, 128, 185, 1)"};
+      props.isAdd ? "rgba(192, 57, 43, 1.0)" : props.isModify ? "rgba(192, 57, 43, 1.0)" : "rgba(41, 128, 185, 1)"};
   }
 `;
 
@@ -54,12 +46,7 @@ class RatesMain extends React.Component {
 
           return (
             <div className="container-fluid" ref={this.props.ratesMain}>
-              {isAdd ? (
-                <RateAddCard
-                  loggedInUser={this.props.loggedInUser}
-                  isModify={false}
-                />
-              ) : null}
+              {isAdd ? <RateAddCard loggedInUser={this.props.loggedInUser} isModify={false} /> : null}
 
               <Query query={GET_QUERYPARAMS}>
                 {({ loading, error, data }) => {
@@ -72,9 +59,7 @@ class RatesMain extends React.Component {
                       query={GET_RATES}
                       variables={{
                         first: 20,
-                        queryParams: JSON.stringify(
-                          handleMomentToString(queryParams)
-                        ),
+                        queryParams: JSON.stringify(handleMomentToString(queryParams)),
                         after: null
                       }}
                     >
@@ -106,37 +91,24 @@ class RatesMain extends React.Component {
                                   query: GET_RATES,
                                   variables: {
                                     first: 20,
-                                    queryParams: JSON.stringify(
-                                      handleMomentToString(queryParams)
-                                    ),
+                                    queryParams: JSON.stringify(handleMomentToString(queryParams)),
                                     after: pageInfo.endCursor
                                   },
-                                  updateQuery: (
-                                    previousResult,
-                                    { fetchMoreResult }
-                                  ) => {
-                                    if (
-                                      !fetchMoreResult.getRates.data.pageInfo
-                                        .hasNextPage
-                                    )
-                                      notify("마지막 페이지 입니다!", "info");
+                                  updateQuery: (previousResult, { fetchMoreResult }) => {
+                                    if (!fetchMoreResult.getRates.data.pageInfo.hasNextPage)
+                                      notify("Last Page!", "info");
                                     this.setState({
                                       isLoading: false
                                     });
-                                    return fetchMoreResult.getRates.data.edges
-                                      .length > 0
+                                    return fetchMoreResult.getRates.data.edges.length > 0
                                       ? {
                                           getRates: {
                                             ok: true,
                                             data: {
-                                              pageInfo:
-                                                fetchMoreResult.getRates.data
-                                                  .pageInfo,
+                                              pageInfo: fetchMoreResult.getRates.data.pageInfo,
                                               edges: [
-                                                ...previousResult.getRates.data
-                                                  .edges,
-                                                ...fetchMoreResult.getRates.data
-                                                  .edges
+                                                ...previousResult.getRates.data.edges,
+                                                ...fetchMoreResult.getRates.data.edges
                                               ],
                                               __typename: "Rate_rateConnection"
                                             },
@@ -167,12 +139,8 @@ class RatesMain extends React.Component {
                 }}
               >
                 {setMode => (
-                  <RateAddButton
-                    isAdd={isAdd}
-                    isModify={isModify}
-                    onClick={() => setMode()}
-                  >
-                    {!isAdd ? (!isModify ? "추가" : "취소") : "취소"}
+                  <RateAddButton isAdd={isAdd} isModify={isModify} onClick={() => setMode()}>
+                    {!isAdd ? (!isModify ? "NEW" : "CANCEL") : "CANCEL"}
                   </RateAddButton>
                 )}
               </Mutation>
