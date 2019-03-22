@@ -20,15 +20,10 @@ class CustomInputDatePickerSF extends React.Component {
   render() {
     return (
       <div className="container-datepicker">
-        <button
-          id="headersf"
-          className="btn-datepicker"
-          onClick={this.props.onClick}
-          tabIndex="-1"
-        >
+        <button id="headersf" className="btn-datepicker" onClick={this.props.onClick} tabIndex="-1">
           {this.props.value}
         </button>
-        견적일
+        From
         <style jsx>
           {`
             .container-datepicker {
@@ -53,15 +48,10 @@ class CustomInputDatePickerST extends React.Component {
   render() {
     return (
       <div className="container-datepicker">
-        <button
-          id="headerst"
-          className="btn-datepicker"
-          onClick={this.props.onClick}
-          tabIndex="-1"
-        >
+        <button id="headerst" className="btn-datepicker" onClick={this.props.onClick} tabIndex="-1">
           {this.props.value}
         </button>
-        유효일
+        Till
         <style jsx>
           {`
             .container-datepicker {
@@ -120,9 +110,7 @@ class RatesHeader extends React.Component {
         })
         .then(response => {
           let results = [];
-          response.data.getInputpersons.map(ip =>
-            results.push({ label: ip.profile.profile_name, value: ip.id })
-          );
+          response.data.getInputpersons.map(ip => results.push({ label: ip.profile.profile_name, value: ip.id }));
           results.sort((a, b) => (a.label > b.label ? 1 : -1));
 
           return results;
@@ -140,9 +128,7 @@ class RatesHeader extends React.Component {
             })
             .then(response => {
               let results = [];
-              response.data.getInputpersons.map(ip =>
-                results.push({ label: ip.profile.profile_name, value: ip.id })
-              );
+              response.data.getInputpersons.map(ip => results.push({ label: ip.profile.profile_name, value: ip.id }));
               results.sort((a, b) => (a.label > b.label ? 1 : -1));
 
               resolve(results);
@@ -164,9 +150,7 @@ class RatesHeader extends React.Component {
           })
           .then(response => {
             let results = [];
-            response.data.getClients.map(ct =>
-              results.push({ label: ct.name, value: ct.id })
-            );
+            response.data.getClients.map(ct => results.push({ label: ct.name, value: ct.id }));
             resolve(results);
           });
       }, 500);
@@ -186,9 +170,7 @@ class RatesHeader extends React.Component {
           })
           .then(response => {
             let results = [];
-            response.data.getLiners.map(ln =>
-              results.push({ label: ln.label, value: ln.id })
-            );
+            response.data.getLiners.map(ln => results.push({ label: ln.label, value: ln.id }));
             resolve(results);
           });
       }, 500);
@@ -209,9 +191,7 @@ class RatesHeader extends React.Component {
           })
           .then(response => {
             let results = [];
-            response.data.getLocations.map(lo =>
-              results.push({ label: lo.name, value: lo.id })
-            );
+            response.data.getLocations.map(lo => results.push({ label: lo.name, value: lo.id }));
             resolve(results);
           });
       }, 500);
@@ -232,9 +212,7 @@ class RatesHeader extends React.Component {
           })
           .then(response => {
             let results = [];
-            response.data.getLocations.map(lo =>
-              results.push({ label: lo.name, value: lo.id })
-            );
+            response.data.getLocations.map(lo => results.push({ label: lo.name, value: lo.id }));
             resolve(results);
           });
       }, 500);
@@ -254,9 +232,7 @@ class RatesHeader extends React.Component {
           })
           .then(response => {
             let results = [];
-            response.data.getCNTRtypes.map(ty =>
-              results.push({ label: ty.name, value: ty.id })
-            );
+            response.data.getCNTRtypes.map(ty => results.push({ label: ty.name, value: ty.id }));
             resolve(results);
           });
       }, 500);
@@ -283,10 +259,7 @@ class RatesHeader extends React.Component {
             const isModify = data.mode.isModify;
             return (
               <div className="container-fluid">
-                <div
-                  className="header shadow-lg d-flex flex-row not-fixed"
-                  ref={this.props.ratesHeader}
-                >
+                <div className="header shadow-lg d-flex flex-row not-fixed" ref={this.props.ratesHeader}>
                   <div className="header-inputperson">
                     <AsyncSelect
                       name="headerInputperson"
@@ -296,7 +269,7 @@ class RatesHeader extends React.Component {
                       defaultOptions
                       loadOptions={this._loadInputpersons}
                       openOnFocus={true}
-                      placeholder="입력자"
+                      placeholder="OWNER"
                       onChange={data => this._handleChange(data, "selectedIp")}
                       value={queryParams.selectedIp}
                       isClearable={false}
@@ -311,7 +284,7 @@ class RatesHeader extends React.Component {
                       cacheOptions
                       loadOptions={this._loadClients}
                       openOnFocus={true}
-                      placeholder="화주"
+                      placeholder="ACCOUNT"
                       onChange={data => this._handleChange(data, "selectedCt")}
                       value={queryParams.selectedCt}
                       isClearable={false}
@@ -326,7 +299,7 @@ class RatesHeader extends React.Component {
                       cacheOptions
                       loadOptions={this._loadLiners}
                       openOnFocus={true}
-                      placeholder="선사"
+                      placeholder="LINER"
                       onChange={data => this._handleChange(data, "selectedLn")}
                       value={queryParams.selectedLn}
                       isClearable={false}
@@ -395,18 +368,14 @@ class RatesHeader extends React.Component {
                       <span>4H</span>
                     </div>
                   </div>
-                  <div className="header-loadingFT d-flex justify-content-center align-items-center">
-                    L.F/T
-                  </div>
-                  <div className="header-dischargingFT d-flex justify-content-center align-items-center">
-                    D.F/T
-                  </div>
+                  <div className="header-loadingFT d-flex justify-content-center align-items-center">L.F/T</div>
+                  <div className="header-dischargingFT d-flex justify-content-center align-items-center">D.F/T</div>
                   <div className="header-datepicker d-flex justify-content-center align-items-center">
                     <DatePicker
                       customInput={<CustomInputDatePickerSF />}
                       selected={queryParams.initialSF}
                       onChange={value => this._handleChange(value, "initialSF")}
-                      locale="ko"
+                      locale="en"
                       dateFormat="MM-DD"
                       popperModifiers={{
                         offset: {
@@ -426,7 +395,7 @@ class RatesHeader extends React.Component {
                       customInput={<CustomInputDatePickerST />}
                       selected={queryParams.initialST}
                       onChange={value => this._handleChange(value, "initialST")}
-                      locale="ko"
+                      locale="en"
                       dateFormat="MM-DD"
                       popperModifiers={{
                         offset: {

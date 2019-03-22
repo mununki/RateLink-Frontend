@@ -78,7 +78,7 @@ class AwesomeCropper extends React.Component {
           </label>
 
           <button className="button-save" onClick={this._uploadToServer}>
-            저장
+            Save
           </button>
         </div>
         <style jsx>

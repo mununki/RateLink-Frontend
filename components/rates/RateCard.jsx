@@ -38,8 +38,7 @@ const DivBehind = styled.div`
   justify-content: flex-end;
   align-items: center;
   flex: 1;
-  ${props =>
-    props.isSwipe ? "width:400px;z-index:110;" : "width:0px;z-index:90"}
+  ${props => (props.isSwipe ? "width:400px;z-index:110;" : "width:0px;z-index:90")}
   border-bottom: 1px solid #eee;
 `;
 
@@ -305,34 +304,21 @@ class RateCard extends Component {
     const { rate } = this.props;
     const { isSwipe, isModify } = this.state;
     if (isModify) {
-      return (
-        <RateAddCard
-          loggedInUser={this.props.loggedInUser}
-          isModify={true}
-          rate={rate}
-        />
-      );
+      return <RateAddCard loggedInUser={this.props.loggedInUser} isModify={true} rate={rate} />;
     } else {
       return (
         <ClickOutside close={this._hideSwipe}>
           <DivContainer>
             <DivHeader isSwipe={isSwipe}>
               <DivHeaderInputperson
-                new={
-                  moment(rate.recordedDate).format("YYYY-MM-DD") ===
-                  moment().format("YYYY-MM-DD")
-                    ? true
-                    : false
-                }
+                new={moment(rate.recordedDate).format("YYYY-MM-DD") === moment().format("YYYY-MM-DD") ? true : false}
               >
                 {rate.inputperson.profile.profile_name}
               </DivHeaderInputperson>
               <DivHeaderAccount>{rate.client.name}</DivHeaderAccount>
               <DivHeaderLiner>
                 <img
-                  src={`${process.env.AWS_S3_ENDPOINT}/liners_images/${
-                    rate.liner.name
-                  }.png`}
+                  src={`${process.env.AWS_S3_ENDPOINT}/liners_images/${rate.liner.name}.png`}
                   width="70px"
                   alt={rate.liner.name}
                 />
@@ -343,38 +329,26 @@ class RateCard extends Component {
               <DivHeaderBS>
                 <DivHeaderBSType>
                   <DivHeaderBSType20>
-                    {rate.buying20
-                      .toString()
-                      .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                    {rate.buying20.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                   </DivHeaderBSType20>
                   <DivHeaderBSType40>
-                    {rate.buying40
-                      .toString()
-                      .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                    {rate.buying40.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                   </DivHeaderBSType40>
                   <DivHeaderBSType4H>
-                    {rate.buying4H
-                      .toString()
-                      .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                    {rate.buying4H.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                   </DivHeaderBSType4H>
                 </DivHeaderBSType>
               </DivHeaderBS>
               <DivHeaderBS>
                 <DivHeaderBSType>
                   <DivHeaderBSType20>
-                    {rate.selling20
-                      .toString()
-                      .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                    {rate.selling20.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                   </DivHeaderBSType20>
                   <DivHeaderBSType40>
-                    {rate.selling40
-                      .toString()
-                      .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                    {rate.selling40.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                   </DivHeaderBSType40>
                   <DivHeaderBSType4H>
-                    {rate.selling4H
-                      .toString()
-                      .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                    {rate.selling4H.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                   </DivHeaderBSType4H>
                 </DivHeaderBSType>
               </DivHeaderBS>
@@ -432,9 +406,7 @@ class RateCard extends Component {
 
             <DivBehind isSwipe={isSwipe}>
               <DivBehindInside>
-                <DivHeaderButtons
-                  onClick={() => this.setState({ isSwipe: false })}
-                >
+                <DivHeaderButtons onClick={() => this.setState({ isSwipe: false })}>
                   <i className="fas fa-minus" style={{ color: "#c0392b" }} />
                 </DivHeaderButtons>
                 <Query query={GET_QUERYPARAMS}>
@@ -455,9 +427,7 @@ class RateCard extends Component {
                             query: GET_RATES,
                             variables: {
                               first: 20,
-                              queryParams: JSON.stringify(
-                                handleMomentToString(queryParams)
-                              ),
+                              queryParams: JSON.stringify(handleMomentToString(queryParams)),
                               after: null
                             }
                           });
@@ -465,9 +435,7 @@ class RateCard extends Component {
                             query: GET_RATES,
                             variables: {
                               first: 20,
-                              queryParams: JSON.stringify(
-                                handleMomentToString(queryParams)
-                              ),
+                              queryParams: JSON.stringify(handleMomentToString(queryParams)),
                               after: null
                             },
                             data: {
@@ -490,7 +458,7 @@ class RateCard extends Component {
                               }
                             }
                           });
-                          notify("복제 성공!", "success");
+                          notify("Copy success!", "success");
                         }}
                       >
                         {setRate => (
@@ -506,7 +474,7 @@ class RateCard extends Component {
                                 color: "white"
                               }}
                             >
-                              복제
+                              Copy
                             </DivBehindButtons>
                             <Modal
                               open={this.state.duplicateModal}
@@ -518,7 +486,7 @@ class RateCard extends Component {
                               center
                             >
                               <DivModalContainer>
-                                <div>복제하시겠습니까?</div>
+                                <div>Do you want to copy?</div>
                                 <DivModalButtons>
                                   <DivModalCancelButton
                                     onClick={() =>
@@ -527,7 +495,7 @@ class RateCard extends Component {
                                       })
                                     }
                                   >
-                                    취소
+                                    Cancel
                                   </DivModalCancelButton>
                                   <DivModalConfirmButton
                                     onClick={() => {
@@ -538,7 +506,7 @@ class RateCard extends Component {
                                       });
                                     }}
                                   >
-                                    복제
+                                    Copy
                                   </DivModalConfirmButton>
                                 </DivModalButtons>
                               </DivModalContainer>
@@ -562,20 +530,17 @@ class RateCard extends Component {
                     <Fragment>
                       <DivBehindButtons
                         onClick={() => {
-                          if (
-                            rate.inputperson.id ===
-                            this.props.loggedInUser.data.id
-                          ) {
+                          if (rate.inputperson.id === this.props.loggedInUser.data.id) {
                             this.setState({
                               modifyModal: true
                             });
                           } else {
-                            notify("작성자만 수정할 수 있습니다", "error");
+                            notify("Only owner can modify", "error");
                           }
                         }}
                         style={{ backgroundColor: "#3498db", color: "white" }}
                       >
-                        수정
+                        Modify
                       </DivBehindButtons>
                       <Modal
                         open={this.state.modifyModal}
@@ -587,7 +552,7 @@ class RateCard extends Component {
                         center
                       >
                         <DivModalContainer>
-                          <div>수정하시겠습니까?</div>
+                          <div>Do you want to modify?</div>
                           <DivModalButtons>
                             <DivModalCancelButton
                               onClick={() =>
@@ -596,7 +561,7 @@ class RateCard extends Component {
                                 })
                               }
                             >
-                              취소
+                              Cancel
                             </DivModalCancelButton>
                             <DivModalConfirmButton
                               onClick={() => {
@@ -608,7 +573,7 @@ class RateCard extends Component {
                                 setMode();
                               }}
                             >
-                              수정
+                              Modify
                             </DivModalConfirmButton>
                           </DivModalButtons>
                         </DivModalContainer>
@@ -634,22 +599,16 @@ class RateCard extends Component {
                             query: GET_RATES,
                             variables: {
                               first: 20,
-                              queryParams: JSON.stringify(
-                                handleMomentToString(queryParams)
-                              ),
+                              queryParams: JSON.stringify(handleMomentToString(queryParams)),
                               after: null
                             }
                           });
-                          const newRatesInCache = getRates.data.edges.filter(
-                            edge => edge.node.id !== setRate[0].id
-                          );
+                          const newRatesInCache = getRates.data.edges.filter(edge => edge.node.id !== setRate[0].id);
                           cache.writeQuery({
                             query: GET_RATES,
                             variables: {
                               first: 20,
-                              queryParams: JSON.stringify(
-                                handleMomentToString(queryParams)
-                              ),
+                              queryParams: JSON.stringify(handleMomentToString(queryParams)),
                               after: null
                             },
                             data: {
@@ -662,7 +621,7 @@ class RateCard extends Component {
                               }
                             }
                           });
-                          notify("삭제 완료!", "success");
+                          notify("Delete success!", "success");
                         }}
                       >
                         {setRate => (
@@ -678,7 +637,7 @@ class RateCard extends Component {
                                 color: "white"
                               }}
                             >
-                              삭제
+                              Delete
                             </DivBehindButtons>
                             <Modal
                               open={this.state.deleteModal}
@@ -690,7 +649,7 @@ class RateCard extends Component {
                               center
                             >
                               <DivModalContainer>
-                                <div>삭제하시겠습니까?</div>
+                                <div>Do you want to delete?</div>
                                 <DivModalButtons>
                                   <DivModalCancelButton
                                     onClick={() =>
@@ -699,14 +658,14 @@ class RateCard extends Component {
                                       })
                                     }
                                   >
-                                    취소
+                                    Cancel
                                   </DivModalCancelButton>
                                   <DivModalConfirmButton
                                     onClick={() => {
                                       setRate();
                                     }}
                                   >
-                                    삭제
+                                    Delete
                                   </DivModalConfirmButton>
                                 </DivModalButtons>
                               </DivModalContainer>

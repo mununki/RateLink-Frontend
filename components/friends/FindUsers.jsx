@@ -28,8 +28,7 @@ class FindUsers extends React.Component {
       query: FIND_USERS,
       variables: { email, nickname, profile_name, company }
     });
-    if (findUsers.length < 1)
-      notify("일치하는 유저를 찾을 수 없습니다", "info");
+    if (findUsers.length < 1) notify("No matched found", "info");
     this.setState({
       findUsers
     });
@@ -39,13 +38,13 @@ class FindUsers extends React.Component {
     return (
       <div className="container">
         <div className="card mb-2">
-          <div className="card-header">친구 찾기</div>
+          <div className="card-header">Find a friend</div>
           <div className="card-body">
             <form onSubmit={this._triggerToSearch}>
               <div className="form-row">
                 <div className="form-group col-md-6">
                   <label htmlFor="email">
-                    Email <span className="text-danger">(*필수)</span>
+                    Email <span className="text-danger">(*required)</span>
                   </label>
                   <input
                     type="text"
@@ -59,7 +58,7 @@ class FindUsers extends React.Component {
                 </div>
                 <div className="form-group col-md-6">
                   <label htmlFor="nickname">
-                    이름 <span className="text-danger">(*필수)</span>
+                    Name <span className="text-danger">(*required)</span>
                   </label>
                   <input
                     type="text"
@@ -74,7 +73,7 @@ class FindUsers extends React.Component {
               </div>
               <div className="form-row">
                 <div className="form-group col-md-6">
-                  <label htmlFor="profile_name">닉네임</label>
+                  <label htmlFor="profile_name">Nickname</label>
                   <input
                     type="text"
                     id="profile_name"
@@ -85,7 +84,7 @@ class FindUsers extends React.Component {
                   />
                 </div>
                 <div className="form-group col-md-6">
-                  <label htmlFor="company">회사이름</label>
+                  <label htmlFor="company">Company</label>
                   <input
                     type="text"
                     id="company"
@@ -97,18 +96,18 @@ class FindUsers extends React.Component {
                 </div>
               </div>
               <button type="submit" className="btn btn-primary">
-                찾기
+                Find
               </button>
             </form>
           </div>
           <div className="m-3">
             {findUsers.length > 0 && (
               <div className="alert alert-light" role="alert">
-                <h4 className="alert-heading">검색 결과</h4>
+                <h4 className="alert-heading">Found!</h4>
                 <p>
-                  추가 버튼을 누르면 해당 유저에게 저장된 운임이 공유되어
-                  보여집니다. 하지만 반대로, 해당 유저의 운임은 보이지 않습니다.
-                  상대방 유저에게 같은 방법으로 운임 공유를 요청하세요.
+                  If you click <mark>add</mark> button, your saved rates will be shown to the friend. But, you CAN NOT
+                  see your friend's rates.
+                  <br /> If you want to see your friends' rates, then ask them.
                 </p>
                 <hr />
                 {findUsers.map(user => (

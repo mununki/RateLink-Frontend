@@ -36,7 +36,7 @@ class Header extends React.Component {
       {
         id: 1,
         icon: <i className="fas fa-chart-line" />,
-        name: "운임 차트",
+        name: "Chart",
         link: "/charts"
       }
     ];
@@ -44,26 +44,26 @@ class Header extends React.Component {
       {
         id: 1,
         icon: <i className="fas fa-id-badge" />,
-        name: "프로필",
+        name: "Profile",
         link: "/profile"
       },
       {
         id: 2,
         icon: <i className="far fa-handshake" />,
-        name: "친구관리",
+        name: "Friends",
         link: "/friends"
       },
       {
         id: 3,
         icon: <i className="fas fa-sign-out-alt" />,
-        name: "로그아웃",
+        name: "Log Out",
         function: logout(this.props.client)
       }
     ];
     return (
       <div className="header">
         <div className="panel-left">
-          <Dropdown icon={<i className="fas fa-ship" />} buttonName="운임" buttonLink="/rates" />
+          <Dropdown icon={<i className="fas fa-ship" />} buttonName="Rates" buttonLink="/rates" />
         </div>
         <div className="panel-right">
           <Dropdown
@@ -74,7 +74,7 @@ class Header extends React.Component {
           />
           <Dropdown
             icon={<i className="fas fa-user-circle" />}
-            buttonName={this.props.loggedInUser.data ? this.props.loggedInUser.data.profile.profile_name : "로그인"}
+            buttonName={this.props.loggedInUser.data ? this.props.loggedInUser.data.profile.profile_name : "Log In"}
             items={dropdownUserItems}
             rightAlign={true}
             closeRightPanel={this._closeRightPanel}

@@ -254,12 +254,8 @@ class RateAddCard extends Component {
       selling4H: this.props.rate ? this.props.rate.selling4H : 0,
       loadingFT: this.props.rate ? this.props.rate.loadingFT : 0,
       dischargingFT: this.props.rate ? this.props.rate.dischargingFT : 0,
-      offeredDate: this.props.rate
-        ? moment(this.props.rate.offeredDate)
-        : moment(),
-      effectiveDate: this.props.rate
-        ? moment(this.props.rate.effectiveDate)
-        : moment().endOf("month"),
+      offeredDate: this.props.rate ? moment(this.props.rate.offeredDate) : moment(),
+      effectiveDate: this.props.rate ? moment(this.props.rate.effectiveDate) : moment().endOf("month"),
       remark: this.props.rate ? this.props.rate.remark : ""
     }
   };
@@ -301,9 +297,7 @@ class RateAddCard extends Component {
         })
         .then(response => {
           let results = [];
-          response.data.getClients.map(ct =>
-            results.push({ label: ct.name, value: ct.id })
-          );
+          response.data.getClients.map(ct => results.push({ label: ct.name, value: ct.id }));
           return results;
         });
     } else {
@@ -319,9 +313,7 @@ class RateAddCard extends Component {
             })
             .then(response => {
               let results = [];
-              response.data.getClients.map(ct =>
-                results.push({ label: ct.name, value: ct.id })
-              );
+              response.data.getClients.map(ct => results.push({ label: ct.name, value: ct.id }));
               resolve(results);
             });
         }, 500);
@@ -339,9 +331,7 @@ class RateAddCard extends Component {
         })
         .then(response => {
           let results = [];
-          response.data.getLiners.map(ln =>
-            results.push({ label: ln.label, value: ln.id })
-          );
+          response.data.getLiners.map(ln => results.push({ label: ln.label, value: ln.id }));
           return results;
         });
     } else {
@@ -357,9 +347,7 @@ class RateAddCard extends Component {
             })
             .then(response => {
               let results = [];
-              response.data.getLiners.map(ln =>
-                results.push({ label: ln.label, value: ln.id })
-              );
+              response.data.getLiners.map(ln => results.push({ label: ln.label, value: ln.id }));
               resolve(results);
             });
         }, 500);
@@ -380,9 +368,7 @@ class RateAddCard extends Component {
           })
           .then(response => {
             let results = [];
-            response.data.getLocations.map(lo =>
-              results.push({ label: lo.name, value: lo.id })
-            );
+            response.data.getLocations.map(lo => results.push({ label: lo.name, value: lo.id }));
             resolve(results);
           });
       }, 500);
@@ -402,9 +388,7 @@ class RateAddCard extends Component {
           })
           .then(response => {
             let results = [];
-            response.data.getLocations.map(lo =>
-              results.push({ label: lo.name, value: lo.id })
-            );
+            response.data.getLocations.map(lo => results.push({ label: lo.name, value: lo.id }));
             resolve(results);
           });
       }, 500);
@@ -423,9 +407,7 @@ class RateAddCard extends Component {
           })
           .then(response => {
             let results = [];
-            response.data.getCNTRtypes.map(ty =>
-              results.push({ label: ty.name, value: ty.id })
-            );
+            response.data.getCNTRtypes.map(ty => results.push({ label: ty.name, value: ty.id }));
             resolve(results);
           });
       }, 500);
@@ -454,9 +436,7 @@ class RateAddCard extends Component {
     return (
       <DivContainer>
         <DivHeader>
-          <DivHeaderInputperson>
-            {this.props.loggedInUser.data.profile.profile_name}
-          </DivHeaderInputperson>
+          <DivHeaderInputperson>{this.props.loggedInUser.data.profile.profile_name}</DivHeaderInputperson>
           <DivHeaderAccount>
             <div
               style={{
@@ -472,12 +452,12 @@ class RateAddCard extends Component {
                 defaultOptions
                 loadOptions={this._loadClients}
                 openOnFocus={true}
-                placeholder="화주"
+                placeholder="ACCOUNT"
                 onChange={data => this._handleChange(data, "selectedCt")}
                 value={this.state.newRate.selectedCt}
                 tabIndex="1"
                 isClearable={false}
-                />
+              />
             </div>
           </DivHeaderAccount>
           <DivHeaderLiner>
@@ -487,7 +467,7 @@ class RateAddCard extends Component {
                 paddingTop: "0.2rem",
                 paddingBottom: "0.2rem"
               }}
-              >
+            >
               <AsyncSelect
                 name="liner"
                 isMulti={!isModify}
@@ -495,7 +475,7 @@ class RateAddCard extends Component {
                 defaultOptions
                 loadOptions={this._loadLiners}
                 openOnFocus={true}
-                placeholder="선사"
+                placeholder="LINER"
                 onChange={data => this._handleChange(data, "selectedLn")}
                 value={this.state.newRate.selectedLn}
                 tabIndex="2"
@@ -661,7 +641,7 @@ class RateAddCard extends Component {
               customInput={<CustomInputDatePicker />}
               selected={newRate.offeredDate}
               onChange={value => this._handleChange(value, "offeredDate")}
-              locale="ko"
+              locale="en"
               dateFormat="MM-DD"
               popperModifiers={{
                 offset: {
@@ -682,7 +662,7 @@ class RateAddCard extends Component {
               customInput={<CustomInputDatePicker />}
               selected={newRate.effectiveDate}
               onChange={value => this._handleChange(value, "effectiveDate")}
-              locale="ko"
+              locale="en"
               dateFormat="MM-DD"
               popperModifiers={{
                 offset: {
@@ -744,16 +724,14 @@ class RateAddCard extends Component {
             <Mutation
               mutation={SET_RATE}
               variables={{
-                newRate: JSON.stringify(
-                  convertToModifyRate(this.state.newRate)
-                ),
+                newRate: JSON.stringify(convertToModifyRate(this.state.newRate)),
                 handler: "modify",
                 rateId: this.props.rate.id
               }}
               update={(cache, { data: { setRate } }) => {
                 if (setRate) {
                   // onCompleted is not working because it will be unmounted after click modify button
-                  notify("수정 성공!", "success");
+                  notify("Modify success!", "success");
                 }
               }}
             >
@@ -777,7 +755,7 @@ class RateAddCard extends Component {
                           })
                         }
                       >
-                        수정
+                        Modify
                       </DivHeaderButtons>
                       <Modal
                         open={this.state.modifyModal}
@@ -789,7 +767,7 @@ class RateAddCard extends Component {
                         center
                       >
                         <DivModalContainer>
-                          <div>수정하시겠습니까?</div>
+                          <div>Do you want to modify?</div>
                           <DivModalButtons>
                             <DivModalCancelButton
                               onClick={() =>
@@ -798,7 +776,7 @@ class RateAddCard extends Component {
                                 })
                               }
                             >
-                              취소
+                              Cancel
                             </DivModalCancelButton>
                             <DivModalConfirmButton
                               onClick={() => {
@@ -806,7 +784,7 @@ class RateAddCard extends Component {
                                 setMode();
                               }}
                             >
-                              수정
+                              Modify
                             </DivModalConfirmButton>
                           </DivModalButtons>
                         </DivModalContainer>
@@ -827,9 +805,7 @@ class RateAddCard extends Component {
                   <Mutation
                     mutation={SET_RATE}
                     variables={{
-                      newRate: JSON.stringify(
-                        handleMomentToStringForSetRate(this.state.newRate)
-                      ),
+                      newRate: JSON.stringify(handleMomentToStringForSetRate(this.state.newRate)),
                       handler: "add"
                     }}
                     update={(cache, { data: { setRate } }) => {
@@ -837,9 +813,7 @@ class RateAddCard extends Component {
                         query: GET_RATES,
                         variables: {
                           first: 20,
-                          queryParams: JSON.stringify(
-                            handleMomentToString(queryParams)
-                          ),
+                          queryParams: JSON.stringify(handleMomentToString(queryParams)),
                           after: null
                         }
                       });
@@ -847,9 +821,7 @@ class RateAddCard extends Component {
                         query: GET_RATES,
                         variables: {
                           first: 20,
-                          queryParams: JSON.stringify(
-                            handleMomentToString(queryParams)
-                          ),
+                          queryParams: JSON.stringify(handleMomentToString(queryParams)),
                           after: null
                         },
                         data: {
@@ -872,7 +844,7 @@ class RateAddCard extends Component {
                           }
                         }
                       });
-                      notify("입력 성공!", "success");
+                      notify("New rate is added!", "success");
                     }}
                   >
                     {setRate => (
@@ -895,7 +867,7 @@ class RateAddCard extends Component {
                                 })
                               }
                             >
-                              입력
+                              Add
                             </DivHeaderButtons>
                             <Modal
                               open={this.state.inputModal}
@@ -907,7 +879,7 @@ class RateAddCard extends Component {
                               center
                             >
                               <DivModalContainer>
-                                <div>입력하시겠습니까?</div>
+                                <div>Do you want to add?</div>
                                 <DivModalButtons>
                                   <DivModalCancelButton
                                     onClick={() =>
@@ -916,7 +888,7 @@ class RateAddCard extends Component {
                                       })
                                     }
                                   >
-                                    취소
+                                    Cancel
                                   </DivModalCancelButton>
                                   <DivModalConfirmButton
                                     onClick={() => {
@@ -924,7 +896,7 @@ class RateAddCard extends Component {
                                       setRate();
                                     }}
                                   >
-                                    입력
+                                    Add
                                   </DivModalConfirmButton>
                                 </DivModalButtons>
                               </DivModalContainer>
