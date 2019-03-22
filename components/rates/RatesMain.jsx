@@ -29,6 +29,13 @@ const RateAddButton = styled.div`
   }
 `;
 
+const DivContainer = styled.div`
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  padding: 1rem;
+`;
+
 class RatesMain extends React.Component {
   state = {
     isLoading: false
@@ -64,7 +71,14 @@ class RatesMain extends React.Component {
                       }}
                     >
                       {({ loading, error, data, fetchMore }) => {
-                        if (loading) return <div>Loading...</div>;
+                        if (loading)
+                          return (
+                            <DivContainer>
+                              <div class="spinner-border text-secondary" role="status">
+                                <span class="sr-only">Loading...</span>
+                              </div>
+                            </DivContainer>
+                          );
                         if (error) return <div>Error :(</div>;
 
                         const rates = data.getRates.data.edges;
