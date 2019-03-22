@@ -234,6 +234,17 @@ class CustomInputDatePicker extends Component {
   }
 }
 
+const checkRateValidation = rate => {
+  return (
+    rate.selectedIp.length > 0 &&
+    rate.selectedCt.length > 0 &&
+    rate.selectedLn.length > 0 &&
+    rate.selectedPl.length > 0 &&
+    rate.selectedPd.length > 0 &&
+    rate.selectedTy.length > 0
+  );
+};
+
 class RateAddCard extends Component {
   state = {
     isCommentOpen: false,
@@ -861,11 +872,15 @@ class RateAddCard extends Component {
                           <Fragment>
                             <DivHeaderButtons
                               tabIndex="16"
-                              onClick={() =>
-                                this.setState({
-                                  inputModal: true
-                                })
-                              }
+                              onClick={() => {
+                                if (!checkRateValidation(newRate)) {
+                                  notify("Please check the required fields", "error");
+                                } else {
+                                  this.setState({
+                                    inputModal: true
+                                  });
+                                }
+                              }}
                             >
                               Add
                             </DivHeaderButtons>
