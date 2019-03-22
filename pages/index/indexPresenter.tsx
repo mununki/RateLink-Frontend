@@ -14,7 +14,7 @@ export default ({ loggedInUser }: IInitialProps) => (
           <div className="col-12 col-sm-6 title-header">
             <h1>RateLink</h1>
           </div>
-          <div className="col-12 col-sm-6 title-menu">
+          <div className="col-12 col-sm-6 mt-3 mt-sm-0 title-menu">
             <ul className="h-100 d-flex align-items-end justify-content-end">
               {loggedInUser.ok ? null : (
                 <li className="mx-2">
@@ -46,21 +46,19 @@ export default ({ loggedInUser }: IInitialProps) => (
     <section className="feature management">
       <div className="container">
         <div className="row">
-          <div className="col-12 col-sm-8 col-lg-6">
+          <div className="col-12 col-lg-6">
             <h2>Manage your Freight Rates more easily & securely</h2>
             <div className="description">
               You can easily save the freight rates by clients, liners, point-point, effective-date
             </div>
           </div>
-          <div className="col-12 col-sm-4 col-lg-6">
-            <Slide right ssrReveal>
-              <img
-                id="img-management"
-                src="/static/intro_images/1.jpg"
-                alt="manage-your-freight"
-                className="shadow rounded"
-              />
-            </Slide>
+          <div className="col-12 col-lg-6">
+            <img
+              id="img-management"
+              src="/static/intro_images/1.jpg"
+              alt="manage-your-freight"
+              className="img-fluid shadow rounded mt-3"
+            />
           </div>
         </div>
       </div>
@@ -68,17 +66,54 @@ export default ({ loggedInUser }: IInitialProps) => (
 
     <section className="feature search">
       <div className="container">
-        <div className="row justify-content-end">
-          <div className="col-12 col-sm-4 col-lg-6 overflow-hidden">
-            <Slide left ssrReveal>
-              <img src="/static/intro_images/2.jpg" alt="manage-your-freight" className="shadow rounded float-right" />
-            </Slide>
+        <div className="row">
+          <div className="col-12 col-lg-6 overflow-hidden">
+            <img
+              src="/static/intro_images/2.jpg"
+              alt="manage-your-freight"
+              className="img-fluid shadow rounded d-block mx-auto mb-3"
+            />
           </div>
-          <div className="col-12 col-sm-8 col-lg-6 pl-5">
-            <h2>
-              Quick Search &<br /> Quote instantly
-            </h2>
+          <div className="col-12 col-lg-6">
+            <h2>Quick Search & Quote instantly</h2>
             <div className="description">Powerful search will make your decision making more quickly and clearly.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section className="feature demo">
+      <div className="container">
+        <div className="row justify-content-center">
+          <div className="col-12 col-sm-10 col-lg-8">
+            <h2>Quick Demo</h2>
+            <div className="description" />
+          </div>
+          <div className="col-12 col-sm-10 col-lg-8">
+            <div
+              style={{
+                width: "100%",
+                height: "0px",
+                position: "relative",
+                paddingBottom: "55.625%"
+              }}
+            >
+              <iframe
+                src="https://streamable.com/s/ompp5/qloeva"
+                frameBorder="0"
+                width="100%"
+                height="100%"
+                allowFullScreen
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  position: "absolute",
+                  left: "0px",
+                  top: "0px",
+                  overflow: "hidden"
+                }}
+              />
+            </div>
           </div>
         </div>
       </div>
@@ -99,7 +134,7 @@ export default ({ loggedInUser }: IInitialProps) => (
               <img
                 src="/static/intro_images/3.jpg"
                 alt="share-your-freight"
-                className="shadow rounded mx-auto d-block"
+                className="img-fluid shadow rounded mx-auto d-block"
               />
             </Fade>
           </div>
@@ -109,13 +144,16 @@ export default ({ loggedInUser }: IInitialProps) => (
 
     <section className="feature mobile">
       <div className="container">
-        <div className="row justify-content-end">
-          <div className="col-12 col-sm-2 col-lg-4 overflow-hidden">
-            <Slide left ssrReveal>
-              <img src="/static/intro_images/4.png" alt="mobile" className="rounded float-right" height="300px" />
-            </Slide>
+        <div className="row">
+          <div className="col-12 col-md-4 overflow-hidden">
+            <img
+              src="/static/intro_images/4.png"
+              alt="mobile"
+              className="rounded mx-auto d-block mb-3"
+              height="300px"
+            />
           </div>
-          <div className="col-12 col-sm-10 col-lg-8 d-flex align-items-end">
+          <div className="col-12 col-md-8 d-flex align-items-end">
             <div className="mb-5">
               <h2>Carry your data anywhere with mobile app</h2>
               <div className="description">
@@ -128,6 +166,11 @@ export default ({ loggedInUser }: IInitialProps) => (
     </section>
 
     <section className="footer text-center p-4">
+      <div className="badge badge-primary text-wrap p-2 m-2">
+        <a className="get-started" href="/signup">
+          Get Started
+        </a>
+      </div>
       <div>Copyright &copy; 2019 RateLink.</div>
       <div>All Rights Reserved</div>
     </section>
@@ -169,7 +212,15 @@ export default ({ loggedInUser }: IInitialProps) => (
         section.feature.search {
           background-color: #eff3f5;
           padding-top: 10rem;
-          padding-bottom: 10rem;
+          padding-bottom: 5rem;
+        }
+        section.feature.demo {
+          background-color: rgb(12, 52, 75);
+          padding-top: 5rem;
+          padding-bottom: 5rem;
+        }
+        section.feature.demo div {
+          color: white;
         }
         section.feature.share {
           padding-top: 10rem;
@@ -177,7 +228,7 @@ export default ({ loggedInUser }: IInitialProps) => (
         }
         section.feature.mobile {
           padding-top: 10rem;
-          padding-bottom: 10rem;
+          padding-bottom: 5rem;
           background-color: #eff3f5;
         }
         .footer {
@@ -185,6 +236,10 @@ export default ({ loggedInUser }: IInitialProps) => (
         }
         .footer div {
           color: white;
+        }
+        .get-started {
+          color: white;
+          font-size: 1rem;
         }
       `}
     </style>
