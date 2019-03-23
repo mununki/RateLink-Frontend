@@ -26,7 +26,7 @@ export default class MyDocument extends Document {
           <link rel="icon" type="image/png" href="/static/favicon.png" />
           <style>{`@import url(https://use.fontawesome.com/releases/v5.6.3/css/all.css)`}</style>
           <style>{`@import url(https://fonts.googleapis.com/css?family=Montserrat:700|Open+Sans:700,400)`}</style>
-          <script async src="https://www.googletagmanager.com/gtag/js?id=UA-125821609-1" />
+          <script async src={`https://www.googletagmanager.com/gtag/js?id=${process.env.GA_USERID}`} />
         </Head>
         <body>
           <Main />
