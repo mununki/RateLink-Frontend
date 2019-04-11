@@ -1,10 +1,9 @@
 import Link from "next/link";
 import Fade from "react-reveal/Fade";
-import Slide from "react-reveal/Slide";
-import { IGraphQLResponse } from "../../types/custom";
+import { UserResponse } from "../../types/graph";
 
 interface IInitialProps {
-  loggedInUser: IGraphQLResponse;
+  loggedInUser: UserResponse;
 }
 export default ({ loggedInUser }: IInitialProps) => (
   <div className="contents">
