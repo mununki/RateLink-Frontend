@@ -82,6 +82,29 @@ export default ({ loggedInUser }: IInitialProps) => (
       </div>
     </section>
 
+    <section className="feature chart">
+      <div className="container">
+        <div className="row">
+          <div className="col-12 col-lg-6">
+            <h2>Make a better decision with visualized data</h2>
+            <div className="description">
+              The highest and lowest average freight rate per period and liners will empower your decisions
+            </div>
+          </div>
+          <div className="col-12 col-lg-6">
+            <Fade top ssrReveal>
+              <img
+                id="img-management"
+                src="/static/intro_images/5.jpg"
+                alt="rate-chart"
+                className="img-fluid shadow rounded mt-3"
+              />
+            </Fade>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <section className="feature demo">
       <div className="container">
         <div className="row justify-content-center">
@@ -159,6 +182,15 @@ export default ({ loggedInUser }: IInitialProps) => (
               <div className="description">
                 Mobile app allows you to access your quotations and records wherever you go.
               </div>
+              <div>
+                <a href="https://play.google.com/store/apps/details?id=com.ratelink.ratelink&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1">
+                  <img
+                    alt="Get it on Google Play"
+                    src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png"
+                    width="150px"
+                  />
+                </a>
+              </div>
             </div>
           </div>
         </div>
@@ -214,9 +246,12 @@ export default ({ loggedInUser }: IInitialProps) => (
           padding-top: 10rem;
           padding-bottom: 5rem;
         }
+        section.feature.chart {
+          padding-top: 5rem;
+        }
         section.feature.demo {
           background-color: rgb(12, 52, 75);
-          padding-top: 5rem;
+          padding-top: 10rem;
           padding-bottom: 5rem;
         }
         section.feature.demo div {
