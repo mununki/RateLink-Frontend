@@ -14,6 +14,7 @@ class ChartsContainer extends React.Component {
 
     return { loggedInUser };
   }
+
   render() {
     return (
       <Layout loggedInUser={this.props.loggedInUser}>
