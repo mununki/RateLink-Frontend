@@ -74,8 +74,8 @@ class RatesMain extends React.Component {
                         if (loading)
                           return (
                             <DivContainer>
-                              <div class="spinner-border text-secondary" role="status">
-                                <span class="sr-only">Loading...</span>
+                              <div className="spinner-border text-secondary" role="status">
+                                <span className="sr-only">Loading...</span>
                               </div>
                             </DivContainer>
                           );

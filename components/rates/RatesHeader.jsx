@@ -36,6 +36,10 @@ class CustomInputDatePickerSF extends React.Component {
               color: #eee;
               background-color: #053f5c;
               border: 0px;
+              cursor: pointer;
+            }
+            .btn-datepicker:hover {
+              background-color: #6dbad8;
             }
           `}
         </style>
@@ -64,6 +68,10 @@ class CustomInputDatePickerST extends React.Component {
               color: #eee;
               background-color: #053f5c;
               border: 0px;
+              cursor: pointer;
+            }
+            .btn-datepicker:hover {
+              background-color: #6dbad8;
             }
           `}
         </style>
@@ -370,7 +378,7 @@ class RatesHeader extends React.Component {
                   </div>
                   <div className="header-loadingFT d-flex justify-content-center align-items-center">L.F/T</div>
                   <div className="header-dischargingFT d-flex justify-content-center align-items-center">D.F/T</div>
-                  <div className="header-datepicker d-flex justify-content-center align-items-center">
+                  <div className="header-datepicker d-flex justify-content-center align-items-center datepicker">
                     <DatePicker
                       customInput={<CustomInputDatePickerSF />}
                       selected={queryParams.initialSF}
@@ -390,7 +398,7 @@ class RatesHeader extends React.Component {
                       }}
                     />
                   </div>
-                  <div className="header-datepicker d-flex justify-content-center align-items-center">
+                  <div className="header-datepicker d-flex justify-content-center align-items-center datepicker">
                     <DatePicker
                       customInput={<CustomInputDatePickerST />}
                       selected={queryParams.initialST}
@@ -494,6 +502,9 @@ class RatesHeader extends React.Component {
               max-width: 40px;
               min-width: 40px;
               background-color: ${theme.DARK};
+            }
+            .datepicker {
+              cursor: pointer;
             }
           `}
         </style>
