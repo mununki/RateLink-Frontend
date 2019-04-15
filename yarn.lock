@@ -5404,6 +5404,11 @@ react-select@^2.0.0:
     react-input-autosize "^2.2.1"
     react-transition-group "^2.2.1"
 
+react-simple-click-outside@^1.0.5:
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/react-simple-click-outside/-/react-simple-click-outside-1.0.5.tgz#2a02d8a3be72adfcac74f558714ea4e17380239b"
+  integrity sha512-+XUA7U0VKC6S633uBy8GF6yojOmgzVi+bZnrkRZi4FRJV+WbmJ96kj0ve3LfyEmoU/XR5hu49exvE6G1aSpK8Q==
+
 react-simple-popover@^0.2.4:
   version "0.2.4"
   resolved "https://registry.yarnpkg.com/react-simple-popover/-/react-simple-popover-0.2.4.tgz#16ce1051a92ce9e1810f1713440c21c8fe1d42ce"
