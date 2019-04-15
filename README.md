@@ -24,3 +24,4 @@ Refactory the frontend of RateLink with new tech stack
 - [x] Add Style and functionality to Signup page
 - [x] Profile image update with AWS Lambda to AWS S3
 - [x] Intro page
+- [x] Client management page

@@ -38,6 +38,12 @@ class Header extends React.Component {
         icon: <i className="fas fa-chart-line" />,
         name: "Chart",
         link: "/charts"
+      },
+      {
+        id: 2,
+        icon: <i className="fas fa-address-book" />,
+        name: "Clients",
+        link: "/clients"
       }
     ];
     const dropdownUserItems = [

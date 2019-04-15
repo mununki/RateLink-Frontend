@@ -5,8 +5,16 @@ import withNProgress from "next-nprogress";
 import withApollo from "../lib/withApollo";
 import "moment/locale/ko";
 import "../static/css/bootstrap.min.css";
+import { trackPageView } from "../utils/routingGA";
+import Router from "next/router";
 
 class MyApp extends App {
+  componentDidMount() {
+    Router.onRouteChangeComplete = url => {
+      trackPageView(url);
+    };
+  }
+
   render() {
     const { Component, pageProps, apolloClient } = this.props;
     return (

@@ -33,6 +33,7 @@
     "react-responsive-modal": "^3.5.1",
     "react-reveal": "^1.2.2",
     "react-select": "^2.0.0",
+    "react-simple-click-outside": "^1.0.5",
     "react-simple-popover": "^0.2.4",
     "react-toastify": "^4.5.1",
     "recharts": "^1.4.2",

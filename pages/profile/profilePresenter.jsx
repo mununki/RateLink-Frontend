@@ -66,7 +66,11 @@ class Profile extends React.Component {
                         return (
                           <div className="container-profile-image" onClick={this._openAvatarEditor}>
                             <img
-                              src={process.env.AWS_S3_ENDPOINT + data.me.data.profile.image}
+                              src={
+                                data.me.data.profile.image
+                                  ? process.env.AWS_S3_ENDPOINT + data.me.data.profile.image
+                                  : "/static/profile_images/dummy.png"
+                              }
                               className="profile-image img-fluid img-thumbnail rounded-circle"
                               alt="avatar img"
                             />
